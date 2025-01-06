@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signalgeber-Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        table th {
+            background-color: #f8f8f8;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .button.red {
+            background-color: #dc3545;
+        }
+        .button.red:hover {
+            background-color: #a71d2a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Signalgeber-Management</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Letzte Änderung</th>
+                    <th>Aktionen</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Signalgeber-Daten werden hier dynamisch eingefügt -->
+                <tr>
+                    <td>Forex Signals Group</td>
+                    <td>Aktiv</td>
+                    <td>2025-01-06T07:12:11.380973</td>
+                    <td>
+                        <button class="button red">Deaktivieren</button>
+                        <button class="button">Bearbeiten</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Crypto Alerts</td>
+                    <td>Aktiv</td>
+                    <td>2025-01-06T07:12:36.619301</td>
+                    <td>
+                        <button class="button red">Deaktivieren</button>
+                        <button class="button">Bearbeiten</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Stock Market Updates</td>
+                    <td>Aktiv</td>
+                    <td>2025-01-06T07:12:55.145227</td>
+                    <td>
+                        <button class="button red">Deaktivieren</button>
+                        <button class="button">Bearbeiten</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

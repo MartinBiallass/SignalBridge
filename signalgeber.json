@@ -1,0 +1,13 @@
+{
+    "channel_1": {
+        "name": "Forex Signals Group",
+        "active": true,
+        "settings": {
+            "risk_management": {"lot_size": 0.01, "risk_percent": 1.0},
+            "tp_sl_strategy": {"TP1": 50, "TP2": 30, "TP3": 20},
+            "filters": {"symbols": [], "keywords": []}
+        },
+        "timestamp": "2025-01-06T08:00:00Z"
+    }
+}
+
