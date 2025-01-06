@@ -1,0 +1,5 @@
+[
+    {"channel_id": "channel_1", "message": "Buy EURUSD @ 1.12345, SL: 1.12000, TP: 1.13000"},
+    {"channel_id": "channel_2", "message": "Sell BTCUSD @ 30000, SL: 29000, TP: 31000"}
+  ]
+  
