@@ -1,0 +1,40 @@
+{
+    "signals": [
+        {
+            "action": "Buy",
+            "symbol": "EURUSD",
+            "entry_price": 1.12345,
+            "stop_loss": 1.12,
+            "tp_values": {
+                "TP1": 1.13,
+                "TP2": 1.135,
+                "TP3": null
+            },
+            "timestamp": "2025-01-06T14:04:22.211178"
+        },
+        {
+            "action": "Sell",
+            "symbol": "BTCUSD",
+            "entry_price": 30000.0,
+            "stop_loss": null,
+            "tp_values": {
+                "TP1": 31000.0,
+                "TP2": 32000.0,
+                "TP3": null
+            },
+            "timestamp": "2025-01-06T14:04:22.211313"
+        },
+        {
+            "action": "Buy",
+            "symbol": "EURUSD",
+            "entry_price": 1.12345,
+            "stop_loss": 1.12,
+            "tp_values": {
+                "TP1": 1.13,
+                "TP2": 1.135,
+                "TP3": null
+            },
+            "timestamp": "2025-01-06T15:42:46.038449"
+        }
+    ]
+}
