@@ -1,0 +1,126 @@
+/* Allgemeine Stile */
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #1e1e2f; /* Dunkler Hintergrund für einen modernen Look */
+    color: #f0f0f0; /* Helle Schriftfarbe für Kontrast */
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    color: #ffd700; /* Gold für Überschriften */
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Tabellenstil */
+table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: #2a2a3d;
+    border: 1px solid #444;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+th, td {
+    text-align: left;
+    padding: 15px;
+    border-bottom: 1px solid #444;
+}
+
+th {
+    background-color: #3a3a50;
+    color: #ffd700;
+    text-transform: uppercase;
+}
+
+td {
+    color: #f0f0f0;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background-color: #a71d2a;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.btn-warning:hover {
+    background-color: #d39e00;
+}
+
+/* Formularstil */
+input[type="text"] {
+    padding: 10px;
+    width: calc(100% - 20px);
+    margin: 5px 0;
+    border: 1px solid #555;
+    border-radius: 5px;
+    background-color: #2a2a3d;
+    color: #f0f0f0;
+}
+
+input[type="text"]::placeholder {
+    color: #aaa;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #ffd700;
+}
+
+/* Hover-Effekte */
+tr:hover {
+    background-color: #3a3a50;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 10px;
+    margin-top: 20px;
+    color: #aaa;
+    font-size: 14px;
+}
+
+footer a {
+    color: #ffd700;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
