@@ -4,15 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signalgeber-Management</title>
+    <!-- Bootstrap CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRn5E5t/9dTrZgP5o5uyA4LmF4VRMl6x9K5FoLtBZ" crossorigin="anonymous">
-
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-     
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Signalgeber-Management</h1>
-        <table class="table">
+    <div class="container mt-5">
+        <h1 class="text-center">Signalgeber-Management</h1>
+        <div class="filter-options">
+            <form method="GET" action="/filter" class="form-inline">
+                <label for="status-filter">Filter:</label>
+                <select name="status" id="status-filter" class="form-select">
+                    <option value="">Alle</option>
+                    <option value="Aktiv">Aktiv</option>
+                    <option value="Inaktiv">Inaktiv</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Anwenden</button>
+            </form>
+        </div>
+        
+        <table class="table table-hover mt-4">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -23,25 +35,27 @@
                 </tr>
             </thead>
             <tbody>
-                {% for channel_id, details in signalgeber.items() %}
-                <tr class="{{ 'active-row' if details['active'] else 'inactive-row' }}">
-                    <td>{{ details['name'] }}</td>
-                    <td>{{ 'Aktiv' if details['active'] else 'Inaktiv' }}</td>
-                    <td>{{ details['timestamp'] }}</td>
+                {% for id, details in signalgeber.items() %}
+                <tr class="{% if not details.active %}inactive-row{% endif %}">
+                    <td>{{ details.name }}</td>
+                    <td>{{ "Aktiv" if details.active else "Inaktiv" }}</td>
+                    <td>{{ details.timestamp }}</td>
                     <td>
-                        <form method="POST" action="/adjust_sl_tp/{{ channel_id }}">
-                            <input type="number" name="sl" placeholder="SL in Pips" required>
-                            <input type="number" name="tp" placeholder="TP in Pips" required>
-                            <button type="submit">Speichern</button>
+                        <form method="POST" action="/adjust_sl_tp/{{ id }}">
+                            <input type="number" name="sl" placeholder="SL in Pips" class="form-control d-inline-block" style="width: 100px;" required>
+                            <input type="number" name="tp" placeholder="TP in Pips" class="form-control d-inline-block" style="width: 100px;" required>
+                            <button type="submit" class="btn btn-sm">Speichern</button>
                         </form>
                     </td>
                     <td>
-                        <form method="POST" action="/toggle/{{ channel_id }}" style="display:inline;">
-                            <button type="submit" class="{{ 'btn-deactivate' if details['active'] else 'btn-activate' }}">
-                                {{ 'Deaktivieren' if details['active'] else 'Aktivieren' }}
-                            </button>
+                        <form method="POST" action="/toggle/{{ id }}" style="display:inline;">
+                            {% if details.active %}
+                            <button type="submit" class="btn btn-deactivate btn-sm">Deaktivieren</button>
+                            {% else %}
+                            <button type="submit" class="btn btn-activate btn-sm">Aktivieren</button>
+                            {% endif %}
                         </form>
-                        <button class="btn-edit">Bearbeiten</button>
+                        <button class="btn btn-edit btn-sm">Bearbeiten</button>
                     </td>
                 </tr>
                 {% endfor %}

@@ -1,126 +1,110 @@
-/* Allgemeine Stile */
+/* Allgemeiner Hintergrund und Textfarben */
 body {
-    font-family: 'Montserrat', sans-serif;
-    background-color: #1e1e2f; /* Dunkler Hintergrund für einen modernen Look */
-    color: #f0f0f0; /* Helle Schriftfarbe für Kontrast */
-    margin: 0;
-    padding: 0;
+    background-color: #121212; /* Dunkler Hintergrund */
+    color: #E0E0E0; /* Heller Text */
+    font-family: 'Montserrat', sans-serif; /* Moderne Schriftart */
 }
 
+/* Header */
 h1 {
-    color: #ffd700; /* Gold für Überschriften */
+    color: #FFD700; /* Gold für den Titel */
     text-align: center;
-    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
-/* Tabellenstil */
-table {
-    width: 90%;
-    margin: 20px auto;
-    border-collapse: collapse;
-    background-color: #2a2a3d;
-    border: 1px solid #444;
-    border-radius: 5px;
-    overflow: hidden;
+/* Tabelle */
+.table {
+    color: #E0E0E0;
+    background-color: #1E1E1E; /* Etwas heller als der Hintergrund */
+    border: 1px solid #333; /* Dunkler Rahmen */
 }
 
-th, td {
-    text-align: left;
-    padding: 15px;
-    border-bottom: 1px solid #444;
-}
-
-th {
-    background-color: #3a3a50;
-    color: #ffd700;
+.table th {
+    color: #FFD700; /* Gold für Überschriften */
     text-transform: uppercase;
+    font-weight: bold;
+    border-bottom: 2px solid #FFD700;
 }
 
-td {
-    color: #f0f0f0;
+.table td {
+    border-top: 1px solid #333;
 }
 
 /* Buttons */
-.btn {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 14px;
-    font-weight: bold;
-    text-transform: uppercase;
-    text-align: center;
-    text-decoration: none;
+button {
     border: none;
     border-radius: 5px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    cursor: pointer;
-}
-
-.btn-primary {
-    background-color: #007bff;
-    color: #fff;
-}
-
-.btn-primary:hover {
-    background-color: #0056b3;
-}
-
-.btn-danger {
-    background-color: #dc3545;
-    color: #fff;
-}
-
-.btn-danger:hover {
-    background-color: #a71d2a;
-}
-
-.btn-warning {
-    background-color: #ffc107;
-    color: #000;
-}
-
-.btn-warning:hover {
-    background-color: #d39e00;
-}
-
-/* Formularstil */
-input[type="text"] {
-    padding: 10px;
-    width: calc(100% - 20px);
-    margin: 5px 0;
-    border: 1px solid #555;
-    border-radius: 5px;
-    background-color: #2a2a3d;
-    color: #f0f0f0;
-}
-
-input[type="text"]::placeholder {
-    color: #aaa;
-}
-
-input[type="text"]:focus {
-    outline: none;
-    border-color: #ffd700;
-}
-
-/* Hover-Effekte */
-tr:hover {
-    background-color: #3a3a50;
-}
-
-/* Footer */
-footer {
-    text-align: center;
-    padding: 10px;
-    margin-top: 20px;
-    color: #aaa;
     font-size: 14px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-footer a {
-    color: #ffd700;
-    text-decoration: none;
+/* Aktivieren Button */
+.btn-activate {
+    background-color: #32CD32; /* Grün */
+    color: white;
 }
 
-footer a:hover {
-    text-decoration: underline;
+.btn-activate:hover {
+    background-color: #228B22; /* Dunkleres Grün */
+}
+
+/* Deaktivieren Button */
+.btn-deactivate {
+    background-color: #FF4500; /* Rot */
+    color: white;
+}
+
+.btn-deactivate:hover {
+    background-color: #B22222; /* Dunkleres Rot */
+}
+
+/* Bearbeiten Button */
+.btn-edit {
+    background-color: #4682B4; /* Blau */
+    color: white;
+}
+
+.btn-edit:hover {
+    background-color: #1E90FF; /* Hellblau */
+}
+
+/* SL/TP Eingabefelder */
+input[type="number"] {
+    background-color: #222; /* Dunkler Hintergrund */
+    color: #FFD700; /* Goldene Schrift */
+    border: 1px solid #555; /* Leicht sichtbarer Rahmen */
+    border-radius: 5px;
+    padding: 5px;
+    margin-right: 5px;
+}
+
+input[type="number"]:focus {
+    outline: none;
+    border-color: #FFD700; /* Gold beim Fokussieren */
+}
+
+/* Speichern Button */
+button[type="submit"] {
+    background-color: #C0C0C0; /* Silber */
+    color: #000;
+    border: 1px solid #FFD700; /* Goldene Umrandung */
+}
+
+button[type="submit"]:hover {
+    background-color: #FFD700; /* Gold */
+    color: black;
+}
+
+/* Tabellenzeilen - Hintergrund für Inaktive */
+.inactive-row {
+    background-color: #2A2A2A; /* Noch dunkler für inaktive Zeilen */
+    color: #A0A0A0;
+}
+.filter-options {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }

@@ -55,3 +55,18 @@ def toggle_signalgeber(channel_id):
 
 if __name__ == "__main__":
     app.run(debug=True)
+@app.route("/filter", methods=["GET"])
+def filter_signalgeber():
+    filter_status = request.args.get("status")  # "Aktiv" oder "Inaktiv"
+    signalgeber = load_signalgeber()
+
+    if filter_status:
+        filtered_signalgeber = {
+            key: value for key, value in signalgeber.items()
+            if (filter_status == "Aktiv" and value["active"]) or
+               (filter_status == "Inaktiv" and not value["active"])
+        }
+    else:
+        filtered_signalgeber = signalgeber
+
+    return render_template("dashboard.html", signalgeber=filtered_signalgeber)
