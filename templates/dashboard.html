@@ -3,72 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signalgeber-Management</title>
-    <!-- Bootstrap CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRn5E5t/9dTrZgP5o5uyA4LmF4VRMl6x9K5FoLtBZ" crossorigin="anonymous">
-    <!-- Custom CSS -->
+    <title>SignalBridge Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="text-center">Signalgeber-Management</h1>
-        <div class="filter-options">
-            <form method="GET" action="/filter" class="form-inline">
-                <label for="status-filter">Filter nach Status:</label>
-                <select name="status" id="status-filter" class="form-select">
-                    <option value="">Alle</option>
-                    <option value="Aktiv">Aktiv</option>
-                    <option value="Inaktiv">Inaktiv</option>
-                </select>
-        
-                <label for="name-filter" class="ms-3">Filter nach Name:</label>
-                <input type="text" name="name" id="name-filter" class="form-control" placeholder="Signalgebername">
-        
-                <label for="date-filter" class="ms-3">Letzte Änderung:</label>
-                <input type="date" name="last_change" id="date-filter" class="form-control">
-        
-                <button type="submit" class="btn btn-primary ms-3">Anwenden</button>
-            </form>
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="text-gold">SignalBridge Dashboard</h1>
+            <select class="form-select lang-switch" style="width: 150px;">
+                <option value="de">Deutsch</option>
+                <option value="en">English</option>
+            </select>
         </div>
-        
-        
-        <table class="table table-hover mt-4">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Status</th>
-                    <th>Letzte Änderung</th>
-                    <th>SL/TP anpassen</th>
-                    <th>Aktionen</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for id, details in signalgeber.items() %}
-                <tr class="{% if not details.active %}inactive-row{% endif %}">
-                    <td>{{ details.name }}</td>
-                    <td>{{ "Aktiv" if details.active else "Inaktiv" }}</td>
-                    <td>{{ details.timestamp }}</td>
-                    <td>
-                        <form method="POST" action="/adjust_sl_tp/{{ id }}">
-                            <input type="number" name="sl" placeholder="SL in Pips" class="form-control d-inline-block" style="width: 100px;" required>
-                            <input type="number" name="tp" placeholder="TP in Pips" class="form-control d-inline-block" style="width: 100px;" required>
-                            <button type="submit" class="btn btn-sm">Speichern</button>
-                        </form>
-                    </td>
-                    <td>
-                        <form method="POST" action="/toggle/{{ id }}" style="display:inline;">
-                            {% if details.active %}
-                            <button type="submit" class="btn btn-deactivate btn-sm">Deaktivieren</button>
-                            {% else %}
-                            <button type="submit" class="btn btn-activate btn-sm">Aktivieren</button>
-                            {% endif %}
-                        </form>
-                        <button class="btn btn-edit btn-sm">Bearbeiten</button>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <ul class="nav nav-tabs mt-4">
+            <li class="nav-item">
+                <a class="nav-link active" href="#performance">Performance</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#providers">Signalgeber-Management</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#history">Handelshistorie</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#equity-guardian">Equity Guardian</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#symbol-settings">Symbol-Einstellungen</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#strategy-rules">Strategieregeln</a>
+            </li>
+        </ul>
+
+        <div id="performance" class="tab-content mt-4">
+            <h2>Performance Übersicht</h2>
+            <p>Platzhalter für Performance-Daten.</p>
+        </div>
+        <div id="providers" class="tab-content mt-4">
+            <h2>Signalgeber Management</h2>
+            <p>Platzhalter für Signalgeber-Verwaltung.</p>
+        </div>
+        <div id="history" class="tab-content mt-4">
+            <h2>Handelshistorie</h2>
+            <p>Platzhalter für Handelshistorie.</p>
+        </div>
+        <div id="equity-guardian" class="tab-content mt-4">
+            <h2>Equity Guardian</h2>
+            <p>Platzhalter für Equity-Schutz-Funktionen.</p>
+        </div>
+        <div id="symbol-settings" class="tab-content mt-4">
+            <h2>Symbol-Einstellungen</h2>
+            <p>Platzhalter für Symbol-Konfiguration.</p>
+        </div>
+        <div id="strategy-rules" class="tab-content mt-4">
+            <h2>Strategieregeln</h2>
+            <p>Platzhalter für Strategieeinstellungen.</p>
+        </div>
     </div>
 </body>
 </html>

@@ -1,110 +1,51 @@
-/* Allgemeiner Hintergrund und Textfarben */
 body {
-    background-color: #121212; /* Dunkler Hintergrund */
-    color: #E0E0E0; /* Heller Text */
-    font-family: 'Montserrat', sans-serif; /* Moderne Schriftart */
-}
-
-/* Header */
-h1 {
-    color: #FFD700; /* Gold für den Titel */
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-/* Tabelle */
-.table {
+    background-color: #121212;
     color: #E0E0E0;
-    background-color: #1E1E1E; /* Etwas heller als der Hintergrund */
-    border: 1px solid #333; /* Dunkler Rahmen */
+    font-family: 'Montserrat', sans-serif;
 }
 
-.table th {
-    color: #FFD700; /* Gold für Überschriften */
+.text-gold {
+    color: #FFD700;
+}
+
+.nav-tabs .nav-link {
+    background-color: #2b2b2b;
+    color: #FFD700;
+    border: 1px solid #444;
+    border-radius: 5px;
+    margin-right: 5px;
+    padding: 10px 15px;
+    transition: all 0.3s ease;
     text-transform: uppercase;
     font-weight: bold;
-    border-bottom: 2px solid #FFD700;
 }
 
-.table td {
-    border-top: 1px solid #333;
+.nav-tabs .nav-link.active {
+    background-color: #FFD700;
+    color: #2b2b2b;
+    border-color: #FFD700;
 }
 
-/* Buttons */
-button {
-    border: none;
+.nav-tabs .nav-link:hover {
+    background-color: #FFD700;
+    color: #2b2b2b;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+.tab-content {
+    padding: 20px;
+    border: 1px solid #FFD700;
     border-radius: 5px;
-    font-size: 14px;
-    padding: 8px 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    background-color: #1E1E1E;
+    margin-top: 20px;
 }
 
-/* Aktivieren Button */
-.btn-activate {
-    background-color: #32CD32; /* Grün */
-    color: white;
-}
-
-.btn-activate:hover {
-    background-color: #228B22; /* Dunkleres Grün */
-}
-
-/* Deaktivieren Button */
-.btn-deactivate {
-    background-color: #FF4500; /* Rot */
-    color: white;
-}
-
-.btn-deactivate:hover {
-    background-color: #B22222; /* Dunkleres Rot */
-}
-
-/* Bearbeiten Button */
-.btn-edit {
-    background-color: #4682B4; /* Blau */
-    color: white;
-}
-
-.btn-edit:hover {
-    background-color: #1E90FF; /* Hellblau */
-}
-
-/* SL/TP Eingabefelder */
-input[type="number"] {
-    background-color: #222; /* Dunkler Hintergrund */
-    color: #FFD700; /* Goldene Schrift */
-    border: 1px solid #555; /* Leicht sichtbarer Rahmen */
+.lang-switch {
+    background-color: #2b2b2b;
+    color: #FFD700;
+    border: 1px solid #444;
     border-radius: 5px;
-    padding: 5px;
-    margin-right: 5px;
-}
-
-input[type="number"]:focus {
-    outline: none;
-    border-color: #FFD700; /* Gold beim Fokussieren */
-}
-
-/* Speichern Button */
-button[type="submit"] {
-    background-color: #C0C0C0; /* Silber */
-    color: #000;
-    border: 1px solid #FFD700; /* Goldene Umrandung */
-}
-
-button[type="submit"]:hover {
-    background-color: #FFD700; /* Gold */
-    color: black;
-}
-
-/* Tabellenzeilen - Hintergrund für Inaktive */
-.inactive-row {
-    background-color: #2A2A2A; /* Noch dunkler für inaktive Zeilen */
-    color: #A0A0A0;
-}
-.filter-options {
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
 }
