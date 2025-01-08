@@ -14,15 +14,23 @@
         <h1 class="text-center">Signalgeber-Management</h1>
         <div class="filter-options">
             <form method="GET" action="/filter" class="form-inline">
-                <label for="status-filter">Filter:</label>
+                <label for="status-filter">Filter nach Status:</label>
                 <select name="status" id="status-filter" class="form-select">
                     <option value="">Alle</option>
                     <option value="Aktiv">Aktiv</option>
                     <option value="Inaktiv">Inaktiv</option>
                 </select>
-                <button type="submit" class="btn btn-primary">Anwenden</button>
+        
+                <label for="name-filter" class="ms-3">Filter nach Name:</label>
+                <input type="text" name="name" id="name-filter" class="form-control" placeholder="Signalgebername">
+        
+                <label for="date-filter" class="ms-3">Letzte Änderung:</label>
+                <input type="date" name="last_change" id="date-filter" class="form-control">
+        
+                <button type="submit" class="btn btn-primary ms-3">Anwenden</button>
             </form>
         </div>
+        
         
         <table class="table table-hover mt-4">
             <thead>

@@ -70,3 +70,21 @@ def filter_signalgeber():
         filtered_signalgeber = signalgeber
 
     return render_template("dashboard.html", signalgeber=filtered_signalgeber)
+@app.route("/filter", methods=["GET"])
+def filter_signalgeber():
+    status = request.args.get("status", "")
+    name = request.args.get("name", "").lower()
+    last_change = request.args.get("last_change", "")
+
+    # Lade die Signalgeber-Daten
+    signalgeber = load_signalgeber()
+
+    # Filterlogik anwenden
+    filtered_signalgeber = {
+        id: details for id, details in signalgeber.items()
+        if (not status or ("Aktiv" if details["active"] else "Inaktiv") == status)
+        and (not name or name in details["name"].lower())
+        and (not last_change or details["timestamp"].startswith(last_change))
+    }
+
+    return render_template("dashboard.html", signalgeber=filtered_signalgeber)
