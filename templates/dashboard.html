@@ -8,59 +8,63 @@
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <div class="container mt-4">
-        <div class="d-flex justify-content-between align-items-center">
-            <h1 class="text-gold">SignalBridge Dashboard</h1>
-            <select class="form-select lang-switch" style="width: 150px;">
+    <div class="container mt-5">
+        <div class="language-filter">
+            <label for="language-select" class="text-gold">Sprache:</label>
+            <select id="language-select" class="form-select">
                 <option value="de">Deutsch</option>
                 <option value="en">English</option>
             </select>
         </div>
-        <ul class="nav nav-tabs mt-4">
-            <li class="nav-item">
-                <a class="nav-link active" href="#performance">Performance</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#providers">Signalgeber-Management</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#history">Handelshistorie</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#equity-guardian">Equity Guardian</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#symbol-settings">Symbol-Einstellungen</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#strategy-rules">Strategieregeln</a>
-            </li>
-        </ul>
+        <h1 class="text-center">SignalBridge Dashboard</h1>
+        <div class="nav-tabs-container">
 
-        <div id="performance" class="tab-content mt-4">
+            <div class="overflow-auto">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#performance">Performance</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#signalgeber-management">Signalgeber-Management</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#handelshistorie">Handelshistorie</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#equity-guardian">Equity Guardian</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#symbol-einstellungen">Symbol-Einstellungen</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#strategieregeln">Strategieregeln</a>
+                    </li>
+                </ul>
+            </div>
+            
+        <div id="performance" class="section-placeholder">
             <h2>Performance Übersicht</h2>
             <p>Platzhalter für Performance-Daten.</p>
         </div>
-        <div id="providers" class="tab-content mt-4">
+        <div id="signalgeber-management" class="section-placeholder">
             <h2>Signalgeber Management</h2>
             <p>Platzhalter für Signalgeber-Verwaltung.</p>
         </div>
-        <div id="history" class="tab-content mt-4">
+        <div id="handelshistorie" class="section-placeholder">
             <h2>Handelshistorie</h2>
             <p>Platzhalter für Handelshistorie.</p>
         </div>
-        <div id="equity-guardian" class="tab-content mt-4">
+        <div id="equity-guardian" class="section-placeholder">
             <h2>Equity Guardian</h2>
             <p>Platzhalter für Equity-Schutz-Funktionen.</p>
         </div>
-        <div id="symbol-settings" class="tab-content mt-4">
+        <div id="symbol-settings" class="section-placeholder">
             <h2>Symbol-Einstellungen</h2>
             <p>Platzhalter für Symbol-Konfiguration.</p>
         </div>
-        <div id="strategy-rules" class="tab-content mt-4">
+        <div id="strategie-regeln" class="section-placeholder">
             <h2>Strategieregeln</h2>
-            <p>Platzhalter für Strategieeinstellungen.</p>
+            <p>Platzhalter für Strategieregeln.</p>
         </div>
     </div>
-</body>
-</html>
+</html>    

@@ -1,51 +1,211 @@
+/* Allgemeiner Hintergrund und Textfarben */
 body {
-    background-color: #121212;
-    color: #E0E0E0;
-    font-family: 'Montserrat', sans-serif;
+    background-color: #121212; /* Dunkler Hintergrund */
+    color: #E0E0E0; /* Heller Text */
+    font-family: 'Montserrat', sans-serif; /* Moderne Schriftart */
 }
 
-.text-gold {
-    color: #FFD700;
+/* Header */
+h1 {
+    color: #FFD700; /* Gold für den Titel */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Platzhalterbereiche */
+.section-placeholder {
+    background-color: #1E1E1E; /* Dunkleres Grau */
+    border: 1px solid #FFD700; /* Goldene Umrandung */
+    border-radius: 8px; /* Abgerundete Ecken */
+    padding: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+    box-shadow: 0px 0px 10px 2px rgba(255, 215, 0, 0.5); /* Goldener Schimmer */
+}
+
+/* Abstand zwischen Tabs und Inhalten */
+.nav-tabs-container {
+    margin-bottom: 20px;
+}
+
+
+
+/* Tabs Styling */
+.nav-tabs {
+    display: flex;
+    flex-wrap: nowrap; /* Kein Umbruch der Tabs */
+    justify-content: space-evenly; /* Tabs gleichmäßig verteilen */
+    border-bottom: 2px solid #FFD700; /* Goldene Linie */
+    overflow-x: auto; /* Horizontal scrollen bei kleiner Fenstergröße */
+    white-space: nowrap; /* Tabs in einer Zeile halten */
+    background-color: #121212; /* Gleicher Hintergrund wie die Seite */
+    padding: 5px 0; /* Abstand zu den Tabs */
 }
 
 .nav-tabs .nav-link {
-    background-color: #2b2b2b;
-    color: #FFD700;
-    border: 1px solid #444;
-    border-radius: 5px;
-    margin-right: 5px;
+    background-color: #2b2b2b; /* Dunkler Hintergrund für Tabs */
+    color: #FFD700; /* Goldene Schrift */
+    border: 1px solid #444; /* Chrome-Ränder */
+    margin: 0 5px; /* Abstand zwischen Tabs */
     padding: 10px 15px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+    flex: 0 0 auto; /* Tabs nicht schrumpfen lassen */
+    transition: all 0.3s ease;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #FFD700; /* Goldener Hintergrund für aktive Tabs */
+    color: #121212; /* Dunkle Schriftfarbe */
+    border-color: #FFD700; /* Goldene Umrandung */
+}
+
+.nav-tabs .nav-link:hover {
+    background-color: #FFD700; /* Hover-Effekt: Goldener Hintergrund */
+    color: #121212; /* Dunkler Text */
+}
+
+/* Tabs bei kleinen Bildschirmen */
+@media (max-width: 768px) {
+    .nav-tabs {
+        overflow-x: auto; /* Scrollen ermöglichen */
+    }
+}
+
+
+/* Tabelle */
+.table {
+    color: #E0E0E0;
+    background-color: #1E1E1E; /* Dunkler Hintergrund */
+    border: 1px solid #333; /* Rahmen */
+    margin-top: 20px;
+}
+
+.table th {
+    color: #FFD700; /* Goldene Überschriften */
+    text-transform: uppercase;
+    font-weight: bold;
+    border-bottom: 2px solid #FFD700;
+}
+
+.table td {
+    border-top: 1px solid #333;
+}
+
+/* Eingabefelder */
+input[type="number"] {
+    background-color: #222; /* Dunkler Hintergrund */
+    color: #FFD700; /* Goldene Schrift */
+    border: 1px solid #555; /* Sichtbarer Rahmen */
+    border-radius: 5px;
+    padding: 5px;
+    margin-right: 5px;
+}
+
+input[type="number"]:focus {
+    outline: none;
+    border-color: #FFD700; /* Gold beim Fokussieren */
+}
+
+/* Buttons */
+button {
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button[type="submit"] {
+    background-color: #C0C0C0; /* Silber */
+    color: #000;
+    border: 1px solid #FFD700; /* Goldene Umrandung */
+}
+
+button[type="submit"]:hover {
+    background-color: #FFD700; /* Gold */
+    color: black;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .nav-tabs {
+        overflow-x: scroll; /* Scrollleiste hinzufügen */
+    }
+}
+
+/* Scrollbare Tabs */
+.overflow-auto {
+    white-space: nowrap; /* Tabs bleiben in einer Zeile */
+    overflow-x: auto; /* Horizontales Scrollen aktivieren */
+    -webkit-overflow-scrolling: touch; /* Weiches Scrollen für Mobilgeräte */
+    margin-bottom: 20px; /* Abstand zu den Platzhaltern */
+}
+
+.nav-tabs {
+    display: flex;
+    justify-content: center; /* Tabs zentrieren */
+    border-bottom: 1px solid #FFD700; /* Goldene Linie */
+    flex-wrap: nowrap; /* Verhindert Umbruch */
+}
+
+.nav-tabs .nav-item {
+    margin-right: 5px; /* Abstand zwischen Tabs */
+}
+
+.nav-tabs .nav-link {
+    background-color: #2b2b2b; /* Dunkler Hintergrund */
+    color: #FFD700; /* Goldener Text */
+    border: 1px solid #444; /* Ränder */
+    padding: 10px 20px; /* Polsterung für bessere Klickfläche */
+    border-radius: 5px; /* Abgerundete Ecken */
     transition: all 0.3s ease;
     text-transform: uppercase;
     font-weight: bold;
 }
 
 .nav-tabs .nav-link.active {
-    background-color: #FFD700;
-    color: #2b2b2b;
-    border-color: #FFD700;
+    background-color: #FFD700; /* Aktiver Tab: Goldener Hintergrund */
+    color: #2b2b2b; /* Dunkler Text */
+    font-weight: bold;
+    border-color: #FFD700; /* Goldene Umrandung */
 }
 
 .nav-tabs .nav-link:hover {
-    background-color: #FFD700;
-    color: #2b2b2b;
+    background-color: #FFD700; /* Hover: Goldener Hintergrund */
+    color: #2b2b2b; /* Dunkler Text */
 }
 
-.container {
-    max-width: 1200px;
+/* Für kleinere Bildschirmgrößen */
+@media (max-width: 768px) {
+    .nav-tabs .nav-link {
+        padding: 5px 10px; /* Kleinere Tabs für Mobilgeräte */
+        font-size: 0.9rem; /* Kleinere Schriftgröße */
+    }
+}
+.language-filter {
+    position: absolute; /* Damit es unabhängig positioniert wird */
+    top: 10px; /* Abstand von oben */
+    right: 20px; /* Abstand von rechts */
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Abstand zwischen Label und Dropdown */
 }
 
-.tab-content {
-    padding: 20px;
-    border: 1px solid #FFD700;
-    border-radius: 5px;
-    background-color: #1E1E1E;
-    margin-top: 20px;
+.language-filter label {
+    font-size: 14px;
+    color: #FFD700; /* Goldene Schrift */
+    font-weight: bold;
 }
 
-.lang-switch {
-    background-color: #2b2b2b;
-    color: #FFD700;
-    border: 1px solid #444;
+.language-filter select {
+    width: 150px; /* Reduziert die Breite */
+    padding: 5px;
+    font-size: 14px;
+    color: #FFD700; /* Goldener Text */
+    background-color: #1a1a1a; /* Dunkler Hintergrund */
+    border: 1px solid #FFD700; /* Goldene Umrandung */
     border-radius: 5px;
 }
