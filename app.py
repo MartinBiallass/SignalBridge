@@ -92,3 +92,15 @@ def filter_signalgeber():
 
 if __name__ == "__main__":
     app.run(debug=True)
+@app.route("/update_signalgeber/<channel_id>", methods=["POST"])
+def update_signalgeber(channel_id):
+    data = request.json
+    signalgeber = load_signalgeber()
+    
+    if channel_id in signalgeber:
+        signalgeber[channel_id]["settings"]["risk_management"] = data.get("risk_management", {})
+        signalgeber[channel_id]["settings"]["tp_sl_strategy"] = data.get("tp_sl_strategy", {})
+        signalgeber[channel_id]["settings"]["filters"] = data.get("filters", {})
+        save_signalgeber(signalgeber)
+        return jsonify({"success": True, "message": "Einstellungen aktualisiert"})
+    return jsonify({"success": False, "message": "Signalgeber nicht gefunden"}), 404
