@@ -209,3 +209,25 @@ button[type="submit"]:hover {
     border: 1px solid #FFD700; /* Goldene Umrandung */
     border-radius: 5px;
 }
+.list-group-item {
+    transition: background-color 0.2s, color 0.2s;
+    cursor: pointer;
+}
+
+.list-group-item:hover {
+    background-color: #444;
+    color: #fff;
+}
+
+.hover-highlight {
+    font-weight: bold;
+}
+.list-group-item {
+    transition: background-color 0.2s, color 0.2s;
+    cursor: pointer;
+}
+
+.list-group-item:hover {
+    background-color: #444;
+    color: #fff;
+}
