@@ -42,10 +42,22 @@
                 </ul>
             </div>
             
-        <div id="performance" class="section-placeholder">
+        <div id="performance" class="section">
             <h2>Performance Übersicht</h2>
-            <p>Platzhalter für Performance-Daten.</p>
+            <div class="performance-data">
+                <p><strong>Plattform:</strong> {{ performance.platform }}</p>
+                <p><strong>Broker:</strong> {{ performance.broker }}</p>
+                <p><strong>Kontotyp:</strong> {{ performance.account_type }}</p>
+                <p><strong>Initial Balance:</strong> {{ performance.initial_balance }} $</p>
+                <p><strong>Current Balance:</strong> {{ performance.current_balance }} $</p>
+                <p><strong>Total Profit:</strong> {{ performance.total_profit }} $</p>
+                <p><strong>Profit (Month):</strong> {{ performance.monthly_profit }} $</p>
+                <p><strong>Profit (Week):</strong> {{ performance.weekly_profit }} $</p>
+                <p><strong>Profit (Today):</strong> {{ performance.daily_profit }} $</p>
+                <p><strong>Last Update:</strong> {{ performance.last_update }}</p>
+            </div>
         </div>
+        
         <div id="signalgeber-management" class="section-placeholder">
             <h2>Signalgeber Management</h2>
             <p>Platzhalter für Signalgeber-Verwaltung.</p>
@@ -67,4 +79,5 @@
             <p>Platzhalter für Strategieregeln.</p>
         </div>
     </div>
+    
 </html>    

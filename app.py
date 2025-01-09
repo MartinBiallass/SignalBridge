@@ -3,8 +3,6 @@ import json
 from datetime import datetime
 from config import SIGNALGEBER_DB, PERFORMANCE_DB
 
-import os
-
 app = Flask(__name__)
 
 # Signalgeber-Daten laden
@@ -26,9 +24,8 @@ def load_performance():
         with open(PERFORMANCE_DB, "r") as file:
             return json.load(file)
     except FileNotFoundError:
-        # Falls die Datei nicht existiert, wird eine leere Struktur zurückgegeben
         return {
-            "platform": "MT5",
+            "platform": "",
             "broker": "",
             "account_type": "",
             "initial_balance": 0.0,
@@ -48,7 +45,8 @@ def save_performance(data):
 @app.route("/")
 def dashboard():
     signalgeber = load_signalgeber()
-    return render_template("dashboard.html", signalgeber=signalgeber)
+    performance = load_performance()  # Lädt Performance-Daten
+    return render_template("dashboard.html", signalgeber=signalgeber, performance=performance)
 
 @app.route("/adjust_sl_tp/<channel_id>", methods=["POST"])
 def adjust_sl_tp(channel_id):
@@ -91,14 +89,6 @@ def filter_signalgeber():
         }
         return render_template("dashboard.html", signalgeber=filtered)
     return render_template("dashboard.html", signalgeber=signalgeber)
-
-@app.route("/performance", methods=["GET"])
-def performance():
-    try:
-        data = load_performance()
-        return jsonify({"success": True, "data": data})
-    except json.JSONDecodeError:
-        return jsonify({"success": False, "message": "Fehler beim Lesen der Datei"}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)
