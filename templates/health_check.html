@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ translations['health_check'] }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <img src="/static/logo.png" alt="SignalBridge Logo" class="logo">
+            <a href="/" class="{{ 'active' if section == 'home' else '' }}">{{ translations['home'] }}</a>
+            <a href="/linked-accounts" class="{{ 'active' if section == 'linked_accounts' else '' }}">{{ translations['linked_accounts'] }}</a>
+            <a href="/account-management" class="{{ 'active' if section == 'account_management' else '' }}">{{ translations['account_management'] }}</a>
+            <a href="/message-history" class="{{ 'active' if section == 'message_history' else '' }}">{{ translations['message_history'] }}</a>
+            <a href="/system-status" class="{{ 'active' if section == 'health_check' else '' }}">{{ translations['health_check'] }}</a>
+
+            <a href="/backtest" class="{{ 'active' if section == 'backtest' else '' }}">{{ translations['backtest'] }}</a>
+            <a href="/support" class="{{ 'active' if section == 'support' else '' }}">{{ translations['support'] }}</a>
+            <a href="/help" class="{{ 'active' if section == 'help' else '' }}">{{ translations['help'] }}</a>
+        </div>
+        <div class="main-content">
+            <h1>{{ translations['health_check'] }}</h1>
+            <table class="status-table">
+                <tr>
+                    <th>Status</th>
+                    <th>Details</th>
+                </tr>
+                <tr>
+                    <td>Telegram Status</td>
+                    <td>{{ system_status['telegram_status'] }}</td>
+                </tr>
+                <tr>
+                    <td>Server Status</td>
+                    <td>{{ system_status['server_status'] }}</td>
+                </tr>
+                <tr>
+                    <td>API Status</td>
+                    <td>{{ system_status['api_status'] }}</td>
+                </tr>
+                <tr>
+                    <td>Lokaler Server Status</td>
+                    <td>{{ system_status['local_server_status'] }}</td>
+                </tr>
+                <tr>
+                    <td>Software Version</td>
+                    <td>{{ system_status['software_version'] }}</td>
+                </tr>
+                <tr>
+                    <td>Analyzer Version</td>
+                    <td>{{ system_status['analyzer_version'] }}</td>
+                </tr>
+                <tr>
+                    <td>Functions Version</td>
+                    <td>{{ system_status['functions_version'] }}</td>
+                </tr>
+                <tr>
+                    <td>Interface Version</td>
+                    <td>{{ system_status['interface_version'] }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

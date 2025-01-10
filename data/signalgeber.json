@@ -1,60 +1,49 @@
 {
     "channel_1": {
-        "name": "Forex Signals Group",
-        "active": false,
-        "settings": {
-            "risk_management": {
-                "lot_size": 0.01,
-                "risk_percent": 1.0
-            },
-            "tp_sl_strategy": {
-                "TP1": 50,
-                "TP2": 30,
-                "TP3": 20
-            },
-            "filters": {
-                "symbols": [],
-                "keywords": []
-            },
-            "sl": 30.0,
-            "tp": 30.0
+      "name": "Forex Signals Group",
+      "active": false,
+      "dashboard_id": "dashboard_1",
+      "settings": {
+        "risk_management": {
+          "lot_size": 0.01,
+          "risk_percent": 1.0
         },
-        "timestamp": "2025-01-06T17:08:29.753392"
+        "tp_sl_strategy": {
+          "TP1": 50,
+          "TP2": 30,
+          "TP3": 20
+        },
+        "filters": {
+          "symbols": [],
+          "keywords": []
+        },
+        "sl": 30.0,
+        "tp": 30.0
+      },
+      "timestamp": "2025-01-06T17:08:29.753392"
     },
-    "1": {
-        "name": "BFS Forex Pros",
-        "risk": "0.7 $/Pip",
-        "tp_count": 1,
-        "sl_count": 7,
-        "other_count": 28,
-        "pips": "1388.50",
-        "win_loss": "61%",
-        "avg_drawdown": "-37.48 Pips",
-        "profit": "329.91 $",
-        "gain": "5.50%"
-    },
-    "2": {
-        "name": "BFS Forex Trading Lions",
-        "risk": "3 $/Pip",
-        "tp_count": 24,
-        "sl_count": 2,
-        "other_count": 17,
-        "pips": "902.70",
-        "win_loss": "77%",
-        "avg_drawdown": "-12.77 Pips",
-        "profit": "843.75 $",
-        "gain": "14.06%"
-    },
-    "3": {
-        "name": "BFS Fx Signals and Analysis",
-        "risk": "0.5 %",
-        "tp_count": 1,
-        "sl_count": 0,
-        "other_count": 0,
-        "pips": "200.10",
-        "win_loss": "100%",
-        "avg_drawdown": "-3.10 Pips",
-        "profit": "19.95 $",
-        "gain": "0.33%"
+    "channel_2": {
+      "name": "BFS Forex Pros",
+      "active": true,
+      "dashboard_id": "dashboard_2",
+      "settings": {
+        "risk_management": {
+          "lot_size": 0.02,
+          "risk_percent": 2.0
+        },
+        "tp_sl_strategy": {
+          "TP1": 70,
+          "TP2": 20,
+          "TP3": 10
+        },
+        "filters": {
+          "symbols": ["EURUSD", "GBPUSD"],
+          "keywords": ["Buy", "Sell"]
+        },
+        "sl": 20.0,
+        "tp": 50.0
+      },
+      "timestamp": "2025-01-09T10:00:00"
     }
-}
+  }
+  
