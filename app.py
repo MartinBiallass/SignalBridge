@@ -43,7 +43,17 @@ def home():
 @app.route("/linked-accounts")
 def linked_accounts():
     lang = session.get("language", "de")
-    return render_template("dashboard.html", section="linked_accounts", lang=lang, translations=translations[lang])
+    linked_accounts = [
+        {"platform": "Telegram", "status": "Verbunden", "last_sync": "2025-01-10 14:00"},
+        {"platform": "Discord", "status": "Nicht verbunden", "last_sync": "Nie"},
+    ]
+    return render_template(
+        "dashboard.html",
+        section="linked_accounts",
+        lang=lang,
+        translations=translations[lang],
+        linked_accounts=linked_accounts
+    )
 
 @app.route("/account-management")
 def account_management():
@@ -111,7 +121,12 @@ def health_check():
 @app.route("/backtest")
 def backtest():
     lang = session.get("language", "de")
-    return render_template("dashboard.html", section="backtest", lang=lang, translations=translations[lang])
+    return render_template(
+        "dashboard.html",
+        section="backtest",
+        lang=lang,
+        translations=translations[lang]
+    )
 
 @app.route("/support")
 def support():

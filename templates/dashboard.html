@@ -32,19 +32,33 @@
         </div>
 
         <div class="main-content">
-            {% if section == 'message_history' %}
+            {% if section == 'health_check' %}
+            <div class="system-status">
+                <h2>{{ translations['health_check'] }}</h2>
+                <ul>
+                    <li>Telegram Status: {{ system_status.telegram_status }}</li>
+                    <li>Server Status: {{ system_status.server_status }}</li>
+                    <li>Lokaler Server Status: {{ system_status.local_server_status }}</li>
+                    <li>API Status: {{ system_status.api_status }}</li>
+                    <li>Software Version: {{ system_status.software_version }}</li>
+                    <li>Analyzer Version: {{ system_status.analyzer_version }}</li>
+                    <li>Functions Version: {{ system_status.functions_version }}</li>
+                    <li>Interface Version: {{ system_status.interface_version }}</li>
+                </ul>
+                <p><span class="ram-status {{ ram_status }}"></span> Nutzung: {{ current_ram }} / {{ total_ram }}</p>
+            </div>
+            {% elif section == 'message_history' %}
             <div class="message-history">
                 <h2>{{ translations['message_history'] }}</h2>
-                <form method="GET" action="/message-history" class="filter-form">
-                    <label for="channel-filter">Kanal:</label>
-                    <select id="channel-filter" name="channel">
-                        <option value="">Alle</option>
-                        <option value="CryptoAlerts">CryptoAlerts</option>
-                        <option value="ForexSignals">ForexSignals</option>
-                        <option value="StockMarket">StockMarket</option>
-                    </select>
-                    <button type="submit">Filtern</button>
-                </form>
+                <div class="filters">
+                    <form method="GET" action="/message-history">
+                        <label for="channel-filter">Kanal:</label>
+                        <input type="text" id="channel-filter" name="channel" placeholder="Kanalname eingeben">
+                        <label for="date-filter">Datum:</label>
+                        <input type="date" id="date-filter" name="date">
+                        <button type="submit">Filtern</button>
+                    </form>
+                </div>
                 <table>
                     <thead>
                         <tr>
@@ -64,20 +78,51 @@
                     </tbody>
                 </table>
             </div>
-            {% elif section == 'health_check' %}
-            <div class="system-status">
-                <h2>{{ translations['health_check'] }}</h2>
-                <ul>
-                    <li>Telegram Status: {{ system_status.telegram_status }}</li>
-                    <li>Server Status: {{ system_status.server_status }}</li>
-                    <li>Lokaler Server Status: {{ system_status.local_server_status }}</li>
-                    <li>API Status: {{ system_status.api_status }}</li>
-                    <li>Software Version: {{ system_status.software_version }}</li>
-                    <li>Analyzer Version: {{ system_status.analyzer_version }}</li>
-                    <li>Functions Version: {{ system_status.functions_version }}</li>
-                    <li>Interface Version: {{ system_status.interface_version }}</li>
-                </ul>
-                <p><span class="ram-status {{ ram_status }}"></span> Nutzung: {{ current_ram }} / {{ total_ram }}</p>
+            {% elif section == 'linked_accounts' %}
+            <div class="linked-accounts">
+                <h2>{{ translations['linked_accounts'] }}</h2>
+                <p>Hier könnten Ihre verknüpften Konten angezeigt werden. Diese Funktionalität wird demnächst verfügbar sein.</p>
+                <button>Konto hinzufügen</button>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Konto</th>
+                            <th>Plattform</th>
+                            <th>Status</th>
+                            <th>Aktionen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Beispielkonto 1</td>
+                            <td>Telegram</td>
+                            <td>Aktiv</td>
+                            <td>
+                                <button>Bearbeiten</button>
+                                <button>Entfernen</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Beispielkonto 2</td>
+                            <td>Discord</td>
+                            <td>Inaktiv</td>
+                            <td>
+                                <button>Bearbeiten</button>
+                                <button>Entfernen</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            {% elif section == 'account_management' %}
+            <div class="account-management">
+                <h2>{{ translations['account_management'] }}</h2>
+                <p>Hier könnten Ihre Kontoeinstellungen angezeigt und bearbeitet werden. Bleiben Sie dran!</p>
+            </div>
+            {% elif section == 'backtest' %}
+            <div class="coming-soon">
+                <h2>Coming Soon</h2>
+                <p>Diese Funktionalität wird in einer zukünftigen Premium-Version verfügbar sein.</p>
             </div>
             {% else %}
             <h1>{{ translations['welcome'] }}</h1>
