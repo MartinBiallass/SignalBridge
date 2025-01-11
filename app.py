@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify, session
 from flask_session import Session
+import json
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
@@ -49,15 +50,17 @@ def account_management():
     lang = session.get("language", "de")
     return render_template("dashboard.html", section="account_management", lang=lang, translations=translations[lang])
 
-@app.route("/message-history")
+@app.route("/message-history", methods=["GET"])
 def message_history():
     lang = session.get("language", "de")
-    # Simulierte Nachrichten
-    messages = [
-        {"timestamp": "2025-01-10 12:00:00", "channel": "CryptoAlerts", "message": "BTC/USD Buy @ 34000 TP1: 35000 SL: 33000"},
-        {"timestamp": "2025-01-10 12:05:00", "channel": "ForexSignals", "message": "EUR/USD Sell @ 1.1200 TP1: 1.1100 SL: 1.1300"},
-        {"timestamp": "2025-01-10 12:10:00", "channel": "StockMarket", "message": "AAPL Buy @ 150 TP1: 160 SL: 145"},
-    ]
+    with open("data/messages.json", "r") as file:
+        messages = json.load(file)
+    
+    # Filter nach Kanal
+    channel_filter = request.args.get("channel")
+    if channel_filter:
+        messages = [msg for msg in messages if msg["channel"] == channel_filter]
+
     return render_template(
         "dashboard.html",
         section="message_history",

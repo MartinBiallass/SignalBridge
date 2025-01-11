@@ -32,24 +32,19 @@
         </div>
 
         <div class="main-content">
-            {% if section == 'health_check' %}
-            <div class="system-status">
-                <h2>{{ translations['health_check'] }}</h2>
-                <ul>
-                    <li>Telegram Status: {{ system_status.telegram_status }}</li>
-                    <li>Server Status: {{ system_status.server_status }}</li>
-                    <li>Lokaler Server Status: {{ system_status.local_server_status }}</li>
-                    <li>API Status: {{ system_status.api_status }}</li>
-                    <li>Software Version: {{ system_status.software_version }}</li>
-                    <li>Analyzer Version: {{ system_status.analyzer_version }}</li>
-                    <li>Functions Version: {{ system_status.functions_version }}</li>
-                    <li>Interface Version: {{ system_status.interface_version }}</li>
-                </ul>
-                <p><span class="ram-status {{ ram_status }}"></span> Nutzung: {{ current_ram }} / {{ total_ram }}</p>
-            </div>
-            {% elif section == 'message_history' %}
+            {% if section == 'message_history' %}
             <div class="message-history">
                 <h2>{{ translations['message_history'] }}</h2>
+                <form method="GET" action="/message-history" class="filter-form">
+                    <label for="channel-filter">Kanal:</label>
+                    <select id="channel-filter" name="channel">
+                        <option value="">Alle</option>
+                        <option value="CryptoAlerts">CryptoAlerts</option>
+                        <option value="ForexSignals">ForexSignals</option>
+                        <option value="StockMarket">StockMarket</option>
+                    </select>
+                    <button type="submit">Filtern</button>
+                </form>
                 <table>
                     <thead>
                         <tr>
@@ -68,6 +63,21 @@
                         {% endfor %}
                     </tbody>
                 </table>
+            </div>
+            {% elif section == 'health_check' %}
+            <div class="system-status">
+                <h2>{{ translations['health_check'] }}</h2>
+                <ul>
+                    <li>Telegram Status: {{ system_status.telegram_status }}</li>
+                    <li>Server Status: {{ system_status.server_status }}</li>
+                    <li>Lokaler Server Status: {{ system_status.local_server_status }}</li>
+                    <li>API Status: {{ system_status.api_status }}</li>
+                    <li>Software Version: {{ system_status.software_version }}</li>
+                    <li>Analyzer Version: {{ system_status.analyzer_version }}</li>
+                    <li>Functions Version: {{ system_status.functions_version }}</li>
+                    <li>Interface Version: {{ system_status.interface_version }}</li>
+                </ul>
+                <p><span class="ram-status {{ ram_status }}"></span> Nutzung: {{ current_ram }} / {{ total_ram }}</p>
             </div>
             {% else %}
             <h1>{{ translations['welcome'] }}</h1>
