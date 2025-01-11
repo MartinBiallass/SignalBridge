@@ -176,3 +176,61 @@ body {
     color: #FFD700;
     font-weight: bold;
 }
+.message-history table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+    color: #E0E0E0;
+}
+
+.message-history th, .message-history td {
+    padding: 12px;
+    border-bottom: 1px solid #444444;
+}
+
+.message-history th {
+    background-color: #FFD700;
+    color: #121212;
+    font-weight: bold;
+}
+
+.message-history tr:hover {
+    background-color: #1E1E1E;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+table thead {
+    background-color: #FFD700;
+    color: #000;
+}
+
+t/* Standardzeilenfarbe */
+table tbody tr:nth-child(odd) {
+    background-color: #000; /* Schwarz */
+    color: #FFD700; /* Goldener Text */
+}
+
+/* Alternierende Zeilenfarbe */
+table tbody tr:nth-child(even) {
+    background-color: #333; /* Dunkelgrau */
+    color: #FFD700; /* Goldener Text */
+}
+
+/* Hover-Effekt bleibt bestehen */
+table tbody tr:hover {
+    background-color: #FFD700 !important; /* Goldener Hintergrund beim Hover */
+    color: #000 !important; /* Schwarzer Text */
+}
+
+}

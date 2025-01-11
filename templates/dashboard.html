@@ -18,6 +18,7 @@
                 </select>
             </form>
         </div>
+
         <div class="sidebar">
             <img src="/static/logo.png" alt="SignalBridge Logo" class="logo">
             <a href="/" class="{{ 'active' if section == 'home' else '' }}" data-section="home">{{ translations['home'] }}</a>
@@ -29,6 +30,7 @@
             <a href="/support" class="{{ 'active' if section == 'support' else '' }}" data-section="support">{{ translations['support'] }}</a>
             <a href="/help" class="{{ 'active' if section == 'help' else '' }}" data-section="help">{{ translations['help'] }}</a>
         </div>
+
         <div class="main-content">
             {% if section == 'health_check' %}
             <div class="system-status">
@@ -43,11 +45,29 @@
                     <li>Functions Version: {{ system_status.functions_version }}</li>
                     <li>Interface Version: {{ system_status.interface_version }}</li>
                 </ul>
-                <div class="ram-usage">
-                    <span class="status {{ ram_status }}"></span>
-                    Nutzung: {{ current_ram }} / {{ total_ram }}
-                </div>
-                
+                <p><span class="ram-status {{ ram_status }}"></span> Nutzung: {{ current_ram }} / {{ total_ram }}</p>
+            </div>
+            {% elif section == 'message_history' %}
+            <div class="message-history">
+                <h2>{{ translations['message_history'] }}</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Zeit</th>
+                            <th>Kanal</th>
+                            <th>Nachricht</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for msg in messages %}
+                        <tr>
+                            <td>{{ msg.timestamp }}</td>
+                            <td>{{ msg.channel }}</td>
+                            <td>{{ msg.message }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
             {% else %}
             <h1>{{ translations['welcome'] }}</h1>

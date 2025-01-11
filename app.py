@@ -52,7 +52,19 @@ def account_management():
 @app.route("/message-history")
 def message_history():
     lang = session.get("language", "de")
-    return render_template("dashboard.html", section="message_history", lang=lang, translations=translations[lang])
+    # Simulierte Nachrichten
+    messages = [
+        {"timestamp": "2025-01-10 12:00:00", "channel": "CryptoAlerts", "message": "BTC/USD Buy @ 34000 TP1: 35000 SL: 33000"},
+        {"timestamp": "2025-01-10 12:05:00", "channel": "ForexSignals", "message": "EUR/USD Sell @ 1.1200 TP1: 1.1100 SL: 1.1300"},
+        {"timestamp": "2025-01-10 12:10:00", "channel": "StockMarket", "message": "AAPL Buy @ 150 TP1: 160 SL: 145"},
+    ]
+    return render_template(
+        "dashboard.html",
+        section="message_history",
+        lang=lang,
+        translations=translations[lang],
+        messages=messages
+    )
 
 @app.route("/health-check")
 def health_check():
