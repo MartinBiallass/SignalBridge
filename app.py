@@ -14,7 +14,7 @@ translations = {
         "linked_accounts": "Verknüpfte Konten",
         "account_management": "Kontoverwaltung",
         "message_history": "Nachrichtenverlauf",
-        "health_check": "Systemstatus",
+        "health_check": "System Cockpit",
         "backtest": "Backtest",
         "support": "Support",
         "help": "Hilfe",
@@ -26,7 +26,7 @@ translations = {
         "linked_accounts": "Linked Accounts",
         "account_management": "Account Management",
         "message_history": "Message History",
-        "health_check": "Health Check",
+        "health_check": "System Cockpit",
         "backtest": "Backtest",
         "support": "Support",
         "help": "Help",
@@ -43,16 +43,16 @@ def home():
 @app.route("/linked-accounts")
 def linked_accounts():
     lang = session.get("language", "de")
-    linked_accounts = [
-        {"platform": "Telegram", "status": "Verbunden", "last_sync": "2025-01-10 14:00"},
-        {"platform": "Discord", "status": "Nicht verbunden", "last_sync": "Nie"},
+    accounts = [
+        {"name": "Beispielkonto 1", "platform": "Telegram", "status": "Aktiv"},
+        {"name": "Beispielkonto 2", "platform": "Discord", "status": "Inaktiv"}
     ]
     return render_template(
         "dashboard.html",
         section="linked_accounts",
         lang=lang,
         translations=translations[lang],
-        linked_accounts=linked_accounts
+        accounts=accounts
     )
 
 @app.route("/account-management")
@@ -65,25 +65,26 @@ def message_history():
     lang = session.get("language", "de")
     with open("data/messages.json", "r") as file:
         messages = json.load(file)
-    
-    # Filter nach Kanal
-    channel_filter = request.args.get("channel")
-    if channel_filter:
-        messages = [msg for msg in messages if msg["channel"] == channel_filter]
+
+    channels = list(set(msg["channel"] for msg in messages))
+    selected_channel = request.args.get("channel", "all")
+
+    if selected_channel != "all":
+        messages = [msg for msg in messages if msg["channel"] == selected_channel]
 
     return render_template(
         "dashboard.html",
         section="message_history",
         lang=lang,
         translations=translations[lang],
-        messages=messages
+        messages=messages,
+        channels=channels,
+        selected_channel=selected_channel
     )
 
-@app.route("/health-check")
-def health_check():
+@app.route("/system-cockpit")
+def system_cockpit():
     lang = session.get("language", "de")
-    
-    # Simulierte Systemstatus-Daten
     system_status = {
         "telegram_status": "Verbunden",
         "server_status": "Läuft",
@@ -94,19 +95,11 @@ def health_check():
         "functions_version": "2.0.5",
         "interface_version": "1.0.0"
     }
-    
-    # RAM-Nutzung simulieren
-    current_ram = 3.16  # In GB
-    total_ram = 4.0     # In GB
+    current_ram = 3.16
+    total_ram = 4.0
     ram_percentage = (current_ram / total_ram) * 100
+    ram_status = "ok" if ram_percentage <= 70 else "warn" if ram_percentage <= 90 else "critical"
 
-    if ram_percentage <= 70:
-        ram_status = "ok"
-    elif ram_percentage <= 90:
-        ram_status = "warn"
-    else:
-        ram_status = "critical"
-    
     return render_template(
         "dashboard.html",
         section="health_check",
@@ -118,6 +111,7 @@ def health_check():
         ram_status=ram_status
     )
 
+
 @app.route("/backtest")
 def backtest():
     lang = session.get("language", "de")
@@ -127,6 +121,7 @@ def backtest():
         lang=lang,
         translations=translations[lang]
     )
+
 
 @app.route("/support")
 def support():

@@ -50,15 +50,10 @@
             {% elif section == 'message_history' %}
             <div class="message-history">
                 <h2>{{ translations['message_history'] }}</h2>
-                <div class="filters">
-                    <form method="GET" action="/message-history">
-                        <label for="channel-filter">Kanal:</label>
-                        <input type="text" id="channel-filter" name="channel" placeholder="Kanalname eingeben">
-                        <label for="date-filter">Datum:</label>
-                        <input type="date" id="date-filter" name="date">
-                        <button type="submit">Filtern</button>
-                    </form>
-                </div>
+                <form method="GET" action="/message-history">
+                    <input type="text" name="filter" placeholder="Filter...">
+                    <button type="submit">Filtern</button>
+                </form>
                 <table>
                     <thead>
                         <tr>
@@ -82,7 +77,6 @@
             <div class="linked-accounts">
                 <h2>{{ translations['linked_accounts'] }}</h2>
                 <p>Hier könnten Ihre verknüpften Konten angezeigt werden. Diese Funktionalität wird demnächst verfügbar sein.</p>
-                <button>Konto hinzufügen</button>
                 <table>
                     <thead>
                         <tr>
@@ -114,15 +108,27 @@
                     </tbody>
                 </table>
             </div>
-            {% elif section == 'account_management' %}
-            <div class="account-management">
-                <h2>{{ translations['account_management'] }}</h2>
-                <p>Hier könnten Ihre Kontoeinstellungen angezeigt und bearbeitet werden. Bleiben Sie dran!</p>
+            {% elif section == 'support' %}
+            <div class="support">
+                <h2>{{ translations['support'] }}</h2>
+                <form method="POST" action="/support">
+                    <label for="subject">Betreff:</label>
+                    <input type="text" id="subject" name="subject">
+
+                    <label for="description">Beschreibung:</label>
+                    <textarea id="description" name="description"></textarea>
+
+                    <button type="submit">Anfrage senden</button>
+                </form>
             </div>
-            {% elif section == 'backtest' %}
-            <div class="coming-soon">
-                <h2>Coming Soon</h2>
-                <p>Diese Funktionalität wird in einer zukünftigen Premium-Version verfügbar sein.</p>
+            {% elif section == 'help' %}
+            <div class="help">
+                <h2>{{ translations['help'] }}</h2>
+                <p>Hier finden Sie häufig gestellte Fragen und Anleitungen.</p>
+                <ul>
+                    <li><a href="#">Wie verbinde ich Telegram?</a></li>
+                    <li><a href="#">Wie passe ich mein Konto an?</a></li>
+                </ul>
             </div>
             {% else %}
             <h1>{{ translations['welcome'] }}</h1>
