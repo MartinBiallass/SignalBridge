@@ -25,30 +25,14 @@
             <a href="/linked-accounts" class="{{ 'active' if section == 'linked_accounts' else '' }}" data-section="linked_accounts">{{ translations['linked_accounts'] }}</a>
             <a href="/account-management" class="{{ 'active' if section == 'account_management' else '' }}" data-section="account_management">{{ translations['account_management'] }}</a>
             <a href="/message-history" class="{{ 'active' if section == 'message_history' else '' }}" data-section="message_history">{{ translations['message_history'] }}</a>
-            <a href="/system-cockpit" class="{{ 'active' if section == 'system_cockpit' else '' }}" data-section="system_cockpit">System Cockpit</a>
+            <a href="/system-cockpit" class="{{ 'active' if section == 'system_cockpit' else '' }}" data-section="system_cockpit">{{ translations['health_check'] }}</a>
             <a href="/backtest" class="{{ 'active' if section == 'backtest' else '' }}" data-section="backtest">{{ translations['backtest'] }}</a>
             <a href="/support" class="{{ 'active' if section == 'support' else '' }}" data-section="support">{{ translations['support'] }}</a>
             <a href="/help" class="{{ 'active' if section == 'help' else '' }}" data-section="help">{{ translations['help'] }}</a>
         </div>
 
         <div class="main-content">
-            {% if section == 'system_cockpit' %}
-            <div class="system-status">
-                <h2>{{ translations['health_check'] }}</h2>
-                <ul>
-                    <li>Telegram Status: {{ system_status.telegram_status }}</li>
-                    <li>Server Status: {{ system_status.server_status }}</li>
-                    <li>Lokaler Server Status: {{ system_status.local_server_status }}</li>
-                    <li>API Status: {{ system_status.api_status }}</li>
-                    <li>Software Version: {{ system_status.software_version }}</li>
-                    <li>Analyzer Version: {{ system_status.analyzer_version }}</li>
-                    <li>Functions Version: {{ system_status.functions_version }}</li>
-                    <li>Interface Version: {{ system_status.interface_version }}</li>
-                </ul>
-                <p><span class="ram-status {{ ram_status }}"></span> Nutzung: {{ current_ram }} / {{ total_ram }}</p>
-            </div>
-
-            {% elif section == 'message_history' %}
+            {% if section == 'message_history' %}
             <div class="message-history">
                 <h2>{{ translations['message_history'] }}</h2>
                 <form method="GET" action="/message-history">
@@ -59,8 +43,11 @@
                         <option value="{{ channel }}" {{ 'selected' if selected_channel == channel else '' }}>{{ channel }}</option>
                         {% endfor %}
                     </select>
+                    <label for="date">Datum:</label>
+                    <input type="date" id="date" name="date">
                     <button type="submit">Filtern</button>
                 </form>
+                {% if messages %}
                 <table>
                     <thead>
                         <tr>
@@ -79,6 +66,9 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                {% else %}
+                <p>Keine Nachrichten gefunden. Bitte ändern Sie die Filteroptionen.</p>
+                {% endif %}
             </div>
 
             {% elif section == 'linked_accounts' %}
@@ -109,6 +99,22 @@
                 </table>
             </div>
 
+            {% elif section == 'system_cockpit' %}
+            <div class="system-cockpit">
+                <h2>{{ translations['health_check'] }}</h2>
+                <ul>
+                    <li>Telegram Status: {{ system_status.telegram_status }}</li>
+                    <li>Server Status: {{ system_status.server_status }}</li>
+                    <li>Lokaler Server Status: {{ system_status.local_server_status }}</li>
+                    <li>API Status: {{ system_status.api_status }}</li>
+                    <li>Software Version: {{ system_status.software_version }}</li>
+                    <li>Analyzer Version: {{ system_status.analyzer_version }}</li>
+                    <li>Functions Version: {{ system_status.functions_version }}</li>
+                    <li>Interface Version: {{ system_status.interface_version }}</li>
+                </ul>
+                <p><span class="ram-status {{ ram_status }}"></span> Nutzung: {{ current_ram }} / {{ total_ram }}</p>
+            </div>
+
             {% elif section == 'backtest' %}
             <div class="coming-soon">
                 <h2>Coming Soon</h2>
@@ -128,6 +134,27 @@
                     <input type="file" id="attachment" name="attachment">
                     <button type="submit">Anfrage senden</button>
                 </form>
+                <h3>Ticketübersicht</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ticket-ID</th>
+                            <th>Betreff</th>
+                            <th>Status</th>
+                            <th>Letzte Aktualisierung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ticket in tickets %}
+                        <tr>
+                            <td>{{ ticket.id }}</td>
+                            <td>{{ ticket.subject }}</td>
+                            <td>{{ ticket.status }}</td>
+                            <td>{{ ticket.last_updated }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
 
             {% elif section == 'help' %}
@@ -135,15 +162,9 @@
                 <h2>{{ translations['help'] }}</h2>
                 <div class="faq-grid">
                     {% for faq in faqs %}
-                    <div class="faq-tile" data-faq="{{ faq.id }}">
-                        <h3>{{ faq.title }}</h3>
-                    </div>
-                    <div id="{{ faq.id }}" class="modal hidden">
-                        <div class="modal-content">
-                            <span class="close">&times;</span>
-                            <h3>{{ faq.title }}</h3>
-                            <p>{{ faq.content }}</p>
-                        </div>
+                    <div class="faq-tile">
+                        <h3>{{ faq.question }}</h3>
+                        <p>{{ faq.answer }}</p>
                     </div>
                     {% endfor %}
                 </div>
