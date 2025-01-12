@@ -63,21 +63,21 @@ def account_management():
 @app.route("/message-history", methods=["GET"])
 def message_history():
     lang = session.get("language", "de")
-    with open("data/messages.json", "r") as file:
-        messages = json.load(file)
-
-    channels = list(set(msg["channel"] for msg in messages))
+    dummy_messages = [
+        {"timestamp": "2025-01-10 12:00", "channel": "CryptoAlerts", "message": "BTC/USD Buy @ 35000"},
+        {"timestamp": "2025-01-10 12:05", "channel": "ForexSignals", "message": "EUR/USD Sell @ 1.1000"},
+        {"timestamp": "2025-01-10 12:10", "channel": "StockMarket", "message": "AAPL Buy @ 150"},
+    ]
+    channels = list(set(msg["channel"] for msg in dummy_messages))
     selected_channel = request.args.get("channel", "all")
-
-    if selected_channel != "all":
-        messages = [msg for msg in messages if msg["channel"] == selected_channel]
+    filtered_messages = dummy_messages if selected_channel == "all" else [msg for msg in dummy_messages if msg["channel"] == selected_channel]
 
     return render_template(
         "dashboard.html",
         section="message_history",
         lang=lang,
         translations=translations[lang],
-        messages=messages,
+        messages=filtered_messages,
         channels=channels,
         selected_channel=selected_channel
     )
@@ -102,7 +102,7 @@ def system_cockpit():
 
     return render_template(
         "dashboard.html",
-        section="health_check",
+        section="system_cockpit",
         lang=lang,
         translations=translations[lang],
         system_status=system_status,
@@ -110,7 +110,6 @@ def system_cockpit():
         total_ram=f"{total_ram:.2f} GB",
         ram_status=ram_status
     )
-
 
 @app.route("/backtest")
 def backtest():
@@ -122,16 +121,32 @@ def backtest():
         translations=translations[lang]
     )
 
-
-@app.route("/support")
+@app.route("/support", methods=["GET", "POST"])
 def support():
     lang = session.get("language", "de")
+    if request.method == "POST":
+        subject = request.form.get("subject")
+        description = request.form.get("description")
+        file = request.files.get("attachment")
+        # Hier könnten wir die Datei speichern oder weitere Verarbeitung vornehmen.
+        print(f"Betreff: {subject}, Beschreibung: {description}, Datei: {file.filename if file else 'Keine Datei'}")
     return render_template("dashboard.html", section="support", lang=lang, translations=translations[lang])
 
 @app.route("/help")
 def help():
     lang = session.get("language", "de")
-    return render_template("dashboard.html", section="help", lang=lang, translations=translations[lang])
+    faqs = [
+        {"id": "faq1", "title": "Wie verbinde ich Telegram?", "content": "Gehen Sie zu den Einstellungen und klicken Sie auf 'Telegram verbinden'."},
+        {"id": "faq2", "title": "Wie passe ich mein Konto an?", "content": "Gehen Sie zu 'Kontoverwaltung' und bearbeiten Sie die Einstellungen."},
+        {"id": "faq3", "title": "Was mache ich bei Verbindungsproblemen?", "content": "Überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut."}
+    ]
+    return render_template(
+        "dashboard.html",
+        section="help",
+        lang=lang,
+        translations=translations[lang],
+        faqs=faqs
+    )
 
 @app.route("/set_language", methods=["POST"])
 def set_language():

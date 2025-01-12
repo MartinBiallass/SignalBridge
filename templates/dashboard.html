@@ -25,14 +25,14 @@
             <a href="/linked-accounts" class="{{ 'active' if section == 'linked_accounts' else '' }}" data-section="linked_accounts">{{ translations['linked_accounts'] }}</a>
             <a href="/account-management" class="{{ 'active' if section == 'account_management' else '' }}" data-section="account_management">{{ translations['account_management'] }}</a>
             <a href="/message-history" class="{{ 'active' if section == 'message_history' else '' }}" data-section="message_history">{{ translations['message_history'] }}</a>
-            <a href="/health-check" class="{{ 'active' if section == 'health_check' else '' }}" data-section="health_check">{{ translations['health_check'] }}</a>
+            <a href="/system-cockpit" class="{{ 'active' if section == 'system_cockpit' else '' }}" data-section="system_cockpit">System Cockpit</a>
             <a href="/backtest" class="{{ 'active' if section == 'backtest' else '' }}" data-section="backtest">{{ translations['backtest'] }}</a>
             <a href="/support" class="{{ 'active' if section == 'support' else '' }}" data-section="support">{{ translations['support'] }}</a>
             <a href="/help" class="{{ 'active' if section == 'help' else '' }}" data-section="help">{{ translations['help'] }}</a>
         </div>
 
         <div class="main-content">
-            {% if section == 'health_check' %}
+            {% if section == 'system_cockpit' %}
             <div class="system-status">
                 <h2>{{ translations['health_check'] }}</h2>
                 <ul>
@@ -47,11 +47,18 @@
                 </ul>
                 <p><span class="ram-status {{ ram_status }}"></span> Nutzung: {{ current_ram }} / {{ total_ram }}</p>
             </div>
+
             {% elif section == 'message_history' %}
             <div class="message-history">
                 <h2>{{ translations['message_history'] }}</h2>
                 <form method="GET" action="/message-history">
-                    <input type="text" name="filter" placeholder="Filter...">
+                    <label for="channel">Kanal:</label>
+                    <select id="channel" name="channel">
+                        <option value="all" {{ 'selected' if selected_channel == 'all' else '' }}>Alle Kanäle</option>
+                        {% for channel in channels %}
+                        <option value="{{ channel }}" {{ 'selected' if selected_channel == channel else '' }}>{{ channel }}</option>
+                        {% endfor %}
+                    </select>
                     <button type="submit">Filtern</button>
                 </form>
                 <table>
@@ -73,10 +80,10 @@
                     </tbody>
                 </table>
             </div>
+
             {% elif section == 'linked_accounts' %}
             <div class="linked-accounts">
                 <h2>{{ translations['linked_accounts'] }}</h2>
-                <p>Hier könnten Ihre verknüpften Konten angezeigt werden. Diese Funktionalität wird demnächst verfügbar sein.</p>
                 <table>
                     <thead>
                         <tr>
@@ -87,49 +94,61 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for account in accounts %}
                         <tr>
-                            <td>Beispielkonto 1</td>
-                            <td>Telegram</td>
-                            <td>Aktiv</td>
+                            <td>{{ account.name }}</td>
+                            <td>{{ account.platform }}</td>
+                            <td>{{ account.status }}</td>
                             <td>
                                 <button>Bearbeiten</button>
                                 <button>Entfernen</button>
                             </td>
                         </tr>
-                        <tr>
-                            <td>Beispielkonto 2</td>
-                            <td>Discord</td>
-                            <td>Inaktiv</td>
-                            <td>
-                                <button>Bearbeiten</button>
-                                <button>Entfernen</button>
-                            </td>
-                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
+
+            {% elif section == 'backtest' %}
+            <div class="coming-soon">
+                <h2>Coming Soon</h2>
+                <p>Diese Funktionalität wird in einer zukünftigen Premium-Version verfügbar sein.</p>
+                <p class="coming-soon-note">Upgrade auf Premium, um Zugriff auf diese Funktion zu erhalten!</p>
+            </div>
+
             {% elif section == 'support' %}
             <div class="support">
                 <h2>{{ translations['support'] }}</h2>
-                <form method="POST" action="/support">
+                <form method="POST" action="/support" enctype="multipart/form-data">
                     <label for="subject">Betreff:</label>
-                    <input type="text" id="subject" name="subject">
-
+                    <input type="text" id="subject" name="subject" required>
                     <label for="description">Beschreibung:</label>
-                    <textarea id="description" name="description"></textarea>
-
+                    <textarea id="description" name="description" required></textarea>
+                    <label for="attachment">Dateianhang:</label>
+                    <input type="file" id="attachment" name="attachment">
                     <button type="submit">Anfrage senden</button>
                 </form>
             </div>
+
             {% elif section == 'help' %}
             <div class="help">
                 <h2>{{ translations['help'] }}</h2>
-                <p>Hier finden Sie häufig gestellte Fragen und Anleitungen.</p>
-                <ul>
-                    <li><a href="#">Wie verbinde ich Telegram?</a></li>
-                    <li><a href="#">Wie passe ich mein Konto an?</a></li>
-                </ul>
+                <div class="faq-grid">
+                    {% for faq in faqs %}
+                    <div class="faq-tile" data-faq="{{ faq.id }}">
+                        <h3>{{ faq.title }}</h3>
+                    </div>
+                    <div id="{{ faq.id }}" class="modal hidden">
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <h3>{{ faq.title }}</h3>
+                            <p>{{ faq.content }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
+
             {% else %}
             <h1>{{ translations['welcome'] }}</h1>
             <p>{{ translations['select_area'] }}</p>
