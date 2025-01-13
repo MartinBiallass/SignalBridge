@@ -19,7 +19,10 @@ translations = {
         "support": "Support",
         "help": "Hilfe",
         "welcome": "Willkommen bei SignalBridge",
-        "select_area": "Wählen Sie einen Bereich aus der Navigation, um loszulegen."
+        "select_area": "Wählen Sie einen Bereich aus der Navigation, um loszulegen.",
+        "performance_overview": "Performance Übersicht",
+        "select_account": "Wählen Sie ein Konto aus:",
+        "account_protection": "Konto Schutz"
     },
     "en": {
         "home": "Home Page",
@@ -31,7 +34,10 @@ translations = {
         "support": "Support",
         "help": "Help",
         "welcome": "Welcome to SignalBridge",
-        "select_area": "Select a section from the navigation to get started."
+        "select_area": "Select a section from the navigation to get started.",
+        "performance_overview": "Performance Overview",
+        "select_account": "Select an account:",
+        "account_protection": "Equity Guardian"
     }
 }
 
@@ -43,10 +49,11 @@ def home():
 @app.route("/linked-accounts")
 def linked_accounts():
     lang = session.get("language", "de")
-    accounts = [
-        {"name": "Beispielkonto 1", "platform": "Telegram", "status": "Aktiv"},
-        {"name": "Beispielkonto 2", "platform": "Discord", "status": "Inaktiv"}
-    ]
+    try:
+        with open("data/accounts.json", "r") as file:
+            accounts = json.load(file)
+    except FileNotFoundError:
+        accounts = []
     return render_template(
         "dashboard.html",
         section="linked_accounts",
@@ -55,16 +62,63 @@ def linked_accounts():
         accounts=accounts
     )
 
-@app.route("/account-management")
+@app.route("/account-management", methods=["GET", "POST"])
 def account_management():
     lang = session.get("language", "de")
-    return render_template("dashboard.html", section="account_management", lang=lang, translations=translations[lang])
+    with open("data/accounts.json", "r") as file:
+        accounts = json.load(file)
+
+    if request.method == "POST":
+        selected_account = request.form.get("account")
+        account = next((acc for acc in accounts if acc["account_name"] == selected_account), None)
+        return render_template(
+            "dashboard.html",
+            section="performance_overview",
+            lang=lang,
+            translations=translations[lang],
+            account=account
+        )
+
+    return render_template(
+        "dashboard.html",
+        section="account_management",
+        lang=lang,
+        translations=translations[lang],
+        accounts=accounts
+    )
+
+@app.route("/provider-details/<provider_name>")
+def provider_details(provider_name):
+    lang = session.get("language", "de")
+    with open("data/accounts.json", "r") as file:
+        accounts = json.load(file)
+    
+    provider_data = None
+    for account in accounts:
+        for provider in account.get("performance", []):
+            if provider["name"] == provider_name:
+                provider_data = provider
+                break
+    
+    if not provider_data:
+        return "Provider not found", 404
+
+    return render_template(
+        "dashboard.html",
+        section="provider_details",
+        lang=lang,
+        translations=translations[lang],
+        provider=provider_data
+    )
 
 @app.route("/message-history", methods=["GET"])
 def message_history():
     lang = session.get("language", "de")
-    with open("data/messages.json", "r") as file:
-        messages = json.load(file)
+    try:
+        with open("data/messages.json", "r") as file:
+            messages = json.load(file)
+    except FileNotFoundError:
+        messages = []
 
     channels = list(set(msg["channel"] for msg in messages))
     selected_channel = request.args.get("channel", "all")
@@ -101,8 +155,8 @@ def system_cockpit():
     ram_status = "ok" if ram_percentage <= 70 else "warn" if ram_percentage <= 90 else "critical"
 
     return render_template(
-        "health_check.html",
-        section="health_check",
+        "dashboard.html",
+        section="system_cockpit",
         lang=lang,
         translations=translations[lang],
         system_status=system_status,

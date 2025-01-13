@@ -32,7 +32,104 @@
         </div>
 
         <div class="main-content">
-            {% if section == 'message_history' %}
+            {% if section == 'linked_accounts' %}
+            <div class="linked-accounts">
+                <h2>{{ translations['linked_accounts'] }}</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Konto</th>
+                            <th>Plattform</th>
+                            <th>Status</th>
+                            <th>Aktionen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for account in accounts %}
+                        <tr>
+                            <td>{{ account.name }}</td>
+                            <td>{{ account.platform }}</td>
+                            <td>{{ account.status }}</td>
+                            <td>
+                                <button>Bearbeiten</button>
+                                <button>Entfernen</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% if not accounts %}
+                <p>Keine verknüpften Konten vorhanden. Bitte ein Konto hinzufügen.</p>
+                {% endif %}
+            </div>
+            {% elif section == 'account_management' %}
+            <div class="account-management">
+                <h2>{{ translations['account_management'] }}</h2>
+                <form method="POST" action="/account-management">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Konto</th>
+                                <th>Plattform</th>
+                                <th>Guthaben</th>
+                                <th>Währung</th>
+                                <th>Verknüpfte Signalgeber</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for account in accounts %}
+                            <tr>
+                                <td>
+                                    <button type="submit" name="account" value="{{ account.account_name }}" class="account-select-button">
+                                        {{ account.account_name }}
+                                    </button>
+                                </td>
+                                <td>{{ account.platform }}</td>
+                                <td>{{ account.balance }}</td>
+                                <td>{{ account.currency }}</td>
+                                <td>{{ account.linked_signal_providers | join(', ') }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </form>
+                {% if not accounts %}
+                <p>Keine Konten vorhanden. Bitte eine Datei <code>accounts.json</code> erstellen und Kontodaten einfügen.</p>
+                {% endif %}
+            </div>
+            {% elif section == 'performance_overview' %}
+            <div class="performance-overview">
+                <h2>{{ translations['performance_overview'] }}</h2>
+                <p>{{ translations['select_account'] }} {{ account.account_name }}</p>
+                <ul>
+                    <li>Plattform: {{ account.platform }}</li>
+                    <li>Guthaben: {{ account.balance }}</li>
+                    <li>Währung: {{ account.currency }}</li>
+                    <li>Verknüpfte Signalgeber: {{ account.linked_signal_providers | join(', ') }}</li>
+                </ul>
+                <h3>Performance Übersicht</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Signalgeber</th>
+                            <th>Trades</th>
+                            <th>Gewinn/Verlust</th>
+                            <th>Erfolgsrate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for provider in account.performance %}
+                        <tr>
+                            <td><a href="/provider-details/{{ provider.name }}">{{ provider.name }}</a></td>
+                            <td>{{ provider.trades }}</td>
+                            <td>{{ provider.profit_loss }}</td>
+                            <td>{{ provider.success_rate }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% elif section == 'message_history' %}
             <div class="message-history">
                 <h2>{{ translations['message_history'] }}</h2>
                 <form method="GET" action="/message-history">
@@ -70,35 +167,6 @@
                 <p>Keine Nachrichten gefunden. Bitte ändern Sie die Filteroptionen.</p>
                 {% endif %}
             </div>
-
-            {% elif section == 'linked_accounts' %}
-            <div class="linked-accounts">
-                <h2>{{ translations['linked_accounts'] }}</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Konto</th>
-                            <th>Plattform</th>
-                            <th>Status</th>
-                            <th>Aktionen</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for account in accounts %}
-                        <tr>
-                            <td>{{ account.name }}</td>
-                            <td>{{ account.platform }}</td>
-                            <td>{{ account.status }}</td>
-                            <td>
-                                <button>Bearbeiten</button>
-                                <button>Entfernen</button>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-
             {% elif section == 'system_cockpit' %}
             <div class="system-cockpit">
                 <h2>{{ translations['health_check'] }}</h2>
@@ -114,14 +182,12 @@
                 </ul>
                 <p><span class="ram-status {{ ram_status }}"></span> Nutzung: {{ current_ram }} / {{ total_ram }}</p>
             </div>
-
             {% elif section == 'backtest' %}
             <div class="coming-soon">
                 <h2>Coming Soon</h2>
                 <p>Diese Funktionalität wird in einer zukünftigen Premium-Version verfügbar sein.</p>
                 <p class="coming-soon-note">Upgrade auf Premium, um Zugriff auf diese Funktion zu erhalten!</p>
             </div>
-
             {% elif section == 'support' %}
             <div class="support">
                 <h2>{{ translations['support'] }}</h2>
@@ -156,7 +222,6 @@
                     </tbody>
                 </table>
             </div>
-
             {% elif section == 'help' %}
             <div class="help">
                 <h2>{{ translations['help'] }}</h2>
@@ -169,7 +234,6 @@
                     {% endfor %}
                 </div>
             </div>
-
             {% else %}
             <h1>{{ translations['welcome'] }}</h1>
             <p>{{ translations['select_area'] }}</p>

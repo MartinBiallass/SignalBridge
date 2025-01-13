@@ -1,0 +1,39 @@
+[
+    {
+        "account_name": "Konto 1",
+        "platform": "MT4",
+        "balance": 10000,
+        "currency": "USD",
+        "linked_signal_providers": ["Provider A", "Provider B"],
+        "performance": [
+            {
+                "name": "Provider A",
+                "trades": 50,
+                "profit_loss": "+$1200",
+                "success_rate": 65
+            },
+            {
+                "name": "Provider B",
+                "trades": 30,
+                "profit_loss": "-$300",
+                "success_rate": 50
+            }
+        ]
+    },
+    {
+        "account_name": "Konto 2",
+        "platform": "MT5",
+        "balance": 5000,
+        "currency": "EUR",
+        "linked_signal_providers": ["Provider C"],
+        "performance": [
+            {
+                "name": "Provider C",
+                "trades": 40,
+                "profit_loss": "+$500",
+                "success_rate": 70
+            }
+        ]
+    }
+]
+
