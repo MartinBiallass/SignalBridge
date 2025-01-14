@@ -87,6 +87,25 @@ def account_management():
         accounts=accounts
     )
 
+@app.route("/performance-overview")
+def performance_overview():
+    lang = session.get("language", "de")
+    # Testdaten für Performance
+    performance_data = {
+        "profit_total": 1200.50,
+        "profit_month": 300.25,
+        "profit_week": 75.60,
+        "initial_balance": 5000.00,
+        "drawdown": 2.34
+    }
+    return render_template(
+        "dashboard.html",
+        section="performance_overview",
+        lang=lang,
+        translations=translations[lang],
+        performance=performance_data
+    )
+
 @app.route("/provider-details/<provider_name>")
 def provider_details(provider_name):
     lang = session.get("language", "de")

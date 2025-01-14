@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SignalBridge Dashboard</title>
     <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/static/script.js" defer></script>
 </head>
 <body data-section="{{ section }}">
@@ -100,34 +101,87 @@
             {% elif section == 'performance_overview' %}
             <div class="performance-overview">
                 <h2>{{ translations['performance_overview'] }}</h2>
-                <p>{{ translations['select_account'] }} {{ account.account_name }}</p>
-                <ul>
-                    <li>Plattform: {{ account.platform }}</li>
-                    <li>Guthaben: {{ account.balance }}</li>
-                    <li>Währung: {{ account.currency }}</li>
-                    <li>Verknüpfte Signalgeber: {{ account.linked_signal_providers | join(', ') }}</li>
-                </ul>
-                <h3>Performance Übersicht</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Signalgeber</th>
-                            <th>Trades</th>
-                            <th>Gewinn/Verlust</th>
-                            <th>Erfolgsrate</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for provider in account.performance %}
-                        <tr>
-                            <td><a href="/provider-details/{{ provider.name }}">{{ provider.name }}</a></td>
-                            <td>{{ provider.trades }}</td>
-                            <td>{{ provider.profit_loss }}</td>
-                            <td>{{ provider.success_rate }}%</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                <div class="kpi-container">
+                    <div class="kpi-item">
+                        <span class="kpi-title">Profit Total</span>
+                        <span class="kpi-value">{{ account.total_profit }} $</span>
+                    </div>
+                    <div class="kpi-item">
+                        <span class="kpi-title">Profit Monat</span>
+                        <span class="kpi-value">{{ account.monthly_profit }} $</span>
+                    </div>
+                    <div class="kpi-item">
+                        <span class="kpi-title">Profit Woche</span>
+                        <span class="kpi-value">{{ account.weekly_profit }} $</span>
+                    </div>
+                    <div class="kpi-item">
+                        <span class="kpi-title">Initial Balance</span>
+                        <span class="kpi-value">{{ account.initial_balance }} $</span>
+                    </div>
+                    <div class="kpi-item">
+                        <span class="kpi-title">Drawdown</span>
+                        <span class="kpi-value">{{ account.drawdown }} %</span>
+                    </div>
+                </div>
+                <h3>Performance Charts</h3>
+                <div class="chart-container">
+                    <canvas id="growth-chart"></canvas>
+                    <canvas id="drawdown-chart"></canvas>
+                </div>
+                <script>
+                    const growthData = {
+                        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+                        datasets: [{
+                            label: "Growth",
+                            data: [1000, 1500, 2000, 2500, 3000, 3500, 4000],
+                            borderColor: "#4CAF50",
+                            backgroundColor: "rgba(76, 175, 80, 0.2)",
+                            fill: true,
+                        }]
+                    };
+
+                    const drawdownData = {
+                        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+                        datasets: [{
+                            label: "Drawdown",
+                            data: [5, 10, 15, 20, 10, 5, 0],
+                            borderColor: "#FF5722",
+                            backgroundColor: "rgba(255, 87, 34, 0.2)",
+                            fill: true,
+                        }]
+                    };
+
+                    const configGrowth = {
+                        type: "line",
+                        data: growthData,
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: { position: "top" },
+                                title: { display: true, text: "Growth Chart" }
+                            }
+                        }
+                    };
+
+                    const configDrawdown = {
+                        type: "line",
+                        data: drawdownData,
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: { position: "top" },
+                                title: { display: true, text: "Drawdown Chart" }
+                            }
+                        }
+                    };
+
+                    window.onload = function() {
+                        const ctxGrowth = document.getElementById("growth-chart").getContext("2d");
+                        const ctxDrawdown = document.getElementById("drawdown-chart").getContext("2d");
+                        new Chart(ctxGrowth, configGrowth);
+                        new Chart(ctxDrawdown, configDrawdown);
+                    };
+                </script>
             </div>
             {% elif section == 'message_history' %}
             <div class="message-history">
