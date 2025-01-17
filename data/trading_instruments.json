@@ -1,0 +1,158 @@
+{
+    "categories": {
+        "Cryptocurrencies": [
+            {
+                "symbol": "ADAUSD",
+                "name": "Cardano vs US Dollar"
+            },
+            {
+                "symbol": "DOGUSD",
+                "name": "Doge Coin vs US Dollar"
+            },
+            {
+                "symbol": "ETHUSD",
+                "name": "Ethereum vs US Dollar"
+            },
+            {
+                "symbol": "LNKUSD",
+                "name": "Link vs US Dollar"
+            },
+            {
+                "symbol": "LTCUSD",
+                "name": "Litecoin vs US Dollar"
+            },
+            {
+                "symbol": "XLMUSD",
+                "name": "Stellar vs US Dollar"
+            },
+            {
+                "symbol": "XMRUSD",
+                "name": "Monero vs US Dollar"
+            },
+            {
+                "symbol": "XRPUSD",
+                "name": "Ripple vs US Dollar"
+            }
+        ],
+        "Energy": [
+            {
+                "symbol": "XBRUSD",
+                "name": "UK Brent Spot vs US Dollar"
+            },
+            {
+                "symbol": "XTIUSD",
+                "name": "US Crude Spot vs US Dollar"
+            }
+        ],
+        "Commodities": [
+            {
+                "symbol": "WHEAT",
+                "name": "Wheat"
+            },
+            {
+                "symbol": "WTI",
+                "name": "Spot WTI Light Crude Oil"
+            }
+        ],
+        "Futures": [
+            {
+                "symbol": "BADGERUSDTf.t",
+                "name": "BADGER vs USDT"
+            },
+            {
+                "symbol": "BALUSDTf.t",
+                "name": "BAL vs USDT"
+            },
+            {
+                "symbol": "BANDUSDTf.t",
+                "name": "BAND vs USDT"
+            },
+            {
+                "symbol": "BCHUSDTf.t",
+                "name": "BCH vs USDT"
+            }
+        ],
+        "Forex": [
+            {"symbol": "EURUSD", "name": "Euro vs US Dollar"},
+            {"symbol": "USDJPY", "name": "US Dollar vs Japanese Yen"},
+            {"symbol": "GBPUSD", "name": "British Pound vs US Dollar"},
+            {"symbol": "USDCHF", "name": "US Dollar vs Swiss Franc"},
+            {"symbol": "AUDUSD", "name": "Australian Dollar vs US Dollar"},
+            {"symbol": "USDCAD", "name": "US Dollar vs Canadian Dollar"},
+            {"symbol": "NZDUSD", "name": "New Zealand Dollar vs US Dollar"},
+            {"symbol": "EURJPY", "name": "Euro vs Japanese Yen"},
+            {"symbol": "EURGBP", "name": "Euro vs British Pound"},
+            {"symbol": "GBPJPY", "name": "British Pound vs Japanese Yen"},
+            {"symbol": "EURCHF", "name": "Euro vs Swiss Franc"},
+            {"symbol": "AUDJPY", "name": "Australian Dollar vs Japanese Yen"},
+            {"symbol": "AUDNZD", "name": "Australian Dollar vs New Zealand Dollar"},
+            {"symbol": "CADJPY", "name": "Canadian Dollar vs Japanese Yen"},
+            {"symbol": "CHFJPY", "name": "Swiss Franc vs Japanese Yen"},
+            {"symbol": "EURAUD", "name": "Euro vs Australian Dollar"},
+            {"symbol": "EURNZD", "name": "Euro vs New Zealand Dollar"},
+            {"symbol": "EURCAD", "name": "Euro vs Canadian Dollar"},
+            {"symbol": "GBPAUD", "name": "British Pound vs Australian Dollar"},
+            {"symbol": "GBPCAD", "name": "British Pound vs Canadian Dollar"},
+            {"symbol": "GBPCHF", "name": "British Pound vs Swiss Franc"},
+            {"symbol": "GBPNZD", "name": "British Pound vs New Zealand Dollar"},
+            {"symbol": "NZDJPY", "name": "New Zealand Dollar vs Japanese Yen"},
+            {"symbol": "NZDCHF", "name": "New Zealand Dollar vs Swiss Franc"},
+            {"symbol": "AUDCAD", "name": "Australian Dollar vs Canadian Dollar"},
+            {"symbol": "AUDCHF", "name": "Australian Dollar vs Swiss Franc"},
+            {"symbol": "CADCHF", "name": "Canadian Dollar vs Swiss Franc"},
+            {"symbol": "USDNOK", "name": "US Dollar vs Norwegian Krone"},
+            {"symbol": "USDSEK", "name": "US Dollar vs Swedish Krona"},
+            {"symbol": "USDSGD", "name": "US Dollar vs Singapore Dollar"}
+        ],
+        "Indices": [
+            {
+                "symbol": "AUS200",
+                "name": "Australia 200 Cash Index"
+            },
+            {
+                "symbol": "EUSTX50",
+                "name": "Euro 50 Cash index"
+            },
+            {
+                "symbol": "FRA40",
+                "name": "France 40 Cash Index"
+            },
+            {
+                "symbol": "GER30",
+                "name": "Germany 40 Cash Index"
+            }
+        ],
+        "Metals": [
+            {
+                "symbol": "XAGUSD.b",
+                "name": "Silver vs US Dollar"
+            },
+            {
+                "symbol": "XPDUSD.b",
+                "name": "Palladium Spot United States Dollar"
+            },
+            {
+                "symbol": "XPTUSD.b",
+                "name": "Platinum troy ounce"
+            }
+        ],
+        "Stocks": [
+            {
+                "symbol": "ALIBABA.b",
+                "name": "Alibaba"
+            },
+            {
+                "symbol": "APPLE.b",
+                "name": "Apple"
+            },
+            {
+                "symbol": "DISNEY.b",
+                "name": "Walt Disney Company"
+            },
+            {
+                "symbol": "GOOGLE.b",
+                "name": "Alphabet Inc"
+            }
+        ]
+    }
+}

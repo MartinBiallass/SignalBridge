@@ -1,11 +1,15 @@
 from flask import Flask, render_template, request, jsonify, session
 from flask_session import Session
 import json
+from api_signal_processing import app as api_app
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
+
+# Registrierung der API
+app.register_blueprint(api_app, url_prefix="/api")
 
 # Sprachkonfigurationen
 translations = {
