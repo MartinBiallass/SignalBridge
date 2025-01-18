@@ -4,143 +4,133 @@ import os
 
 api_app = Blueprint("api_app", __name__)
 
-# Dateipfad für die Risikoeinstellungen
-RISK_MANAGEMENT_FILE = "data/risk_management.json"
+# Dateipfade für Daten
 KEYWORDS_FILE = "data/signal_keywords.json"
+TRADES_FILE = "data/trades.json"
 
-# Utility-Funktionen
-
-def load_risk_management():
-    """Lade die Risikoeinstellungen."""
-    if not os.path.exists(RISK_MANAGEMENT_FILE):
-        return {"signal_providers": {}}
-    with open(RISK_MANAGEMENT_FILE, "r") as file:
-        return json.load(file)
-
-def save_risk_management(data):
-    """Speichere die Risikoeinstellungen."""
-    with open(RISK_MANAGEMENT_FILE, "w") as file:
-        json.dump(data, file, indent=4)
-
+# Hilfsfunktionen
 def load_keywords():
-    """Lade die Schlüsselwörter für Signalgeber."""
+    """Lade die Schlüsselwörter aus der Datei."""
     if not os.path.exists(KEYWORDS_FILE):
         return {}
     with open(KEYWORDS_FILE, "r") as file:
         return json.load(file)
 
 def save_keywords(data):
-    """Speichere die Schlüsselwörter für Signalgeber."""
+    """Speichere die Schlüsselwörter in die Datei."""
     with open(KEYWORDS_FILE, "w") as file:
         json.dump(data, file, indent=4)
 
-# API-Endpunkte
+def load_trades():
+    """Lade die aktuellen Trades."""
+    if not os.path.exists(TRADES_FILE):
+        return {}
+    with open(TRADES_FILE, "r") as file:
+        return json.load(file)
 
-@api_app.route("/get_risk_settings/<provider>", methods=["GET"])
-def get_risk_settings(provider):
-    """Hole die Risikoeinstellungen eines Signalgebers."""
-    data = load_risk_management()
-    settings = data.get("signal_providers", {}).get(provider, {})
-    return jsonify(settings)
+def save_trades(data):
+    """Speichere die aktuellen Trades."""
+    with open(TRADES_FILE, "w") as file:
+        json.dump(data, file, indent=4)
 
-@api_app.route("/update_risk_settings/<provider>", methods=["POST"])
-def update_risk_settings(provider):
-    """Aktualisiere die Risikoeinstellungen eines Signalgebers."""
-    try:
-        new_settings = request.get_json()
-        data = load_risk_management()
-        if "signal_providers" not in data:
-            data["signal_providers"] = {}
-        data["signal_providers"][provider] = new_settings
-        save_risk_management(data)
-        return jsonify({"message": "Risk settings updated successfully"})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 400
-
-@api_app.route("/calculate_lot_size", methods=["POST"])
-def calculate_lot_size():
-    """Berechne die Lotgröße basierend auf den Risikoeinstellungen."""
-    try:
-        request_data = request.get_json()
-        provider = request_data.get("provider", "default_provider")
-        account_balance = request_data.get("account_balance", 0)
-        stop_loss_pips = request_data.get("stop_loss_pips", 0)
-        pip_value = request_data.get("pip_value", 0)
-
-        # Lade die Risikoeinstellungen
-        data = load_risk_management()
-        provider_settings = data.get("signal_providers", {}).get(provider, {})
-
-        risk_mode = provider_settings.get("risk_mode", "percent")
-        risk_value = provider_settings.get("risk_value", 0)
-        fixed_amount = provider_settings.get("fixed_amount", 0)
-
-        # Berechne das Risiko
-        if risk_mode == "percent":
-            risk_amount = (risk_value / 100) * account_balance
-        elif risk_mode == "fixed":
-            risk_amount = fixed_amount
-        else:
-            return jsonify({"error": "Invalid risk mode"}), 400
-
-        # Berechnung der Lotgröße
-        lot_size = round(risk_amount / (stop_loss_pips * pip_value), 2)
-        return jsonify({
-            "provider": provider,
-            "account_balance": account_balance,
-            "risk_mode": risk_mode,
-            "risk_value": risk_value,
-            "fixed_amount": fixed_amount,
-            "calculated_lot_size": lot_size
-        })
-    except Exception as e:
-        return jsonify({"error": str(e)}), 400
+# API-Routen
 
 @api_app.route("/get_keywords/<provider>", methods=["GET"])
 def get_keywords(provider):
-    """Hole die Schlüsselwörter eines Signalgebers."""
-    data = load_keywords()
-    keywords = data.get(provider, {})
-    return jsonify(keywords)
+    """Hole die Schlüsselwörter für einen Signalgeber."""
+    keywords = load_keywords()
+    return jsonify(keywords.get(provider, {}))
 
 @api_app.route("/update_keywords/<provider>", methods=["POST"])
 def update_keywords(provider):
-    """Aktualisiere die Schlüsselwörter eines Signalgebers."""
+    """Aktualisiere die Schlüsselwörter für einen Signalgeber."""
     try:
         new_keywords = request.get_json()
-        data = load_keywords()
-        data[provider] = new_keywords
-        save_keywords(data)
+        keywords = load_keywords()
+        keywords[provider] = new_keywords
+        save_keywords(keywords)
         return jsonify({"message": "Keywords updated successfully"})
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
-@api_app.route("/process_message", methods=["POST"])
-def process_message():
-    """Verarbeite eine Nachricht basierend auf den Schlüsselwörtern."""
+@api_app.route("/process_signal", methods=["POST"])
+def process_signal():
+    """Verarbeite ein Signal basierend auf den Schlüsselwörtern."""
     try:
-        data = request.get_json()
-        signal_provider = data.get("signal_provider", "default")
-        message = data.get("message", "").lower()
+        signal_data = request.get_json()
+        provider = signal_data.get("provider", "default_provider")
+        message = signal_data.get("message", "")
 
-        # Lade Schlüsselwörter für den Signalgeber
-        keywords = load_keywords().get(signal_provider, {})
+        # Lade die Schlüsselwörter
+        keywords = load_keywords()
+        provider_keywords = keywords.get(provider, {})
 
-        # Prüfe Nachricht auf Schlüsselwörter
+        # Lade Trades
+        trades = load_trades()
+
+        # Aktionen basierend auf Schlüsselwörtern
         actions = []
 
-        if any(keyword in message for keyword in keywords.get("close_signal", [])):
-            actions.append("close_signal")
-        if any(keyword in message for keyword in keywords.get("close_half", [])):
-            actions.append("close_half")
-        if any(keyword in message for keyword in keywords.get("move_sl_entry", [])):
-            actions.append("move_sl_entry")
-        if any(keyword in message for keyword in keywords.get("remove_sl", [])):
-            actions.append("remove_sl")
-        if any(keyword in message for keyword in keywords.get("close_pending_order", [])):
-            actions.append("close_pending_order")
+        if "change_sl" in provider_keywords and provider_keywords["change_sl"] in message:
+            new_sl = extract_number_from_message(message, provider_keywords["change_sl"])
+            trades["stop_loss"] = new_sl
+            actions.append(f"Stop Loss updated to {new_sl}")
 
-        # Rückgabe der erkannten Aktionen
-        return jsonify({"recognized_actions": actions})
+        if "change_tp" in provider_keywords and provider_keywords["change_tp"] in message:
+            new_tp = extract_number_from_message(message, provider_keywords["change_tp"])
+            trades["take_profit"] = new_tp
+            actions.append(f"Take Profit updated to {new_tp}")
+
+        if "change_entry" in provider_keywords and provider_keywords["change_entry"] in message:
+            new_entry = extract_number_from_message(message, provider_keywords["change_entry"])
+            trades["entry_point"] = new_entry
+            actions.append(f"Entry Point updated to {new_entry}")
+
+        if "reenter" in provider_keywords and provider_keywords["reenter"] in message:
+            actions.append("Re-enter trade executed")
+
+        if "close_half" in provider_keywords and provider_keywords["close_half"] in message:
+            actions.append("Half of the position closed")
+
+        if "move_sl_to_entry" in provider_keywords and provider_keywords["move_sl_to_entry"] in message:
+            trades["stop_loss"] = trades.get("entry_point", trades.get("stop_loss"))
+            actions.append("Stop Loss moved to entry point")
+
+        # Speichere die aktualisierten Trades
+        save_trades(trades)
+
+        return jsonify({"actions": actions, "updated_trades": trades})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+# Hilfsfunktion für die Extraktion von Zahlen
+def extract_number_from_message(message, keyword):
+    """Extrahiere eine Zahl aus einer Nachricht nach einem Schlüsselwort."""
+    try:
+        keyword_index = message.lower().find(keyword.lower())
+        if keyword_index == -1:
+            return None
+        after_keyword = message[keyword_index + len(keyword):]
+        number = "".join(c for c in after_keyword if c.isdigit() or c == ".").strip()
+        return float(number) if number else None
+    except Exception as e:
+        return None
+
+@api_app.route("/close_trade", methods=["POST"])
+def close_trade():
+    """Schließe einen Trade vollständig."""
+    try:
+        trade_data = request.get_json()
+        trade_id = trade_data.get("trade_id")
+
+        # Lade Trades
+        trades = load_trades()
+
+        if trade_id in trades:
+            del trades[trade_id]
+            save_trades(trades)
+            return jsonify({"message": f"Trade {trade_id} closed successfully"})
+        else:
+            return jsonify({"error": "Trade not found"}), 404
     except Exception as e:
         return jsonify({"error": str(e)}), 400
