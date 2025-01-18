@@ -2,65 +2,59 @@ from flask import Blueprint, request, jsonify
 
 api_app = Blueprint("api_app", __name__)
 
-def calculate_lot_size(account_balance, risk_mode, risk_value, stop_loss_pips, pip_value):
-    """Berechnet die Lotgröße basierend auf dem Risikomanagement."""
-    try:
-        if risk_mode == "fixed_lots":
-            return risk_value  # Feste Lotgröße
-        elif risk_mode == "fixed_cash":
-            return round(risk_value / (stop_loss_pips * pip_value), 5)
-        elif risk_mode == "percent":
-            risk_amount = (risk_value / 100) * account_balance
-            return round(risk_amount / (stop_loss_pips * pip_value), 5)
-        else:
-            raise ValueError("Ungültiger Risikomodus")
-    except Exception as e:
-        print("Fehler bei der Lotgrößenberechnung:", e)
-        return 0
-
-@api_app.route("/process_signal_with_cases", methods=["POST"])
-def process_signal_with_cases():
+@api_app.route("/process_signal_with_tp", methods=["POST"])
+def process_signal_with_tp():
     try:
         data = request.get_json()
         print("Received Data:", data)  # Debugging
+
         signal_text = data.get("signal_text", "")
         user_options = data.get("user_options", {})
 
         # Dummy parsed signal (ersetzbar durch echte Parsing-Logik)
         parsed_signal = {
             "symbol": "EURUSD",
-            "action": "Sell",
-            "entry_price": 1.12345,
-            "stop_loss": 1.12000,
-            "take_profits": [1.12500, 1.12600],
-            "pip_value": 10,  # Beispielhafter Pip-Wert (kann später dynamisch ermittelt werden)
-            "stop_loss_pips": 50  # Beispielhafte Anzahl an Pips für SL
+            "action": "Buy",
+            "entry_price": data.get("entry_price", 1.12345),
+            "stop_loss": data.get("stop_loss", 1.12000),
+            "take_profits": []
         }
 
-        # Manuelle SL/TP-Optionen anwenden
-        if user_options.get("manual_sl_tp"):
-            manual_sl = user_options.get("manual_sl")
-            manual_tp = user_options.get("manual_tp")
+        # Verarbeite Take-Profit-Level
+        tp_levels = user_options.get("take_profit_levels", [])
+        lot_size = user_options.get("lot_size", 0.1)
 
-            if manual_sl:
-                parsed_signal["stop_loss"] = manual_sl
-            if manual_tp:
-                parsed_signal["take_profits"] = manual_tp
+        remaining_lot = lot_size
+        for i, tp in enumerate(tp_levels):
+            tp_percentage = tp.get("tp_percentage", 0) / 100
+            tp_strategy = tp.get("strategy", "Default")
+            offset_pips = tp.get("offset_pips", 0)
 
-        # Risikomanagement anwenden
-        risk_mode = user_options.get("risk_mode", "percent")
-        risk_value = user_options.get("risk_value", 0.5)  # Standardwert: 0.5%
-        account_balance = user_options.get("account_balance", 1000)  # Standardwert: 1000
+            # Berechnung der Teil-Lotgröße
+            if i == len(tp_levels) - 1:  # Letzter Take-Profit-Level
+                tp_lot = remaining_lot  # Weisen Sie die verbleibende Lotgröße zu
+            else:
+                tp_lot = round(lot_size * tp_percentage, 5)
+                if tp_lot > remaining_lot:
+                    tp_lot = remaining_lot  # Verhindere Überschuss
 
-        lot_size = calculate_lot_size(
-            account_balance,
-            risk_mode,
-            risk_value,
-            parsed_signal["stop_loss_pips"],
-            parsed_signal["pip_value"]
-        )
+            remaining_lot -= tp_lot
 
-        parsed_signal["lot_size"] = lot_size
+            # Berechnung des Take-Profit-Preises
+            tp_price = round(
+                parsed_signal["entry_price"] + (offset_pips * 0.0001), 5
+            )
+
+            parsed_signal["take_profits"].append({
+                "level": i + 1,
+                "lot_size": tp_lot,
+                "price": tp_price,
+                "strategy": tp_strategy
+            })
+
+        # Entferne Debugging-Fehlerprüfung für verbleibende Lotgröße
+        if remaining_lot > 0 and len(tp_levels) > 0:
+            parsed_signal["take_profits"][-1]["lot_size"] += remaining_lot  # Füge Restlot zur letzten Position hinzu
 
         return jsonify({"processed_signal": parsed_signal})
     except Exception as e:
