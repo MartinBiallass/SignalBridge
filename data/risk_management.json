@@ -1,0 +1,14 @@
+{
+    "signal_providers": {
+        "default_provider": {
+            "risk_mode": "percent",
+            "risk_value": 0.7,
+            "fixed_amount": 50
+        },
+        "example_provider": {
+            "risk_mode": "percent",
+            "risk_value": 0.7,
+            "fixed_amount": 50
+        }
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "default_provider": {
+        "close_signal": ["close", "exit"],
+        "close_half": ["close half", "secure"],
+        "move_sl_entry": ["breakeven", "secure entry"],
+        "remove_sl": ["remove sl"],
+        "close_pending_order": ["delete", "cancel", "invalid"]
+    },
+    "provider_1": {
+        "close_signal": ["exit now"],
+        "close_half": ["lock profit"],
+        "move_sl_entry": ["entry secured"],
+        "remove_sl": ["no sl"],
+        "close_pending_order": ["abort", "delete order"]
+    }
+}
