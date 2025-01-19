@@ -1,16 +1,72 @@
 {
     "default_provider": {
-        "close_signal": ["close", "exit"],
-        "close_half": ["close half", "secure"],
-        "move_sl_entry": ["breakeven", "secure entry"],
-        "remove_sl": ["remove sl"],
-        "close_pending_order": ["delete", "cancel", "invalid"]
+        "change_sl": "adjust SL",
+        "change_tp": "adjust TP",
+        "change_entry": "adjust ENTRY",
+        "reenter": "reopen",
+        "close_half": "close half",
+        "move_sl_to_entry": ["move SL to entry"],
+        "trail_sl": ["trail SL"],
+        "close_partial": ["close"]
     },
     "provider_1": {
-        "close_signal": ["exit now"],
-        "close_half": ["lock profit"],
-        "move_sl_entry": ["entry secured"],
-        "remove_sl": ["no sl"],
-        "close_pending_order": ["abort", "delete order"]
+        "close_signal": [
+            "exit now",
+            "close trade"
+        ],
+        "close_half": [
+            "lock profit",
+            "close half"
+        ],
+        "move_sl_entry": [
+            "entry secured",
+            "move SL to entry"
+        ],
+        "remove_sl": [
+            "no sl",
+            "remove stop loss"
+        ],
+        "close_pending_order": [
+            "abort",
+            "delete order"
+        ],
+        "change_sl": [
+            "change SL",
+            "adjust stop loss",
+            "SL"
+        ],
+        "change_tp": [
+            "change TP",
+            "adjust take profit",
+            "TP"
+        ],
+        "change_entry": [
+            "update entry",
+            "change entry point",
+            "entry"
+        ],
+        "reenter": [
+            "reopen trade",
+            "reenter position"
+        ],
+        "move_sl_to_entry": [
+            "move SL to entry",
+            "move stop loss to entry"
+        ],
+        "trail_sl": [
+            "trail SL",
+            "trailing stop"
+        ],
+        "close_partial": [
+            "close",
+            "partial close"
+        ],
+        "new_trade": [
+            "Buy",
+            "Sell",
+            "entry at",
+            "SL",
+            "TP"
+        ]
     }
 }
