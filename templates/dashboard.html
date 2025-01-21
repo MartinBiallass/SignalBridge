@@ -1,298 +1,129 @@
 <!DOCTYPE html>
-<html lang="{{ lang }}">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SignalBridge Dashboard</title>
+    <title>SignalBridge</title>
     <link rel="stylesheet" href="/static/style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="/static/script.js" defer></script>
 </head>
-<body data-section="{{ section }}">
+<body>
     <div class="container">
-        <div class="language-switcher">
-            <form id="language-form" method="POST" action="/set_language">
-                <label for="language-select">{{ translations['select_area'] }}</label>
-                <select id="language-select" name="language" onchange="changeLanguage()">
-                    <option value="de" {{ 'selected' if lang == 'de' else '' }}>Deutsch</option>
-                    <option value="en" {{ 'selected' if lang == 'en' else '' }}>English</option>
-                </select>
-            </form>
-        </div>
-
         <div class="sidebar">
             <img src="/static/logo.png" alt="SignalBridge Logo" class="logo">
-            <a href="/" class="{{ 'active' if section == 'home' else '' }}" data-section="home">{{ translations['home'] }}</a>
-            <a href="/linked-accounts" class="{{ 'active' if section == 'linked_accounts' else '' }}" data-section="linked_accounts">{{ translations['linked_accounts'] }}</a>
-            <a href="/account-management" class="{{ 'active' if section == 'account_management' else '' }}" data-section="account_management">{{ translations['account_management'] }}</a>
-            <a href="/message-history" class="{{ 'active' if section == 'message_history' else '' }}" data-section="message_history">{{ translations['message_history'] }}</a>
-            <a href="/system-cockpit" class="{{ 'active' if section == 'system_cockpit' else '' }}" data-section="system_cockpit">{{ translations['health_check'] }}</a>
-            <a href="/backtest" class="{{ 'active' if section == 'backtest' else '' }}" data-section="backtest">{{ translations['backtest'] }}</a>
-            <a href="/support" class="{{ 'active' if section == 'support' else '' }}" data-section="support">{{ translations['support'] }}</a>
-            <a href="/help" class="{{ 'active' if section == 'help' else '' }}" data-section="help">{{ translations['help'] }}</a>
+            <a href="/" class="menu-item">Startseite</a>
+            <a href="/account-management" class="menu-item">Kontoverwaltung</a>
+            <a href="/message-history" class="menu-item">Nachrichten Historie</a>
+            <a href="/support" class="menu-item">Support</a>
+            <a href="/help" class="menu-item">Hilfe</a>
         </div>
 
         <div class="main-content">
-            {% if section == 'linked_accounts' %}
-            <div class="linked-accounts">
-                <h2>{{ translations['linked_accounts'] }}</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Konto</th>
-                            <th>Plattform</th>
-                            <th>Status</th>
-                            <th>Aktionen</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for account in accounts %}
-                        <tr>
-                            <td>{{ account.name }}</td>
-                            <td>{{ account.platform }}</td>
-                            <td>{{ account.status }}</td>
-                            <td>
-                                <button>Bearbeiten</button>
-                                <button>Entfernen</button>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {% if not accounts %}
-                <p>Keine verknüpften Konten vorhanden. Bitte ein Konto hinzufügen.</p>
-                {% endif %}
+            <h1 id="page-title">Startseite</h1>
+            <div id="dynamic-content">
+                <!-- Inhalte werden dynamisch geladen -->
             </div>
-            {% elif section == 'account_management' %}
-            <div class="account-management">
-                <h2>{{ translations['account_management'] }}</h2>
-                <form method="POST" action="/account-management">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Konto</th>
-                                <th>Plattform</th>
-                                <th>Guthaben</th>
-                                <th>Währung</th>
-                                <th>Verknüpfte Signalgeber</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for account in accounts %}
-                            <tr>
-                                <td>
-                                    <button type="submit" name="account" value="{{ account.account_name }}" class="account-select-button">
-                                        {{ account.account_name }}
-                                    </button>
-                                </td>
-                                <td>{{ account.platform }}</td>
-                                <td>{{ account.balance }}</td>
-                                <td>{{ account.currency }}</td>
-                                <td>{{ account.linked_signal_providers | join(', ') }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </form>
-                {% if not accounts %}
-                <p>Keine Konten vorhanden. Bitte eine Datei <code>accounts.json</code> erstellen und Kontodaten einfügen.</p>
-                {% endif %}
-            </div>
-            {% elif section == 'performance_overview' %}
-            <div class="performance-overview">
-                <h2>{{ translations['performance_overview'] }}</h2>
-                <div class="kpi-container">
-                    <div class="kpi-item">
-                        <span class="kpi-title">Profit Total</span>
-                        <span class="kpi-value">{{ account.total_profit }} $</span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-title">Profit Monat</span>
-                        <span class="kpi-value">{{ account.monthly_profit }} $</span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-title">Profit Woche</span>
-                        <span class="kpi-value">{{ account.weekly_profit }} $</span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-title">Initial Balance</span>
-                        <span class="kpi-value">{{ account.initial_balance }} $</span>
-                    </div>
-                    <div class="kpi-item">
-                        <span class="kpi-title">Drawdown</span>
-                        <span class="kpi-value">{{ account.drawdown }} %</span>
-                    </div>
-                </div>
-                <h3>Performance Charts</h3>
-                <div class="chart-container">
-                    <canvas id="growth-chart"></canvas>
-                    <canvas id="drawdown-chart"></canvas>
-                </div>
-                <script>
-                    const growthData = {
-                        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
-                        datasets: [{
-                            label: "Growth",
-                            data: [1000, 1500, 2000, 2500, 3000, 3500, 4000],
-                            borderColor: "#4CAF50",
-                            backgroundColor: "rgba(76, 175, 80, 0.2)",
-                            fill: true,
-                        }]
-                    };
-
-                    const drawdownData = {
-                        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
-                        datasets: [{
-                            label: "Drawdown",
-                            data: [5, 10, 15, 20, 10, 5, 0],
-                            borderColor: "#FF5722",
-                            backgroundColor: "rgba(255, 87, 34, 0.2)",
-                            fill: true,
-                        }]
-                    };
-
-                    const configGrowth = {
-                        type: "line",
-                        data: growthData,
-                        options: {
-                            responsive: true,
-                            plugins: {
-                                legend: { position: "top" },
-                                title: { display: true, text: "Growth Chart" }
-                            }
-                        }
-                    };
-
-                    const configDrawdown = {
-                        type: "line",
-                        data: drawdownData,
-                        options: {
-                            responsive: true,
-                            plugins: {
-                                legend: { position: "top" },
-                                title: { display: true, text: "Drawdown Chart" }
-                            }
-                        }
-                    };
-
-                    window.onload = function() {
-                        const ctxGrowth = document.getElementById("growth-chart").getContext("2d");
-                        const ctxDrawdown = document.getElementById("drawdown-chart").getContext("2d");
-                        new Chart(ctxGrowth, configGrowth);
-                        new Chart(ctxDrawdown, configDrawdown);
-                    };
-                </script>
-            </div>
-            {% elif section == 'message_history' %}
-            <div class="message-history">
-                <h2>{{ translations['message_history'] }}</h2>
-                <form method="GET" action="/message-history">
-                    <label for="channel">Kanal:</label>
-                    <select id="channel" name="channel">
-                        <option value="all" {{ 'selected' if selected_channel == 'all' else '' }}>Alle Kanäle</option>
-                        {% for channel in channels %}
-                        <option value="{{ channel }}" {{ 'selected' if selected_channel == channel else '' }}>{{ channel }}</option>
-                        {% endfor %}
-                    </select>
-                    <label for="date">Datum:</label>
-                    <input type="date" id="date" name="date">
-                    <button type="submit">Filtern</button>
-                </form>
-                {% if messages %}
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Zeit</th>
-                            <th>Kanal</th>
-                            <th>Nachricht</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for msg in messages %}
-                        <tr>
-                            <td>{{ msg.timestamp }}</td>
-                            <td>{{ msg.channel }}</td>
-                            <td>{{ msg.message }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {% else %}
-                <p>Keine Nachrichten gefunden. Bitte ändern Sie die Filteroptionen.</p>
-                {% endif %}
-            </div>
-            {% elif section == 'system_cockpit' %}
-            <div class="system-cockpit">
-                <h2>{{ translations['health_check'] }}</h2>
-                <ul>
-                    <li>Telegram Status: {{ system_status.telegram_status }}</li>
-                    <li>Server Status: {{ system_status.server_status }}</li>
-                    <li>Lokaler Server Status: {{ system_status.local_server_status }}</li>
-                    <li>API Status: {{ system_status.api_status }}</li>
-                    <li>Software Version: {{ system_status.software_version }}</li>
-                    <li>Analyzer Version: {{ system_status.analyzer_version }}</li>
-                    <li>Functions Version: {{ system_status.functions_version }}</li>
-                    <li>Interface Version: {{ system_status.interface_version }}</li>
-                </ul>
-                <p><span class="ram-status {{ ram_status }}"></span> Nutzung: {{ current_ram }} / {{ total_ram }}</p>
-            </div>
-            {% elif section == 'backtest' %}
-            <div class="coming-soon">
-                <h2>Coming Soon</h2>
-                <p>Diese Funktionalität wird in einer zukünftigen Premium-Version verfügbar sein.</p>
-                <p class="coming-soon-note">Upgrade auf Premium, um Zugriff auf diese Funktion zu erhalten!</p>
-            </div>
-            {% elif section == 'support' %}
-            <div class="support">
-                <h2>{{ translations['support'] }}</h2>
-                <form method="POST" action="/support" enctype="multipart/form-data">
-                    <label for="subject">Betreff:</label>
-                    <input type="text" id="subject" name="subject" required>
-                    <label for="description">Beschreibung:</label>
-                    <textarea id="description" name="description" required></textarea>
-                    <label for="attachment">Dateianhang:</label>
-                    <input type="file" id="attachment" name="attachment">
-                    <button type="submit">Anfrage senden</button>
-                </form>
-                <h3>Ticketübersicht</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Ticket-ID</th>
-                            <th>Betreff</th>
-                            <th>Status</th>
-                            <th>Letzte Aktualisierung</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for ticket in tickets %}
-                        <tr>
-                            <td>{{ ticket.id }}</td>
-                            <td>{{ ticket.subject }}</td>
-                            <td>{{ ticket.status }}</td>
-                            <td>{{ ticket.last_updated }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            {% elif section == 'help' %}
-            <div class="help">
-                <h2>{{ translations['help'] }}</h2>
-                <div class="faq-grid">
-                    {% for faq in faqs %}
-                    <div class="faq-tile">
-                        <h3>{{ faq.question }}</h3>
-                        <p>{{ faq.answer }}</p>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-            {% else %}
-            <h1>{{ translations['welcome'] }}</h1>
-            <p>{{ translations['select_area'] }}</p>
-            {% endif %}
         </div>
     </div>
+
+    <script>
+        // Funktion zum Laden dynamischer Inhalte
+        function loadPageContent(page) {
+            const contentDiv = document.getElementById('dynamic-content');
+            contentDiv.innerHTML = ''; // Vorherigen Inhalt entfernen
+
+            switch (page) {
+                case 'home':
+                    contentDiv.innerHTML = `
+                        <h2>Willkommen bei SignalBridge</h2>
+                        <p>Verwalten Sie Ihre Konten, Nachrichten und Signalgeber an einem Ort.</p>
+                        <div class="system-overview">
+                            <h3>System Cockpit</h3>
+                            <p>RAM-Nutzung: 2.3 GB von 8 GB</p>
+                            <p>Aktive Konten: 2 von 5</p>
+                        </div>
+                        <div class="telegram-overview">
+                            <h3>Telegram-Konto</h3>
+                            <p>Verknüpft: <b>test_telegram_user</b></p>
+                            <button>Verbinden</button>
+                            <button>Trennen</button>
+                        </div>
+                    `;
+                    break;
+                case 'account-management':
+                    contentDiv.innerHTML = `
+                        <h2>Kontoverwaltung</h2>
+                        <div class="balance-overview">
+                            <h3>Balance Übersicht</h3>
+                            <p>Initial Balance: $5000</p>
+                            <p>Gewinn: $1200</p>
+                        </div>
+                        <div class="charts-container">
+                            <canvas id="growth-chart"></canvas>
+                            <canvas id="drawdown-chart"></canvas>
+                        </div>
+                    `;
+                    break;
+                case 'message-history':
+                    contentDiv.innerHTML = `
+                        <h2>Nachrichten Historie</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>Signal</th>
+                                    <th>Provider</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2025-01-21 14:30</td>
+                                    <td>EUR/USD</td>
+                                    <td>BEST GOLD SIGNAL</td>
+                                </tr>
+                                <tr>
+                                    <td>2025-01-21 14:00</td>
+                                    <td>GBP/USD</td>
+                                    <td>Forex Pros</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    `;
+                    break;
+                case 'support':
+                    contentDiv.innerHTML = `
+                        <h2>Support</h2>
+                        <form>
+                            <label for="ticket-text">Ticket Beschreibung:</label>
+                            <input type="text" id="ticket-text">
+                            <label for="ticket-file">Datei anhängen:</label>
+                            <input type="file" id="ticket-file">
+                            <button>Ticket erstellen</button>
+                        </form>
+                        <h3>Vorhandene Tickets</h3>
+                        <ul>
+                            <li>API Fehler - Offen</li>
+                            <li>Telegram Verbindung - Geschlossen</li>
+                        </ul>
+                    `;
+                    break;
+                case 'help':
+                    contentDiv.innerHTML = `
+                        <h2>Hilfe</h2>
+                        <div class="help-section">
+                            <a href="#">Erste Schritte</a>
+                            <a href="#">Signalgeber verwalten</a>
+                            <a href="#">System Cockpit</a>
+                        </div>
+                    `;
+                    break;
+                default:
+                    contentDiv.innerHTML = '<p>Inhalt nicht gefunden.</p>';
+            }
+        }
+
+        // Standard-Inhalt laden
+        loadPageContent('home');
+    </script>
 </body>
 </html>

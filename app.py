@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, jsonify, session
 from flask_session import Session
 import json
 from api_app import api_app  # Importiere den Blueprint
+import psutil
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
@@ -15,85 +17,60 @@ app.register_blueprint(api_app, url_prefix="/api")
 translations = {
     "de": {
         "home": "Startseite",
-        "linked_accounts": "Verknüpfte Konten",
         "account_management": "Kontoverwaltung",
         "message_history": "Nachrichtenverlauf",
-        "health_check": "System Cockpit",
-        "backtest": "Backtest",
         "support": "Support",
         "help": "Hilfe",
         "welcome": "Willkommen bei SignalBridge",
-        "select_area": "Wählen Sie einen Bereich aus der Navigation, um loszulegen.",
-        "performance_overview": "Performance Übersicht",
-        "select_account": "Wählen Sie ein Konto aus:",
-        "account_protection": "Konto Schutz"
+        "membership": "Mitgliedschaftsdauer",
+        "accounts_used": "Genutzte Konten",
+        "system_cockpit": "System Cockpit",
     },
     "en": {
         "home": "Home Page",
-        "linked_accounts": "Linked Accounts",
         "account_management": "Account Management",
         "message_history": "Message History",
-        "health_check": "System Cockpit",
-        "backtest": "Backtest",
         "support": "Support",
         "help": "Help",
         "welcome": "Welcome to SignalBridge",
-        "select_area": "Select a section from the navigation to get started.",
-        "performance_overview": "Performance Overview",
-        "select_account": "Select an account:",
-        "account_protection": "Equity Guardian"
+        "membership": "Membership Duration",
+        "accounts_used": "Accounts Used",
+        "system_cockpit": "System Cockpit",
     }
 }
+
+start_time = datetime.now()
 
 @app.route("/")
 def home():
     lang = session.get("language", "de")
-    return render_template("dashboard.html", section="home", lang=lang, translations=translations[lang])
+    telegram_account = "test_telegram_user"  # Platzhalter
+    connected_accounts = [
+        {"name": "MT4", "status": "aktiviert"},
+        {"name": "MT5", "status": "deaktiviert"}
+    ]
 
-@app.route("/linked-accounts")
-def linked_accounts():
-    lang = session.get("language", "de")
-    try:
-        with open("data/accounts.json", "r") as file:
-            accounts = json.load(file)
-    except FileNotFoundError:
-        accounts = []
+    # System Cockpit Daten
+    memory = psutil.virtual_memory()
+    ram_usage = f"{memory.used // (1024 * 1024)} MB von {memory.total // (1024 * 1024)} MB"
+
     return render_template(
-        "dashboard.html",
-        section="linked_accounts",
+        "home.html",
         lang=lang,
         translations=translations[lang],
-        accounts=accounts
+        telegram_account=telegram_account,
+        connected_accounts=connected_accounts,
+        ram_usage=ram_usage
     )
 
-@app.route("/account-management", methods=["GET", "POST"])
+@app.route('/account-management')
 def account_management():
-    lang = session.get("language", "de")
-    with open("data/accounts.json", "r") as file:
-        accounts = json.load(file)
-
-    if request.method == "POST":
-        selected_account = request.form.get("account")
-        account = next((acc for acc in accounts if acc["account_name"] == selected_account), None)
-        return render_template(
-            "dashboard.html",
-            section="performance_overview",
-            lang=lang,
-            translations=translations[lang],
-            account=account
-        )
-
-    return render_template(
-        "dashboard.html",
-        section="account_management",
-        lang=lang,
-        translations=translations[lang],
-        accounts=accounts
-    )
-
-@app.route("/performance-overview")
-def performance_overview():
-    lang = session.get("language", "de")
+    # Signalgeber und Profittabelle-Daten
+    signal_providers = [
+        {"name": "BEST GOLD SIGNAL", "pips": 149.90, "win_loss": 100, "profit": 29.80, "gain": 0.50},
+        {"name": "Forex Pros", "pips": 1455.90, "win_loss": 57, "profit": 265.25, "gain": 4.42},
+        {"name": "Trading Lions", "pips": -50.70, "win_loss": 77, "profit": -10.00, "gain": -1.42},
+    ]
     performance_data = {
         "profit_total": 1200.50,
         "profit_month": 300.25,
@@ -102,36 +79,49 @@ def performance_overview():
         "drawdown": 2.34
     }
     return render_template(
-        "dashboard.html",
-        section="performance_overview",
-        lang=lang,
-        translations=translations[lang],
+        "account_management.html",
+        signal_providers=signal_providers,
         performance=performance_data
     )
 
-@app.route("/message-history", methods=["GET"])
+@app.route('/message-history')
 def message_history():
-    lang = session.get("language", "de")
-    try:
-        with open("data/messages.json", "r") as file:
-            messages = json.load(file)
-    except FileNotFoundError:
-        messages = []
-
-    channels = list(set(msg["channel"] for msg in messages))
-    selected_channel = request.args.get("channel", "all")
-
-    if selected_channel != "all":
-        messages = [msg for msg in messages if msg["channel"] == selected_channel]
-
+    # Platzhalter-Nachrichten
+    messages = [
+        {"timestamp": "2025-01-21 14:30", "signal": "EUR/USD", "provider": "BEST GOLD SIGNAL"},
+        {"timestamp": "2025-01-21 14:00", "signal": "GBP/USD", "provider": "Forex Pros"},
+        {"timestamp": "2025-01-21 13:30", "signal": "USD/JPY", "provider": "Trading Lions"}
+    ]
     return render_template(
-        "dashboard.html",
-        section="message_history",
-        lang=lang,
-        translations=translations[lang],
-        messages=messages,
-        channels=channels,
-        selected_channel=selected_channel
+        "message_history.html",
+        messages=messages
+    )
+
+@app.route('/support', methods=["GET", "POST"])
+def support():
+    if request.method == "POST":
+        ticket = request.form.get("ticket_text")
+        # Platzhalter für Dateispeicherung
+        return "Ticket erstellt!"
+    tickets = [
+        {"id": 1, "title": "API Fehler", "status": "Offen"},
+        {"id": 2, "title": "Telegram Verbindung", "status": "Geschlossen"}
+    ]
+    return render_template(
+        "support.html",
+        tickets=tickets
+    )
+
+@app.route('/help')
+def help():
+    tutorials = [
+        {"title": "Erste Schritte", "link": "#"},
+        {"title": "Signalgeber verwalten", "link": "#"},
+        {"title": "System Cockpit", "link": "#"}
+    ]
+    return render_template(
+        "help.html",
+        tutorials=tutorials
     )
 
 if __name__ == "__main__":

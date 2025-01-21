@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontoverwaltung</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <img src="/static/logo.png" alt="SignalBridge Logo" class="logo">
+            <a href="/" class="menu-item">Startseite</a>
+            <a href="/account-management" class="menu-item active">Kontoverwaltung</a>
+            <a href="/message-history" class="menu-item">Nachrichten Historie</a>
+            <a href="/support" class="menu-item">Support</a>
+            <a href="/help" class="menu-item">Hilfe</a>
+        </div>
+        <div class="main-content">
+            <h1>Kontoverwaltung</h1>
+            <h2>Balance Übersicht</h2>
+            <div class="balance-section">
+                <label for="initial-balance">Initial Balance ($):</label>
+                <input type="number" id="initial-balance" value="500">
+                <button>Speichern</button>
+            </div>
+            <div class="profit-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Total Profit ($)</th>
+                            <th>Monthly Profit ($)</th>
+                            <th>Weekly Profit ($)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1,200</td>
+                            <td>300</td>
+                            <td>75</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h2>Signalgeber Übersicht</h2>
+            <div class="signalgeber-section">
+                <button class="add-provider-btn">Signalgeber hinzufügen</button>
+                <div class="filter-container">
+                    <label for="signalgeber-filter">Filter:</label>
+                    <input type="text" id="signalgeber-filter" placeholder="Signalgeber suchen...">
+                    <button onclick="clearFilter()">Filter löschen</button>
+                </div>
+                <table class="signalgeber-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Pips</th>
+                            <th>Win/Loss %</th>
+                            <th>Profit</th>
+                            <th>Gain %</th>
+                            <th>Aktionen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for provider in signal_providers %}
+                        <tr>
+                            <td>{{ provider.name }}</td>
+                            <td class="{{ 'positive' if provider.pips > 0 else 'negative' }}">{{ provider.pips }}</td>
+                            <td class="{{ 'positive' if provider.win_loss > 50 else 'negative' }}">{{ provider.win_loss }}%</td>
+                            <td class="{{ 'positive' if provider.profit > 0 else 'negative' }}">{{ provider.profit }}</td>
+                            <td class="{{ 'positive' if provider.gain > 0 else 'negative' }}">{{ provider.gain }}%</td>
+                            <td><button onclick="viewDetails('{{ provider.name }}')">Details</button></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

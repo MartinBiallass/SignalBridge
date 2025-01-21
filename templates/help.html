@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignalBridge - Hilfe</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <img src="/static/logo.png" alt="SignalBridge Logo" class="logo">
+            <a href="/" class="menu-item">Startseite</a>
+            <a href="/account-management" class="menu-item">Kontoverwaltung</a>
+            <a href="/message-history" class="menu-item">Nachrichten Historie</a>
+            <a href="/support" class="menu-item">Support</a>
+            <a href="/help" class="menu-item active">Hilfe</a>
+        </div>
+        <div class="main-content">
+            <h1>Hilfe</h1>
+            <div class="help-tutorials">
+                {% for tutorial in tutorials %}
+                <div class="tutorial">
+                    <a href="{{ tutorial.link }}">{{ tutorial.title }}</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

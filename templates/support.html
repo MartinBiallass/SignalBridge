@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignalBridge - Support</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <img src="/static/logo.png" alt="SignalBridge Logo" class="logo">
+            <a href="/" class="menu-item">Startseite</a>
+            <a href="/account-management" class="menu-item">Kontoverwaltung</a>
+            <a href="/message-history" class="menu-item">Nachrichten Historie</a>
+            <a href="/support" class="menu-item active">Support</a>
+            <a href="/help" class="menu-item">Hilfe</a>
+        </div>
+        <div class="main-content">
+            <h1>Support</h1>
+            <form action="/support" method="post" enctype="multipart/form-data">
+                <label for="ticket_text">Ticket Beschreibung:</label>
+                <textarea id="ticket_text" name="ticket_text" required></textarea>
+                <label for="ticket_file">Datei anhängen:</label>
+                <input type="file" id="ticket_file" name="ticket_file">
+                <button type="submit">Ticket erstellen</button>
+            </form>
+            <h3>Vorhandene Tickets</h3>
+            <ul>
+                {% for ticket in tickets %}
+                <li>{{ ticket.title }} - {{ ticket.status }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignalBridge - Startseite</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <img src="/static/logo.png" alt="SignalBridge Logo" class="logo">
+            <a href="/" class="menu-item active">Startseite</a>
+            <a href="/account-management" class="menu-item">Kontoverwaltung</a>
+            <a href="/message-history" class="menu-item">Nachrichten Historie</a>
+            <a href="/support" class="menu-item">Support</a>
+            <a href="/help" class="menu-item">Hilfe</a>
+        </div>
+        <div class="main-content">
+            <h1>{{ translations['welcome'] }}</h1>
+            <h3>System Cockpit</h3>
+            <p>RAM-Auslastung: {{ ram_usage }}</p>
+            <h3>Verknüpfte Konten</h3>
+            <p>Telegram-Konto: {{ telegram_account }}</p>
+            <button class="btn-red">Verbindung trennen</button>
+            <button class="btn-green">Neu verbinden</button>
+            <h3>Kontenstatus</h3>
+            <ul>
+                {% for account in connected_accounts %}
+                <li>{{ account.name }}: {{ account.status }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
