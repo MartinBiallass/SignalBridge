@@ -6,6 +6,7 @@
     <title>Kontoverwaltung</title>
     <link rel="stylesheet" href="/static/style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/static/script.js" defer></script>
 </head>
 <body>
     <div class="container">
@@ -17,16 +18,19 @@
             <a href="/support" class="menu-item">Support</a>
             <a href="/help" class="menu-item">Hilfe</a>
         </div>
+
         <div class="main-content">
             <h1>Kontoverwaltung</h1>
+
             <h2>Balance Übersicht</h2>
             <div class="balance-section">
                 <label for="initial-balance">Initial Balance ($):</label>
                 <input type="number" id="initial-balance" value="500">
                 <button>Speichern</button>
             </div>
-            <div class="profit-table">
-                <table>
+
+            <div class="profit-table-container">
+                <table class="profit-table">
                     <thead>
                         <tr>
                             <th>Total Profit ($)</th>
@@ -43,9 +47,10 @@
                     </tbody>
                 </table>
             </div>
+
             <h2>Signalgeber Übersicht</h2>
             <div class="signalgeber-section">
-                <button class="add-provider-btn">Signalgeber hinzufügen</button>
+                <button class="add-provider-btn" onclick="openAddProviderModal()">Signalgeber hinzufügen</button>
                 <div class="filter-container">
                     <label for="signalgeber-filter">Filter:</label>
                     <input type="text" id="signalgeber-filter" placeholder="Signalgeber suchen...">
@@ -70,7 +75,7 @@
                             <td class="{{ 'positive' if provider.win_loss > 50 else 'negative' }}">{{ provider.win_loss }}%</td>
                             <td class="{{ 'positive' if provider.profit > 0 else 'negative' }}">{{ provider.profit }}</td>
                             <td class="{{ 'positive' if provider.gain > 0 else 'negative' }}">{{ provider.gain }}%</td>
-                            <td><button onclick="viewDetails('{{ provider.name }}')">Details</button></td>
+                            <td><button class="details-btn" onclick="viewDetails('{{ provider.name }}')">Details</button></td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -78,5 +83,38 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal for Signalgeber Details -->
+    <!-- Modal -->
+<div id="details-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h3>Signalgeber Optionen für <span id="modal-provider-name"></span></h3>
+        <ul>
+            <a href="/edit-signal">Eingabe bearbeiten</a>
+
+            <li><a href="/signal-analysis">Signal Analyse</a></li>
+            <li><a href="/copy-signal">Kopieren zum anderen Account</a></li>
+            <li><a href="/manual-signal">Signal manuell</a></li>
+            <li><a href="/delete-signal-provider">Signalgeber löschen</a></li>
+            <li><a href="/delete-data">Daten löschen</a></li>
+        </ul>
+    </div>
+</div>
+<script>
+    function viewDetails(providerName) {
+        const modal = document.getElementById("details-modal");
+        modal.style.display = "block";
+
+        const modalContent = document.getElementById("modal-provider-name");
+        modalContent.innerText = providerName;
+    }
+
+    function closeModal() {
+        const modal = document.getElementById("details-modal");
+        modal.style.display = "none";
+    }
+</script>
+
 </body>
 </html>

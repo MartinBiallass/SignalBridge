@@ -65,24 +65,51 @@ def home():
 
 @app.route('/account-management')
 def account_management():
-    # Signalgeber und Profittabelle-Daten
     signal_providers = [
         {"name": "BEST GOLD SIGNAL", "pips": 149.90, "win_loss": 100, "profit": 29.80, "gain": 0.50},
         {"name": "Forex Pros", "pips": 1455.90, "win_loss": 57, "profit": 265.25, "gain": 4.42},
         {"name": "Trading Lions", "pips": -50.70, "win_loss": 77, "profit": -10.00, "gain": -1.42},
     ]
-    performance_data = {
-        "profit_total": 1200.50,
-        "profit_month": 300.25,
-        "profit_week": 75.60,
-        "initial_balance": 5000.00,
-        "drawdown": 2.34
-    }
-    return render_template(
-        "account_management.html",
-        signal_providers=signal_providers,
-        performance=performance_data
-    )
+    return render_template("account_management.html", signal_providers=signal_providers)
+
+@app.route('/edit-signal')
+def edit_signal():
+    return render_template('risk_management.html')
+
+@app.route('/modal-options')
+def modal_options():
+    return render_template('modal_options.html')
+
+
+@app.route('/analyze-signal', methods=['POST'])
+def analyze_signal():
+    data = request.json
+    signal_name = data.get('signal_name')
+    return jsonify({"message": f"Analyse für {signal_name}"})
+
+@app.route('/copy-signal', methods=['POST'])
+def copy_signal():
+    data = request.json
+    signal_name = data.get('signal_name')
+    return jsonify({"message": f"{signal_name} wurde zu einem anderen Account kopiert"})
+
+@app.route('/manual-signal', methods=['POST'])
+def manual_signal():
+    data = request.json
+    signal_name = data.get('signal_name')
+    return jsonify({"message": f"Manuelles Signal für {signal_name}"})
+
+@app.route('/delete-signal', methods=['POST'])
+def delete_signal():
+    data = request.json
+    signal_name = data.get('signal_name')
+    return jsonify({"message": f"Signalgeber {signal_name} wurde gelöscht"})
+
+@app.route('/delete-data', methods=['POST'])
+def delete_data():
+    data = request.json
+    signal_name = data.get('signal_name')
+    return jsonify({"message": f"Daten von {signal_name} wurden gelöscht"})
 
 @app.route('/message-history')
 def message_history():

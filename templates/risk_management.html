@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signal bearbeiten</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <img src="/static/logo.png" alt="SignalBridge Logo" class="logo">
+            <a href="/" class="menu-item">Startseite</a>
+            <a href="/account-management" class="menu-item">Kontoverwaltung</a>
+            <a href="/message-history" class="menu-item">Nachrichten Historie</a>
+            <a href="/support" class="menu-item">Support</a>
+            <a href="/help" class="menu-item">Hilfe</a>
+        </div>
+        <div class="main-content">
+            <h1>Signal bearbeiten</h1>
+            <div class="risk-management-form">
+                <h2>2. Risk Management</h2>
+                <label>Mögliche Risikomanagement-Regeln (Werte können angepasst werden):</label>
+                <label><input type="radio" name="risk-option" value="fixed-lots"> Feste Lotgröße:</label>
+                <input type="text" placeholder="0.01">
+                <label><input type="radio" name="risk-option" value="fixed-amount"> Fester Betrag:</label>
+                <input type="text" placeholder="10$">
+                <label><input type="radio" name="risk-option" value="per-pip"> Fester Betrag pro Pip:</label>
+                <input type="text" placeholder="1$ pro Pip">
+                <button class="btn-green">Speichern</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

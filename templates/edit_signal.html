@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signal bearbeiten</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Signal bearbeiten</h1>
+        <form method="POST">
+            <h2>2. Risk Management</h2>
+            <p>Mögliche Risikomanagement-Regeln (Werte können angepasst werden):</p>
+            <div>
+                <label>
+                    <input type="radio" name="risk_type" value="fixed_lots" checked> 
+                    Feste Lotgröße:
+                    <input type="number" name="fixed_lots" placeholder="0.01">
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="risk_type" value="fixed_cash">
+                    Fester Betrag:
+                    <input type="number" name="fixed_cash" placeholder="10$">
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="risk_type" value="pip_value">
+                    Fester Betrag pro Pip:
+                    <input type="number" name="pip_value" placeholder="1$ pro Pip">
+                </label>
+            </div>
+            <button type="submit" class="btn-green">Speichern</button>
+        </form>
+    </div>
+</body>
+</html>
