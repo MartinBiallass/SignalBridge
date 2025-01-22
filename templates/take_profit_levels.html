@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take Profit Levels</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="main-content">
+        <h1>Take Profit Levels</h1>
+        <div class="tp-management">
+            <button class="tp-distribute-btn" onclick="distributePercentages()">Distribute % Equally</button>
+            <table class="tp-table">
+                <thead>
+                    <tr>
+                        <th>TP #</th>
+                        <th>Percentage</th>
+                        <th>Details</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="tp-rows">
+                    <!-- Dynamically generated rows will appear here -->
+                </tbody>
+            </table>
+            <button class="add-tp-btn" onclick="addTPRow()">Add a new Take Profit level</button>
+        </div>
+
+        <!-- Modal for TP Details -->
+        <div id="tp-details-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h3>TP Details</h3>
+                <form>
+                    <label for="tp-sl">Set SL:</label>
+                    <input type="text" id="tp-sl" placeholder="Enter SL details">
+
+                    <label for="tp-pips">Pips Adjustment:</label>
+                    <input type="text" id="tp-pips" placeholder="+0 pips">
+
+                    <button type="button" onclick="saveTPDetails()">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let tpCount = 5; // Default number of TPs
+
+        // Function to generate TP rows dynamically
+        function generateTPRows() {
+            const tpRows = document.getElementById("tp-rows");
+            tpRows.innerHTML = ""; // Clear existing rows
+            for (let i = 1; i <= tpCount; i++) {
+                tpRows.innerHTML += `
+                    <tr>
+                        <td>TP ${i}</td>
+                        <td>
+                            <button onclick="adjustPercentage(${i}, -1)">-</button>
+                            <input type="number" id="tp-percentage-${i}" value="20" min="0" max="100">%
+                            <button onclick="adjustPercentage(${i}, 1)">+</button>
+                        </td>
+                        <td><button onclick="openModal(${i})">Details</button></td>
+                        <td><button onclick="removeTPRow(${i})">Delete</button></td>
+                    </tr>
+                `;
+            }
+        }
+
+        // Function to adjust percentage
+        function adjustPercentage(tpId, adjustment) {
+            const input = document.getElementById(`tp-percentage-${tpId}`);
+            let value = parseInt(input.value) || 0;
+            value = Math.min(100, Math.max(0, value + adjustment));
+            input.value = value;
+        }
+
+        // Function to distribute percentages equally
+        function distributePercentages() {
+            const equalPercentage = Math.floor(100 / tpCount);
+            for (let i = 1; i <= tpCount; i++) {
+                document.getElementById(`tp-percentage-${i}`).value = equalPercentage;
+            }
+        }
+
+        // Function to add a new TP row
+        function addTPRow() {
+            tpCount++;
+            generateTPRows();
+        }
+
+        // Function to remove a TP row
+        function removeTPRow(tpId) {
+            if (tpCount > 1) {
+                tpCount--;
+                generateTPRows();
+            }
+        }
+
+        // Modal logic
+        function openModal(tpId) {
+            const modal = document.getElementById("tp-details-modal");
+            modal.style.display = "block";
+        }
+
+        function closeModal() {
+            const modal = document.getElementById("tp-details-modal");
+            modal.style.display = "none";
+        }
+
+        function saveTPDetails() {
+            alert("TP Details Saved!");
+            closeModal();
+        }
+
+        // Initial load
+        generateTPRows();
+    </script>
+</body>
+</html>

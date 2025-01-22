@@ -1,7 +1,5 @@
 from flask import Flask, render_template, request, jsonify, session
 from flask_session import Session
-import json
-from api_app import api_app  # Importiere den Blueprint
 import psutil
 from datetime import datetime
 
@@ -9,9 +7,6 @@ app = Flask(__name__)
 app.secret_key = "your_secret_key"
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
-
-# Registrierung der API
-app.register_blueprint(api_app, url_prefix="/api")
 
 # Sprachkonfigurationen
 translations = {
@@ -72,48 +67,23 @@ def account_management():
     ]
     return render_template("account_management.html", signal_providers=signal_providers)
 
-@app.route('/edit-signal')
+@app.route('/edit-signal', methods=['GET', 'POST'])
 def edit_signal():
-    return render_template('risk_management.html')
+    if request.method == 'POST':
+        # Handle POST data here if needed
+        data = request.form
+        print("Risk Management Data:", data)
+        return "Data received", 200
+    return render_template('edit_signal.html')
 
-@app.route('/modal-options')
-def modal_options():
-    return render_template('modal_options.html')
-
-
-@app.route('/analyze-signal', methods=['POST'])
-def analyze_signal():
-    data = request.json
-    signal_name = data.get('signal_name')
-    return jsonify({"message": f"Analyse für {signal_name}"})
-
-@app.route('/copy-signal', methods=['POST'])
-def copy_signal():
-    data = request.json
-    signal_name = data.get('signal_name')
-    return jsonify({"message": f"{signal_name} wurde zu einem anderen Account kopiert"})
-
-@app.route('/manual-signal', methods=['POST'])
-def manual_signal():
-    data = request.json
-    signal_name = data.get('signal_name')
-    return jsonify({"message": f"Manuelles Signal für {signal_name}"})
-
-@app.route('/delete-signal', methods=['POST'])
-def delete_signal():
-    data = request.json
-    signal_name = data.get('signal_name')
-    return jsonify({"message": f"Signalgeber {signal_name} wurde gelöscht"})
-
-@app.route('/delete-data', methods=['POST'])
-def delete_data():
-    data = request.json
-    signal_name = data.get('signal_name')
-    return jsonify({"message": f"Daten von {signal_name} wurden gelöscht"})
+@app.route('/take-profit-levels', methods=['POST'])
+def take_profit_levels():
+    tp_levels = request.json.get("tp_levels", [])
+    print("Received TP Levels:", tp_levels)
+    return jsonify({"message": "Take Profit Levels updated successfully!"})
 
 @app.route('/message-history')
 def message_history():
-    # Platzhalter-Nachrichten
     messages = [
         {"timestamp": "2025-01-21 14:30", "signal": "EUR/USD", "provider": "BEST GOLD SIGNAL"},
         {"timestamp": "2025-01-21 14:00", "signal": "GBP/USD", "provider": "Forex Pros"},
@@ -128,7 +98,6 @@ def message_history():
 def support():
     if request.method == "POST":
         ticket = request.form.get("ticket_text")
-        # Platzhalter für Dateispeicherung
         return "Ticket erstellt!"
     tickets = [
         {"id": 1, "title": "API Fehler", "status": "Offen"},

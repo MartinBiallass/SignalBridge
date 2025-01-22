@@ -125,12 +125,13 @@ button.btn-red:hover {
 .signalgeber-table {
     width: 90%;
     margin: 0 auto;
+    border-collapse: collapse;
+    color: #FFD700;
 }
 
 .signalgeber-table th, .signalgeber-table td {
     border: 2px solid #FFD700;
-    color: #FFD700;
-    padding: 8px;
+    padding: 10px;
     text-align: center;
 }
 
@@ -148,23 +149,6 @@ button.btn-red:hover {
     background-color: #121212;
 }
 
-/* Add Provider Button */
-.add-provider-button {
-    padding: 8px 12px;
-    background-color: #FFD700;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    color: #121212;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.add-provider-button:hover {
-    background-color: #FF4500;
-    color: white;
-}
-
 /* Modal Styling */
 .modal {
     display: none;
@@ -175,7 +159,7 @@ button.btn-red:hover {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.85); /* Einheitlich mit der Seite */
+    background-color: rgba(0, 0, 0, 0.85);
 }
 
 .modal-content {
@@ -216,7 +200,7 @@ button.btn-red:hover {
     padding: 30px;
     border: 2px solid #FFD700;
     border-radius: 12px;
-    width: 50%;
+    width: 60%;
     margin: 50px auto;
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.7);
     text-align: left;
@@ -265,4 +249,34 @@ button.btn-red:hover {
 .risk-management-form button:hover {
     background-color: #FF4500;
     color: #FFFFFF;
+}
+
+.take-profit-levels {
+    margin-top: 30px;
+    text-align: left;
+    padding: 15px;
+    border: 2px solid #FFD700;
+    border-radius: 8px;
+    background-color: #1E1E1E;
+}
+
+.tp-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #FFD700;
+    border-radius: 5px;
+    background-color: #2A2A2A;
+}
+
+.tp-row input {
+    width: 50px;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #FFD700;
+    border-radius: 5px;
+    background-color: #121212;
+    color: #FFD700;
 }

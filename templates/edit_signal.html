@@ -36,5 +36,34 @@
             <button type="submit" class="btn-green">Speichern</button>
         </form>
     </div>
+
+    <!-- Take Profit Levels -->
+    <div class="take-profit-levels">
+        <h2>3. Take Profit Levels</h2>
+        <div id="tp-levels-container">
+            <!-- Dynamische Take-Profit-Level werden hier eingefügt -->
+        </div>
+        <button id="add-tp-level" class="btn-green">+ Add a new Take Profit Level</button>
+        <button id="distribute-equally" class="btn-green">Distribute % Equally</button>
+    </div>
+
+    <!-- Modal für Details -->
+    <div id="tp-details-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close-modal">&times;</span>
+            <h3>Take Profit Details</h3>
+            <form>
+                <label>TP Nummer:</label>
+                <input type="text" id="tp-number" readonly>
+                <label>Prozentsatz:</label>
+                <input type="number" id="tp-percentage">
+                <label>Strategie:</label>
+                <input type="text" id="tp-strategy">
+                <button type="button" class="btn-green" id="save-tp-details">Speichern</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
 </body>
 </html>
