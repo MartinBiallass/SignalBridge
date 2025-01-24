@@ -8,62 +8,258 @@
 </head>
 <body>
     <div class="container">
-        <h1>Signal bearbeiten</h1>
-        <form method="POST">
-            <h2>2. Risk Management</h2>
-            <p>Mögliche Risikomanagement-Regeln (Werte können angepasst werden):</p>
-            <div>
-                <label>
-                    <input type="radio" name="risk_type" value="fixed_lots" checked> 
-                    Feste Lotgröße:
-                    <input type="number" name="fixed_lots" placeholder="0.01">
-                </label>
-            </div>
-            <div>
-                <label>
-                    <input type="radio" name="risk_type" value="fixed_cash">
-                    Fester Betrag:
-                    <input type="number" name="fixed_cash" placeholder="10$">
-                </label>
-            </div>
-            <div>
-                <label>
-                    <input type="radio" name="risk_type" value="pip_value">
-                    Fester Betrag pro Pip:
-                    <input type="number" name="pip_value" placeholder="1$ pro Pip">
-                </label>
-            </div>
-            <button type="submit" class="btn-green">Speichern</button>
-        </form>
-    </div>
-
-    <!-- Take Profit Levels -->
-    <div class="take-profit-levels">
-        <h2>3. Take Profit Levels</h2>
-        <div id="tp-levels-container">
-            <!-- Dynamische Take-Profit-Level werden hier eingefügt -->
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <img src="/static/logo.png" alt="SignalBridge Logo" class="logo">
+            <a href="/" class="menu-item">Startseite</a>
+            <a href="/account-management" class="menu-item">Kontoverwaltung</a>
+            <a href="/message-history" class="menu-item">Nachrichten Historie</a>
+            <a href="/support" class="menu-item">Support</a>
+            <a href="/help" class="menu-item">Hilfe</a>
         </div>
-        <button id="add-tp-level" class="btn-green">+ Add a new Take Profit Level</button>
-        <button id="distribute-equally" class="btn-green">Distribute % Equally</button>
-    </div>
 
-    <!-- Modal für Details -->
-    <div id="tp-details-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="close-modal">&times;</span>
-            <h3>Take Profit Details</h3>
-            <form>
-                <label>TP Nummer:</label>
-                <input type="text" id="tp-number" readonly>
-                <label>Prozentsatz:</label>
-                <input type="number" id="tp-percentage">
-                <label>Strategie:</label>
-                <input type="text" id="tp-strategy">
-                <button type="button" class="btn-green" id="save-tp-details">Speichern</button>
-            </form>
+        <!-- Main Content -->
+        <div class="main-content">
+            <h1>Signal bearbeiten</h1>
+
+            <!-- Take Profit Levels -->
+            <div class="take-profit-levels">
+                <h2> Take Profit Levels</h2>
+                <div id="tp-levels-container">
+                    <!-- Dynamische Take-Profit-Level werden hier eingefügt -->
+                </div>
+                <button id="add-tp-level" class="btn-green">+ Neue Take Profit Stufe hinzufügen</button>
+                <button id="distribute-equally" class="btn-green">Prozentsatz gleichmäßig verteilen</button>
+            </div>
+
+        
+
+            <div class="horizontal-menu">
+                <a href="#" class="horizontal-menu-item"><i class="fa fa-paper-plane"></i> Aktion</a>
+                <a href="#" class="horizontal-menu-item"><i class="fa fa-bolt"></i> Signalmanipulation</a>
+                <a href="#" class="horizontal-menu-item"><i class="fa fa-sync"></i> Pending Order</a>
+                <a href="#" class="horizontal-menu-item"><i class="fa fa-wallet"></i> Geld / Risikomanagement</a>
+                <a href="#" class="horizontal-menu-item"><i class="fa fa-clock"></i> Tradingzeiten</a>
+                <a href="#" class="horizontal-menu-item"><i class="fa fa-filter"></i> Nachrichten Filter</a>
+                <a href="#" class="horizontal-menu-item"><i class="fa fa-cogs"></i> Experte</a>
+                <a href="#" class="horizontal-menu-item"><i class="fa fa-check"></i> Ausgewählte Optionen</a>
+                <a href="#" class="horizontal-menu-item"><i class="fa fa-globe"></i> Gesamt</a>
+            </div>
+            
+            <div id="aktion-section" class="aktion-section">
+                <h2>Aktionen</h2>
+                <p>- Bei der Eingabe von Schlüsselwörtern wird nicht zwischen Groß- und Kleinschreibung unterschieden!</p>
+                <p>- Bei Aktionen mit der Farbe <span style="color:green;">GRÜN</span> muss der Anbieter auf die Signalnachricht antworten.</p>
+                <p>- Aktionen mit der Farbe <span style="color:red;">ROT</span> erfordern keine Antwort des Anbieters, aber sie müssen das/die Paar(e) in der Aktionsnachricht enthalten.</p>
+                <p>- Aktionen mit der Farbe <span style="color:yellow;">GELB</span> erfordern keine Antwort des Anbieters und werden mit dem letzten gesendeten Signal ausgeführt.</p>
+            
+                <div class="aktion-option">
+                    <label>
+                        <input type="checkbox" id="update-sl" class="checkbox">
+                        <span>Update des Signals SL, wenn die ursprüngliche Nachricht bearbeitet wird</span>
+                        <i class="info-icon" id="info-update-sl">?</i>
+                    </label>
+                </div>
+                <div class="aktion-option">
+                    <label>
+                        <input type="checkbox" id="update-tp" class="checkbox">
+                        <span>Aktualisierung der Signal TP's, wenn die ursprüngliche Nachricht bearbeitet wird</span>
+                        <i class="info-icon" id="info-update-tp">?</i>
+                    </label>
+                </div>
+                <div class="aktion-option">
+                    <label>
+                        <input type="checkbox" id="update-entrypoint" class="checkbox">
+                        <span>Aktualisierung des Signals ENTRYPOINT, wenn die ursprüngliche Nachricht bearbeitet wird</span>
+                        <i class="info-icon" id="info-update-entrypoint">?</i>
+                    </label>
+                </div>
+                <div class="aktion-option">
+                    <label>
+                        <input type="checkbox" id="close-signal" class="checkbox">
+                        <span>Das Signal schließen, wenn die Nachricht gelöscht wird</span>
+                        <i class="info-icon" id="info-close-signal">?</i>
+                    </label>
+                </div>
+                <div class="info-box">
+                    <i class="info-symbol">i</i>
+                    <span>Konfiguriere jedes von deinem Anbieter verwendete Wort so, dass es die folgenden Aktionen ausführt. Der Sender muss auf die Signalnachricht antworten.</span>
+                </div>
+                <div class="action-item">
+                    <input type="checkbox" id="close-signal-checkbox">
+                    <label for="close-signal-checkbox">
+                        <span class="highlight-green">Schliesse</span> das Signal, wenn der Text 
+                        <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                        erkannt wird, aber nicht der Text 
+                        <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                        <span class="question-icon" id="close-signal-info">?</span>
+                    </label>
+                </div>
+                <div class="action-item">
+                    <input type="checkbox" id="close-half-lot-checkbox">
+                    <label for="close-half-lot-checkbox">
+                        <span class="highlight-green">Schliesse halbe</span> Lotgröße wenn der Text 
+                        <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                        erkannt wird, aber nicht der Text 
+                        <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                        <span class="question-icon" id="close-half-lot-info">?</span>
+                    </label>
+                </div>
+                <div class="action-item">
+                    <input type="checkbox" id="close-half-lot-profit-only-checkbox">
+                    <label for="close-half-lot-profit-only-checkbox">
+                        <span class="highlight-green">Schliesse halbe</span> Lotgröße wenn der Text 
+                        <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                        erkannt wird. <span class="highlight-green">- Nur wenn der Trade im Gewinn ist -</span>
+                        <span class="question-icon" id="close-half-lot-profit-only-info">?</span>
+                    </label>
+                </div>
+                <div class="action-item">
+                    <input type="checkbox" id="move-sl-entry-checkbox">
+                    <label for="move-sl-entry-checkbox">
+                        <span class="highlight-green">SL zum Einstieg</span>, wenn der Text 
+                        <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                        erkannt wird, + 
+                        <input type="number" placeholder="Pips" step="1">
+                        Pips.
+                        <span class="question-icon" id="move-sl-entry-info">?</span>
+                    </label>
+                </div>
+                <div class="action-item">
+                    <input type="checkbox" id="remove-sl-checkbox">
+                    <label for="remove-sl-checkbox">
+                        <span class="highlight-green">Entferne SL</span>, wenn der Text 
+                        <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                        <span class="question-icon" id="remove-sl-info">?</span>
+                    </label>
+                </div>
+                <div class="action-item">
+                    <input type="checkbox" id="close-pending-order-checkbox">
+                    <label for="close-pending-order-checkbox">
+                        <span class="highlight-green">Schließe ausstehende Order</span>, wenn der Text 
+                        <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                        erkannt wird, aber nicht der Text 
+                        <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                        <span class="question-icon" id="close-pending-order-info">?</span>
+                    </label>
+                </div>
+                <div class="action-item">
+                    <input type="checkbox" id="trigger-pending-order-checkbox">
+                    <label for="trigger-pending-order-checkbox">
+                        <span class="highlight-green">Eine schwebende Order auslösen</span>, wenn der Text 
+                        <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                        erkannt wird.
+                        <span class="question-icon" id="trigger-pending-order-info">?</span>
+                    </label>
+                </div>
         </div>
+        
+            <!-- Modal für zusätzliche Informationen -->
+            <div id="modal-update-sl" class="modal">
+                <div class="modal-content">
+                    <span class="close" id="close-modal-update-sl">&times;</span>
+                    <h3>Informationen</h3>
+                    <p>Wenn eine Signalmeldung bearbeitet wird, wird die neue SL im Auftrag geändert.</p>
+                </div>
+            </div>
+            <!-- Modal für zusätzliche Informationen zu TP -->
+            <div id="modal-update-tp" class="modal">
+                <div class="modal-content">
+                    <span class="close" id="close-modal-update-tp">&times;</span>
+                    <h3>Informationen</h3>
+                    <p>Wenn eine Signalmeldung bearbeitet wird, werden die neuen TPs auf dem Auftrag geändert.</p>
+                </div>
+            </div>
+            <!-- Modal für zusätzliche Informationen zu ENTRYPOINT -->
+            <div id="modal-update-entrypoint" class="modal">
+                <div class="modal-content">
+                    <span class="close" id="close-modal-update-entrypoint">&times;</span>
+                    <h3>Informationen</h3>
+                    <p>Wenn eine Signalmeldung bearbeitet wird, wird der neue Eingangspunkt im Auftrag geändert.</p>
+                </div>
+            </div>
+            <!-- Modal für zusätzliche Informationen zum Schließen des Signals -->
+            <div id="modal-close-signal" class="modal">
+                <div class="modal-content">
+                <span class="close" id="close-modal-close-signal">&times;</span>
+                <h3>Informationen</h3>
+                <p>Wenn eine Nachricht aus dem Kanal gelöscht wird, schließen Sie alle mit dieser Nachricht verbundenen Trades.</p>
+                </div>
+            </div>
+            <!-- Modal für SCHLIESSE -->
+            <div id="close-signal-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close" id="close-signal-modal-close">&times;</span>
+                    <h3>Aktion</h3>
+                    <p>Schließt einen laufenden Trade oder löscht eine ausstehende Order.</p>
+                </div>
+            </div>
+            <!-- Modal für SCHLIESSE HALBE -->
+            <div id="close-half-lot-modal" class="modal">
+            <div class="modal-content">
+                    <span class="close" id="close-half-lot-modal-close">&times;</span>
+                    <h3>Aktion</h3>
+                    <p>Schließe 50% der aktuellen Lotgröße eines Trades.</p>
+           </div>
+        </div>
+    
+          <!-- Modal für "SCHLIESSE HALBE (Nur im Gewinn)" -->
+            <div id="close-half-lot-profit-only-modal" class="modal">
+            <div class="modal-content">
+                    <span class="close" id="close-half-lot-profit-only-modal-close">&times;</span>
+                     <h3>Aktion</h3>
+                    <p>Schließt die Hälfte eines Trades, aber nur, wenn er im Gewinn ist.</p>
+            </div>
+        </div>
+        <!-- Modal für "SL zum Einstieg" -->
+        <div id="move-sl-entry-modal" class="modal">
+         <div class="modal-content">
+        <span class="close" id="move-sl-entry-modal-close">&times;</span>
+        <h3>Aktion</h3>
+        <p>Bewegt SL zum Einstiegspunkt eines bestimmten Signals. Pips werden in der Gewinnrichtung hinzugefügt. Um Pips in der SL-Richtung hinzuzufügen, wird ein negativer Wert verwendet, zum Beispiel -10.</p>
+    </div>
+    </div>
+    <!-- Modal für Entferne SL -->
+        <div id="remove-sl-modal" class="modal">
+         <div class="modal-content">
+        <span class="close" id="remove-sl-modal-close">&times;</span>
+        <h3>Information</h3>
+        <p>Wenn dein Provider dir sagt, dass du die SL des Trades entfernen sollst, benutze diese Option. Dadurch wird die SL auf 0 (offen) geändert.</p>
+    </div>
+    </div>
+    <!-- Modal für Schließe ausstehende Order -->
+    <div id="close-pending-order-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="close-pending-order-modal-close">&times;</span>
+        <h3>Information</h3>
+        <p>Löscht eine ausstehende Order. Wenn der Trade bereits aktiv ist, wird er nicht geschlossen.</p>
+    </div>
+</div>
+<!-- Modal für Eine schwebende Order auslösen -->
+<div id="trigger-pending-order-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="trigger-pending-order-modal-close">&times;</span>
+        <h3>Information</h3>
+        <p>Der Provider muss auf das ursprüngliche Signal antworten. Wenn der Provider auf das Signal antwortet, wird der Kopierer die ausstehende Order sofort zum aktuellen Marktpreis ausführen.</p>
+    </div>
+</div>
     </div>
 
+</div>
+
+            </div>
+
+
+            
     <script src="/static/script.js"></script>
+    <script>
+        function openInfoModal(id) {
+            document.getElementById(id).style.display = 'block';
+        }
+
+        function closeInfoModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+    </script>
 </body>
 </html>

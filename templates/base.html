@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signal bearbeiten</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <img src="/static/logo.png" alt="SignalBridge Logo" class="logo">
+            <a href="/" class="menu-item">Startseite</a>
+            <a href="/account-management" class="menu-item">Kontoverwaltung</a>
+            <a href="/message-history" class="menu-item">Nachrichten Historie</a>
+            <a href="/support" class="menu-item">Support</a>
+            <a href="/help" class="menu-item">Hilfe</a>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <h1>Signal bearbeiten</h1>
+            <form method="POST">
+                <h2>2. Risk Management</h2>
+                <p>Mögliche Risikomanagement-Regeln (Werte können angepasst werden):</p>
+                <div>
+                    <label>
+                        <input type="radio" name="risk_type" value="fixed_lots" checked> 
+                        Feste Lotgröße:
+                        <input type="number" name="fixed_lots" placeholder="0.01">
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <input type="radio" name="risk_type" value="fixed_cash">
+                        Fester Betrag:
+                        <input type="number" name="fixed_cash" placeholder="10$">
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <input type="radio" name="risk_type" value="pip_value">
+                        Fester Betrag pro Pip:
+                        <input type="number" name="pip_value" placeholder="1$ pro Pip">
+                    </label>
+                </div>
+                <button type="submit" class="btn-green">Speichern</button>
+            </form>
+
+            <!-- Take Profit Levels -->
+            <div class="take-profit-levels">
+                <h2>3. Take Profit Levels</h2>
+                <div id="tp-levels-container">
+                    <!-- Dynamische Take-Profit-Level werden hier eingefügt -->
+                </div>
+                <button id="add-tp-level" class="btn-green">+ Neue Take Profit Stufe hinzufügen</button>
+                <button id="distribute-equally" class="btn-green">Prozentsatz gleichmäßig verteilen</button>
+            </div>
+
+            <!-- Aktionen unter der Tabelle -->
+            <div class="actions-section">
+                <h2>Aktionen</h2>
+                <div class="action-item">
+                    <label>Schließen, wenn der Text:</label>
+                    <input type="text" placeholder="Text eingeben">
+                    <span class="info-icon" title="Signal wird geschlossen, wenn dieser Text erkannt wird.">?</span>
+                </div>
+                <div class="action-item">
+                    <label>Teilweise schließen, wenn der Text:</label>
+                    <input type="text" placeholder="Text eingeben">
+                    <span class="info-icon" title="Ein Teil der Position wird geschlossen, wenn dieser Text erkannt wird.">?</span>
+                </div>
+                <div class="action-item">
+                    <label>SL auf Entry setzen, wenn der Text:</label>
+                    <input type="text" placeholder="Text eingeben">
+                    <span class="info-icon" title="Stop Loss wird auf den Entry-Preis gesetzt.">?</span>
+                </div>
+                <!-- Weitere Felder nach Bedarf -->
+            </div>
+
+            <!-- Menü im Querformat -->
+            <div class="horizontal-menu">
+                <button class="menu-button">Aktion 1</button>
+                <button class="menu-button">Aktion 2</button>
+                <button class="menu-button">Aktion 3</button>
+                <button class="menu-button">Aktion 4</button>
+            </div>
+
+            <!-- Modal für Details -->
+            <div id="tp-details-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close" id="close-modal">&times;</span>
+                    <h3>Take Profit Details</h3>
+                    <form>
+                        <label>TP Nummer:</label>
+                        <input type="text" id="tp-number" readonly>
+                        <label>Prozentsatz:</label>
+                        <input type="number" id="tp-percentage">
+                        <label>Strategie:</label>
+                        <input type="text" id="tp-strategy">
+                        <button type="button" class="btn-green" id="save-tp-details">Speichern</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

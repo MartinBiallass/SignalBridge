@@ -1,129 +1,110 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SignalBridge</title>
-    <link rel="stylesheet" href="/static/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-    <div class="container">
-        <div class="sidebar">
-            <img src="/static/logo.png" alt="SignalBridge Logo" class="logo">
-            <a href="/" class="menu-item">Startseite</a>
-            <a href="/account-management" class="menu-item">Kontoverwaltung</a>
-            <a href="/message-history" class="menu-item">Nachrichten Historie</a>
-            <a href="/support" class="menu-item">Support</a>
-            <a href="/help" class="menu-item">Hilfe</a>
-        </div>
+{% extends "base.html" %}
 
-        <div class="main-content">
-            <h1 id="page-title">Startseite</h1>
-            <div id="dynamic-content">
-                <!-- Inhalte werden dynamisch geladen -->
-            </div>
-        </div>
-    </div>
+{% block title %}Dashboard - SignalBridge{% endblock %}
 
-    <script>
-        // Funktion zum Laden dynamischer Inhalte
-        function loadPageContent(page) {
-            const contentDiv = document.getElementById('dynamic-content');
-            contentDiv.innerHTML = ''; // Vorherigen Inhalt entfernen
+{% block content %}
+<h1 id="page-title">Startseite</h1>
+<div id="dynamic-content">
+    <!-- Inhalte werden dynamisch geladen -->
+</div>
 
-            switch (page) {
-                case 'home':
-                    contentDiv.innerHTML = `
-                        <h2>Willkommen bei SignalBridge</h2>
-                        <p>Verwalten Sie Ihre Konten, Nachrichten und Signalgeber an einem Ort.</p>
-                        <div class="system-overview">
-                            <h3>System Cockpit</h3>
-                            <p>RAM-Nutzung: 2.3 GB von 8 GB</p>
-                            <p>Aktive Konten: 2 von 5</p>
-                        </div>
-                        <div class="telegram-overview">
-                            <h3>Telegram-Konto</h3>
-                            <p>Verknüpft: <b>test_telegram_user</b></p>
-                            <button>Verbinden</button>
-                            <button>Trennen</button>
-                        </div>
-                    `;
-                    break;
-                case 'account-management':
-                    contentDiv.innerHTML = `
-                        <h2>Kontoverwaltung</h2>
-                        <div class="balance-overview">
-                            <h3>Balance Übersicht</h3>
-                            <p>Initial Balance: $5000</p>
-                            <p>Gewinn: $1200</p>
-                        </div>
-                        <div class="charts-container">
-                            <canvas id="growth-chart"></canvas>
-                            <canvas id="drawdown-chart"></canvas>
-                        </div>
-                    `;
-                    break;
-                case 'message-history':
-                    contentDiv.innerHTML = `
-                        <h2>Nachrichten Historie</h2>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Timestamp</th>
-                                    <th>Signal</th>
-                                    <th>Provider</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>2025-01-21 14:30</td>
-                                    <td>EUR/USD</td>
-                                    <td>BEST GOLD SIGNAL</td>
-                                </tr>
-                                <tr>
-                                    <td>2025-01-21 14:00</td>
-                                    <td>GBP/USD</td>
-                                    <td>Forex Pros</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    `;
-                    break;
-                case 'support':
-                    contentDiv.innerHTML = `
-                        <h2>Support</h2>
-                        <form>
-                            <label for="ticket-text">Ticket Beschreibung:</label>
-                            <input type="text" id="ticket-text">
-                            <label for="ticket-file">Datei anhängen:</label>
-                            <input type="file" id="ticket-file">
-                            <button>Ticket erstellen</button>
-                        </form>
-                        <h3>Vorhandene Tickets</h3>
-                        <ul>
-                            <li>API Fehler - Offen</li>
-                            <li>Telegram Verbindung - Geschlossen</li>
-                        </ul>
-                    `;
-                    break;
-                case 'help':
-                    contentDiv.innerHTML = `
-                        <h2>Hilfe</h2>
-                        <div class="help-section">
-                            <a href="#">Erste Schritte</a>
-                            <a href="#">Signalgeber verwalten</a>
-                            <a href="#">System Cockpit</a>
-                        </div>
-                    `;
-                    break;
-                default:
-                    contentDiv.innerHTML = '<p>Inhalt nicht gefunden.</p>';
-            }
+<script>
+    // Funktion zum Laden dynamischer Inhalte
+    function loadPageContent(page) {
+        const contentDiv = document.getElementById('dynamic-content');
+        contentDiv.innerHTML = ''; // Vorherigen Inhalt entfernen
+
+        switch (page) {
+            case 'home':
+                contentDiv.innerHTML = `
+                    <h2>Willkommen bei SignalBridge</h2>
+                    <p>Verwalten Sie Ihre Konten, Nachrichten und Signalgeber an einem Ort.</p>
+                    <div class="system-overview">
+                        <h3>System Cockpit</h3>
+                        <p>RAM-Nutzung: 2.3 GB von 8 GB</p>
+                        <p>Aktive Konten: 2 von 5</p>
+                    </div>
+                    <div class="telegram-overview">
+                        <h3>Telegram-Konto</h3>
+                        <p>Verknüpft: <b>test_telegram_user</b></p>
+                        <button>Verbinden</button>
+                        <button>Trennen</button>
+                    </div>
+                `;
+                break;
+            case 'account-management':
+                contentDiv.innerHTML = `
+                    <h2>Kontoverwaltung</h2>
+                    <div class="balance-overview">
+                        <h3>Balance Übersicht</h3>
+                        <p>Initial Balance: $5000</p>
+                        <p>Gewinn: $1200</p>
+                    </div>
+                    <div class="charts-container">
+                        <canvas id="growth-chart"></canvas>
+                        <canvas id="drawdown-chart"></canvas>
+                    </div>
+                `;
+                break;
+            case 'message-history':
+                contentDiv.innerHTML = `
+                    <h2>Nachrichten Historie</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Signal</th>
+                                <th>Provider</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2025-01-21 14:30</td>
+                                <td>EUR/USD</td>
+                                <td>BEST GOLD SIGNAL</td>
+                            </tr>
+                            <tr>
+                                <td>2025-01-21 14:00</td>
+                                <td>GBP/USD</td>
+                                <td>Forex Pros</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `;
+                break;
+            case 'support':
+                contentDiv.innerHTML = `
+                    <h2>Support</h2>
+                    <form>
+                        <label for="ticket-text">Ticket Beschreibung:</label>
+                        <input type="text" id="ticket-text">
+                        <label for="ticket-file">Datei anhängen:</label>
+                        <input type="file" id="ticket-file">
+                        <button>Ticket erstellen</button>
+                    </form>
+                    <h3>Vorhandene Tickets</h3>
+                    <ul>
+                        <li>API Fehler - Offen</li>
+                        <li>Telegram Verbindung - Geschlossen</li>
+                    </ul>
+                `;
+                break;
+            case 'help':
+                contentDiv.innerHTML = `
+                    <h2>Hilfe</h2>
+                    <div class="help-section">
+                        <a href="#">Erste Schritte</a>
+                        <a href="#">Signalgeber verwalten</a>
+                        <a href="#">System Cockpit</a>
+                    </div>
+                `;
+                break;
+            default:
+                contentDiv.innerHTML = '<p>Inhalt nicht gefunden.</p>';
         }
+    }
 
-        // Standard-Inhalt laden
-        loadPageContent('home');
-    </script>
-</body>
-</html>
+    // Standard-Inhalt laden
+    loadPageContent('home');
+</script>
+{% endblock %}
