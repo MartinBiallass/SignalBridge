@@ -384,8 +384,9 @@ button.btn-red:hover {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 400px;
-    max-height: 50%; /* Verhindert übermäßige Höhe */
+    width: auto;
+    max-height: 90vh; /* Verhindert übermäßige Höhe */
+    max-width: 800px; /* Maximal 800px Breite */
     overflow-y: auto; /* Ermöglicht Scrollen, falls der Inhalt zu groß ist */
     background-color: #1E1E1E;
     border: 2px solid #FFD700;

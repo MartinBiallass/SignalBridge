@@ -152,8 +152,104 @@
                         <span class="question-icon" id="trigger-pending-order-info">?</span>
                     </label>
                 </div>
+                <div class="info-box">
+                    <i class="info-symbol">i</i>
+                    <span>Mit den folgenden Aktionen wird versucht, nach den konfigurierten Wörtern eine Zahl in der Signalnachricht zu finden. Der Anbieter muss auf die Signalnachricht antworten.</span>
+                </div>
+
+        <div class="action-item">
+            <input type="checkbox" id="change-sl-checkbox">
+            <label for="change-sl-checkbox">
+                <span class="highlight-green">Ändere</span> den SL nach dem Text: 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+            </label>
         </div>
         
+        <div class="action-item">
+            <input type="checkbox" id="change-sl-exist-checkbox">
+            <label for="change-sl-exist-checkbox">
+                <span class="highlight-green">Ändere SL</span>, wenn der Text 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                existiert. <span class="highlight-red">SL nach</span> dem Text: 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                <span class="question-icon" id="info-change-sl-exist">?</span>
+            </label>
+        </div>
+        <div class="action-item">
+            <input type="checkbox" id="change-tp-exist-checkbox">
+            <label for="change-tp-exist-checkbox">
+                <span class="highlight-green" style="color: green; font-weight: bold;">Ändere TP</span>, wenn der Text 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                existiert. TP nach dem Text: 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                <span class="question-icon" id="info-change-tp-exist">?</span>
+            </label>
+        </div>
+        <div class="action-item">
+            <input type="checkbox" id="change-entry-exist-checkbox">
+            <label for="change-entry-exist-checkbox">
+                <span class="highlight-green" style="color: green; font-weight: bold;">Ändere Eintrittspunkt</span>, wenn der Text 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                existiert. Eintritt nach dem Text: 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                <span class="question-icon" id="info-change-entry-exist">?</span>
+            </label>
+        </div>
+        <div class="action-item">
+            <input type="checkbox" id="retry-entry-checkbox">
+            <label for="retry-entry-checkbox">
+                <span class="highlight-green" style="color: green; font-weight: bold;">Wieder Eintritt</span>, wenn der Text 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                erkannt wird.
+                <span class="question-icon" id="info-retry-entry">?</span>
+            </label>
+        </div>
+        <div class="info-box">
+            <i class="info-symbol">i</i>
+            <span>Aktionen ohne Antwort - Beispiel: Close EURUSD und USDJPY jetzt (die Namen der Paare müssen in der Nachricht enthalten sein).</span>
+        </div>
+        <div class="action-item">
+            <input type="checkbox" id="close-entry-checkbox">
+            <label for="close-entry-checkbox">
+                <span class="highlight-red" style="color: red; font-weight: bold;">Schliesse</span>, wenn der Text 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                erkannt wird.
+                <span class="question-icon" id="info-close-entry">?</span>
+            </label>
+        </div>
+        <div class="action-item">
+            <input type="checkbox" id="close-half-lot-checkbox">
+            <label for="close-half-lot-checkbox">
+                <span class="highlight-red" style="color: red; font-weight: bold;">Schliesse halbe</span> Lotgröße, wenn der Text 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                erkannt wird.
+            </label>
+        </div>
+        <div class="action-item">
+            <input type="checkbox" id="change-sl-entrypoint-checkbox">
+            <label for="change-sl-entrypoint-checkbox">
+                <span class="highlight-red" style="color: red; font-weight: bold;">Ändere Sl zum Eintrittspunkt</span>, wenn der Text 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                erkannt wird, +
+                <input type="number" placeholder="Pips" step="0.1">
+                pips.
+                <span class="question-icon" id="info-change-sl-entrypoint">?</span>
+            </label>
+        </div>
+        <div class="action-item">
+            <input type="checkbox" id="change-sl-checkbox">
+            <label for="change-sl-checkbox">
+                <span class="highlight-red" style="color: red; font-weight: bold;">Ändere Sl</span>, wenn der Text 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                erkannt wird.
+                <span class="question-icon" id="info-change-sl">?</span>
+            </label>
+        </div>
+        <div class="info-box">
+            <i class="info-symbol">i</i>
+            <span>Aktionen ohne Antwort - werden beim letzten gesendeten Signal ausgeführt.</span>
+        </div>
+
             <!-- Modal für zusätzliche Informationen -->
             <div id="modal-update-sl" class="modal">
                 <div class="modal-content">
@@ -243,6 +339,94 @@
         <p>Der Provider muss auf das ursprüngliche Signal antworten. Wenn der Provider auf das Signal antwortet, wird der Kopierer die ausstehende Order sofort zum aktuellen Marktpreis ausführen.</p>
     </div>
 </div>
+<!-- Modal für Informationen -->
+<div id="modal-change-sl-exist" class="modal">
+    <div class="modal-content">
+        <span class="close" id="close-modal-change-sl-exist">&times;</span>
+        <h3>Information</h3>
+        <p>
+            Einige Signalanbieter senden eine Nachricht wie:<br>
+            <em>'MODIFIED SIGNAL'</em><br>
+            SL:1.5525<br><br>
+            In diesem Fall solltest du entsprechend auffüllen:<br>
+            <strong>Ändere SL</strong> wenn der Text 'MODIFIED SIGNAL' existiert.<br>
+            <strong>SL nach</strong> dem Text: 'SL:'.
+        </p>
+        <p>
+            Wenn der Provider nur eine Nachricht wie 'Change SL to 1.5525' sendet, dann geben Sie einfach das Schlüsselwort 'Change SL' in beide Felder ein.
+        </p>
+    </div>
+</div>
+<!-- Modal für Informationen -->
+<div id="modal-change-tp-exist" class="modal">
+    <div class="modal-content">
+        <span class="close" id="close-modal-change-tp-exist">&times;</span>
+        <h3>Information</h3>
+        <p>
+            Einige Signalanbieter senden eine Nachricht wie:<br>
+            <em>'MODIFIED SIGNAL'</em><br>
+            TP:1,5525<br><br>
+            In diesem Fall sollten Sie den Auftrag entsprechend ausfüllen:<br>
+            <strong>CHANGE TP</strong>, wenn der Text 'MODIFIED SIGNAL' vorhanden ist.<br>
+            <strong>TP nach dem Text:</strong> 'TP:'.
+        </p>
+        <p>
+            Wenn dein Provider nur eine Nachricht wie 'Change TP to 1.5525' sendet, füge einfach das Schlüsselwort 'Change TP' in beide Felder ein.
+        </p>
+    </div>
+</div>
+<!-- Modal für Informationen -->
+<div id="modal-change-entry-exist" class="modal">
+    <div class="modal-content">
+        <span class="close" id="close-modal-change-entry-exist">&times;</span>
+        <h3>Information</h3>
+        <p>
+            Ändert den Eintrittspunkt von Pending Orders.<br>
+            Wenn der neue Eintrittspunkt weniger als 5 Pips vom aktuellen Marktpreis entfernt ist, wird die Pending Order ausgelöst.
+        </p>
+    </div>
+</div>
+<!-- Modal für Wieder Eintritt -->
+<div id="modal-retry-entry" class="modal">
+    <div class="modal-content">
+        <span class="close" id="close-modal-retry-entry">&times;</span>
+        <h3>Information</h3>
+        <p>
+            Der Provider muss auf das ursprüngliche Signal antworten, und der Kopierer meldet sich mit demselben SL/TP wie das ursprüngliche Signal zurück.
+        </p>
+    </div>
+</div>
+<!-- Modal für Schliesse -->
+<div id="modal-close-entry" class="modal">
+    <div class="modal-content">
+        <span class="close" id="close-modal-close-entry">&times;</span>
+        <h3>Information</h3>
+        <p>
+            Wenn eine Teilschließungsaktion erkannt wird (z. B. close half oder close tp1), wird die Schließen-Aktion nicht ausgelöst.
+        </p>
+    </div>
+</div>
+<!-- Modal für Ändere SL zum Eintrittspunkt -->
+<div id="modal-change-sl-entrypoint" class="modal">
+    <div class="modal-content">
+        <span class="close" id="close-modal-change-sl-entrypoint">&times;</span>
+        <h3>Information</h3>
+        <p>
+            Pips werden in der Gewinnrichtung hinzugefügt. Um in die SL-Richtung zu addieren, verwenden Sie einen negativen Wert, zum Beispiel -10.
+        </p>
+    </div>
+</div>
+<!-- Modal für Ändere SL -->
+<div id="modal-change-sl" class="modal">
+    <div class="modal-content">
+        <span class="close" id="close-modal-change-sl">&times;</span>
+        <h3>Information</h3>
+        <p>
+            SL aller offenen Trades für ein in der Nachricht angegebenes Paar ändern.
+        </p>
+    </div>
+</div>
+
     </div>
 
 </div>

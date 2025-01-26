@@ -362,3 +362,122 @@ window.addEventListener('click', function (event) {
         modal.style.display = 'none';
     }
 });
+// Modal öffnen für Ändere SL
+document.getElementById('info-change-sl-exist').addEventListener('click', function () {
+    document.getElementById('modal-change-sl-exist').style.display = 'block';
+});
+
+// Modal schließen für Ändere SL
+document.getElementById('close-modal-change-sl-exist').addEventListener('click', function () {
+    document.getElementById('modal-change-sl-exist').style.display = 'none';
+});
+
+// Modal schließen, wenn außerhalb geklickt wird
+window.addEventListener('click', function (event) {
+    const modal = document.getElementById('modal-change-sl-exist');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+});
+/// Modal öffnen für Ändere TP
+document.getElementById('info-change-tp-exist').addEventListener('click', function () {
+    document.getElementById('modal-change-tp-exist').style.display = 'block';
+});
+
+// Modal schließen für Ändere TP
+document.getElementById('close-modal-change-tp-exist').addEventListener('click', function () {
+    document.getElementById('modal-change-tp-exist').style.display = 'none';
+});
+
+// Modal schließen, wenn außerhalb geklickt wird
+window.addEventListener('click', function (event) {
+    const modal = document.getElementById('modal-change-tp-exist');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+});
+// Modal öffnen für Ändere Eintrittspunkt
+document.getElementById('info-change-entry-exist').addEventListener('click', function () {
+    document.getElementById('modal-change-entry-exist').style.display = 'block';
+});
+
+// Modal schließen für Ändere Eintrittspunkt
+document.getElementById('close-modal-change-entry-exist').addEventListener('click', function () {
+    document.getElementById('modal-change-entry-exist').style.display = 'none';
+});
+
+// Modal schließen, wenn außerhalb geklickt wird
+window.addEventListener('click', function (event) {
+    const modal = document.getElementById('modal-change-entry-exist');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+});
+// Modal öffnen für Wieder Eintritt
+document.getElementById('info-retry-entry').addEventListener('click', function () {
+    document.getElementById('modal-retry-entry').style.display = 'block';
+});
+
+// Modal schließen für Wieder Eintritt
+document.getElementById('close-modal-retry-entry').addEventListener('click', function () {
+    document.getElementById('modal-retry-entry').style.display = 'none';
+});
+
+// Modal schließen, wenn außerhalb geklickt wird
+window.addEventListener('click', function (event) {
+    const modal = document.getElementById('modal-retry-entry');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+});
+// Modal öffnen für Schliesse
+document.getElementById('info-close-entry').addEventListener('click', function () {
+    document.getElementById('modal-close-entry').style.display = 'block';
+});
+
+// Modal schließen für Schliesse
+document.getElementById('close-modal-close-entry').addEventListener('click', function () {
+    document.getElementById('modal-close-entry').style.display = 'none';
+});
+
+// Modal schließen, wenn außerhalb geklickt wird
+window.addEventListener('click', function (event) {
+    const modal = document.getElementById('modal-close-entry');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+});
+// Modal öffnen für Ändere SL zum Eintrittspunkt
+document.getElementById('info-change-sl-entrypoint').addEventListener('click', function () {
+    document.getElementById('modal-change-sl-entrypoint').style.display = 'block';
+});
+
+// Modal schließen für Ändere SL zum Eintrittspunkt
+document.getElementById('close-modal-change-sl-entrypoint').addEventListener('click', function () {
+    document.getElementById('modal-change-sl-entrypoint').style.display = 'none';
+});
+
+// Modal schließen, wenn außerhalb geklickt wird
+window.addEventListener('click', function (event) {
+    const modal = document.getElementById('modal-change-sl-entrypoint');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+});
+// Modal öffnen für Ändere SL
+document.getElementById('info-change-sl').addEventListener('click', function () {
+    document.getElementById('modal-change-sl').style.display = 'block';
+});
+
+// Modal schließen für Ändere SL
+document.getElementById('close-modal-change-sl').addEventListener('click', function () {
+    document.getElementById('modal-change-sl').style.display = 'none';
+});
+
+// Modal schließen, wenn außerhalb geklickt wird
+window.addEventListener('click', function (event) {
+    const modal = document.getElementById('modal-change-sl');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+});
