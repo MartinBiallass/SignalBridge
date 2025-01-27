@@ -481,3 +481,122 @@ window.addEventListener('click', function (event) {
         modal.style.display = 'none';
     }
 });
+// Modal öffnen für Schliesse (letzte Aktion)
+document.getElementById('info-close-latest').addEventListener('click', function () {
+    document.getElementById('modal-close-latest').style.display = 'block';
+});
+
+// Modal schließen für Schliesse (letzte Aktion)
+document.getElementById('close-modal-close-latest').addEventListener('click', function () {
+    document.getElementById('modal-close-latest').style.display = 'none';
+});
+
+// Modal schließen, wenn außerhalb geklickt wird
+window.addEventListener('click', function (event) {
+    const modal = document.getElementById('modal-close-latest');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+});
+// Modal öffnen für Schliesse halbe Lotgröße
+document.getElementById('info-close-half-latest').addEventListener('click', function () {
+    document.getElementById('modal-close-half-latest').style.display = 'block';
+});
+
+// Modal schließen für Schliesse halbe Lotgröße
+document.getElementById('close-modal-close-half-latest').addEventListener('click', function () {
+    document.getElementById('modal-close-half-latest').style.display = 'none';
+});
+
+// Modal schließen, wenn außerhalb geklickt wird
+window.addEventListener('click', function (event) {
+    const modal = document.getElementById('modal-close-half-latest');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+});
+// Modal öffnen für Ändere SL zum Eintrittspunkt
+document.getElementById('info-change-sl-entry').addEventListener('click', function () {
+    document.getElementById('modal-change-sl-entry').style.display = 'block';
+});
+
+// Modal schließen für Ändere SL zum Eintrittspunkt
+document.getElementById('close-modal-change-sl-entry').addEventListener('click', function () {
+    document.getElementById('modal-change-sl-entry').style.display = 'none';
+});
+
+// Modal schließen, wenn außerhalb geklickt wird
+window.addEventListener('click', function (event) {
+    const modal = document.getElementById('modal-change-sl-entry');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+});
+// Modal öffnen für Ändere SL
+document.getElementById('info-change-sl').addEventListener('click', function () {
+    document.getElementById('modal-change-sl').style.display = 'block';
+});
+
+// Modal schließen für Ändere SL
+document.getElementById('close-modal-change-sl').addEventListener('click', function () {
+    document.getElementById('modal-change-sl').style.display = 'none';
+});
+
+// Modal schließen, wenn außerhalb geklickt wird
+window.addEventListener('click', function (event) {
+    const modal = document.getElementById('modal-change-sl');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+});
+// Modal öffnen für Schliesse alle offenen Signale
+document.getElementById('info-close-all-signals').addEventListener('click', function () {
+    document.getElementById('modal-close-all-signals').style.display = 'block';
+});
+
+// Modal schließen für Schliesse alle offenen Signale
+document.getElementById('close-modal-close-all-signals').addEventListener('click', function () {
+    document.getElementById('modal-close-all-signals').style.display = 'none';
+});
+
+// Modal schließen, wenn außerhalb geklickt wird
+window.addEventListener('click', function (event) {
+    const modal = document.getElementById('modal-close-all-signals');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+});
+// Modal öffnen für Schliesse alle ausstehenden Trades
+document.getElementById('info-close-all-pending-trades').addEventListener('click', function () {
+    document.getElementById('modal-close-all-pending-trades').style.display = 'block';
+});
+
+// Modal schließen für Schliesse alle ausstehenden Trades
+document.getElementById('close-modal-close-all-pending-trades').addEventListener('click', function () {
+    document.getElementById('modal-close-all-pending-trades').style.display = 'none';
+});
+
+// Modal schließen, wenn außerhalb geklickt wird
+window.addEventListener('click', function (event) {
+    const modal = document.getElementById('modal-close-all-pending-trades');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+});
+// Modal öffnen für Ticket Nummer
+document.getElementById('info-ticket-number').addEventListener('click', function () {
+    document.getElementById('modal-ticket-number').style.display = 'block';
+});
+
+// Modal schließen für Ticket Nummer
+document.getElementById('close-modal-ticket-number').addEventListener('click', function () {
+    document.getElementById('modal-ticket-number').style.display = 'none';
+});
+
+// Modal schließen, wenn außerhalb geklickt wird
+window.addEventListener('click', function (event) {
+    const modal = document.getElementById('modal-ticket-number');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+});

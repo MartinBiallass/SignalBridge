@@ -249,7 +249,177 @@
             <i class="info-symbol">i</i>
             <span>Aktionen ohne Antwort - werden beim letzten gesendeten Signal ausgeführt.</span>
         </div>
+        <div class="action-item">
+            <input type="checkbox" id="close-latest-checkbox">
+            <label for="close-latest-checkbox">
+                <span class="highlight-yellow" style="color: yellow; font-weight: bold;">Schliesse</span>, wenn der Text 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                erkannt wird.
+                <span class="question-icon" id="info-close-latest">?</span>
+            </label>
+        </div>
+        <div class="action-item">
+            <input type="checkbox" id="close-half-latest-checkbox">
+            <label for="close-half-latest-checkbox">
+                <span class="highlight-yellow" style="color: yellow; font-weight: bold;">Schliesse halbe</span> Lotgröße, wenn der Text 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                erkannt wird.
+                <span class="question-icon" id="info-close-half-latest">?</span>
+            </label>
+        </div>
+        <div class="action-item">
+            <input type="checkbox" id="change-sl-entry-checkbox">
+            <label for="change-sl-entry-checkbox">
+                <span class="highlight-yellow" style="color: yellow; font-weight: bold;">Ändere Sl zum Eintrittspunkt</span>, wenn der Text 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                erkannt wird, +
+                <input type="number" placeholder="Pips" step="0.1">
+                pips.
+                <span class="question-icon" id="info-change-sl-entry">?</span>
+            </label>
+        </div>
+        <div class="action-item">
+            <input type="checkbox" id="change-sl-checkbox">
+            <label for="change-sl-checkbox">
+                <span class="highlight-yellow" style="color: yellow; font-weight: bold;">Ändere Sl</span>, wenn der Text 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                erkannt wird.
+                <span class="question-icon" id="info-change-sl">?</span>
+            </label>
+        </div>
+        <div class="action-item">
+            <input type="checkbox" id="close-all-signals-checkbox">
+            <label for="close-all-signals-checkbox">
+                <span class="highlight-orange" style="color: orange; font-weight: bold;">Schliesse alle offenen Signale</span>, wenn der Text 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                erkannt wird.
+                <span class="question-icon" id="info-close-all-signals">?</span>
+            </label>
+        </div>
+        <div class="action-item">
+            <input type="checkbox" id="close-all-pending-trades-checkbox">
+            <label for="close-all-pending-trades-checkbox">
+                <span class="highlight-orange" style="color: orange; font-weight: bold;">Schliesse alle ausstehenden Trades</span>, wenn der Text 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                erkannt wird.
+                <span class="question-icon" id="info-close-all-pending-trades">?</span>
+            </label>
+        </div>
+        <div class="action-item">
+            <input type="checkbox" id="ticket-number-checkbox">
+            <label for="ticket-number-checkbox">
+                <span class="highlight-orange" style="color: orange; font-weight: bold;">Ticket Nummer</span>, wenn der Text 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                erkannt wird.
+                <span class="question-icon" id="info-ticket-number">?</span>
+            </label>
+        </div>
+        <div class="info-box">
+            <i class="info-symbol">i</i>
+            <span>Schließt spezifische Take Profits.</span>
+        </div>
 
+        <div class="action-item">
+            <input type="checkbox" id="close-tp1-checkbox">
+            <label for="close-tp1-checkbox">
+                <span class="highlight-green" style="color: green; font-weight: bold;">Schliesse TP 1</span>, wenn der Text 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                erkannt wird.
+            </label>
+        </div>
+        <div class="action-item">
+            <input type="checkbox" id="close-tp2-checkbox">
+            <label for="close-tp2-checkbox">
+                <span class="highlight-green" style="color: green; font-weight: bold;">Schliesse TP 2</span>, wenn der Text 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                erkannt wird.
+            </label>
+        </div>
+        <div class="action-item">
+            <input type="checkbox" id="close-tp3-checkbox">
+            <label for="close-tp3-checkbox">
+                <span class="highlight-green" style="color: green; font-weight: bold;">Schliesse TP 3</span>, wenn der Text 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                erkannt wird.
+            </label>
+        </div>
+        <div class="info-box">
+            <i class="info-symbol">i</i>
+            <span>Ändert spezifische Take Profits.</span>
+        </div>
+        <div class="action-item">
+            <input type="checkbox" id="change-tp1-checkbox">
+            <label for="change-tp1-checkbox">
+                <span class="highlight-green" style="color: green; font-weight: bold;">Ändert TP 1</span>, wenn der Text 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                erkannt wird.
+            </label>
+        </div>
+        
+        <div class="action-item">
+            <input type="checkbox" id="change-tp2-checkbox">
+            <label for="change-tp2-checkbox">
+                <span class="highlight-green" style="color: green; font-weight: bold;">Ändert TP 2</span>, wenn der Text 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                erkannt wird.
+            </label>
+        </div>
+        <div class="action-item">
+            <input type="checkbox" id="change-tp3-checkbox">
+            <label for="change-tp3-checkbox">
+                <span class="highlight-green" style="color: green; font-weight: bold;">Ändert TP 3</span>, wenn der Text 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                erkannt wird.
+            </label>
+        </div>
+        <div class="info-box">
+            <i class="info-symbol">i</i>
+            <span>Teilschließungen - Pro Nachricht wird nur eine Teilschließungsaktion ausgeführt.</span>
+        </div>
+        <div class="action-item">
+            <input type="checkbox" id="close-percentage-1-checkbox">
+            <label for="close-percentage-1-checkbox">
+                <span class="highlight-green" style="color: green; font-weight: bold;">Schliesse</span>, wenn der Text 
+                <input type="number" placeholder="Prozentsatz" step="1" style="width: 70px;"> %
+                und Schlüsselwörter 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                erkannt wird.
+            </label>
+        </div>
+        
+        <div class="action-item">
+            <input type="checkbox" id="close-percentage-2-checkbox">
+            <label for="close-percentage-2-checkbox">
+                <span class="highlight-green" style="color: green; font-weight: bold;">Schliesse</span>, wenn der Text 
+                <input type="number" placeholder="Prozentsatz" step="1" style="width: 70px;"> %
+                und Schlüsselwörter 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                erkannt wird.
+            </label>
+        </div>
+        
+        <div class="action-item">
+            <input type="checkbox" id="close-percentage-3-checkbox">
+            <label for="close-percentage-3-checkbox">
+                <span class="highlight-green" style="color: green; font-weight: bold;">Schliesse</span>, wenn der Text 
+                <input type="number" placeholder="Prozentsatz" step="1" style="width: 70px;"> %
+                und Schlüsselwörter 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                erkannt wird.
+            </label>
+        </div>
+        
+        <div class="action-item">
+            <input type="checkbox" id="close-percentage-4-checkbox">
+            <label for="close-percentage-4-checkbox">
+                <span class="highlight-green" style="color: green; font-weight: bold;">Schliesse</span>, wenn der Text 
+                <input type="number" placeholder="Prozentsatz" step="1" style="width: 70px;"> %
+                und Schlüsselwörter 
+                <input type="text" placeholder="Schlüsselwörter, durch Kommata getrennt">
+                erkannt wird.
+            </label>
+        </div>
+        
             <!-- Modal für zusätzliche Informationen -->
             <div id="modal-update-sl" class="modal">
                 <div class="modal-content">
@@ -426,7 +596,86 @@
         </p>
     </div>
 </div>
-
+<!-- Modal für Schliesse -->
+<div id="modal-close-latest" class="modal">
+    <div class="modal-content">
+        <span class="close" id="close-modal-close-latest">&times;</span>
+        <h3>Aktion</h3>
+        <p>
+            Schließt eine aktive Order oder löscht eine ausstehende Order.<br>
+            <strong>Achtung:</strong> Bezieht sich automatisch auf das letzte Signal, was gesendet wurde.
+        </p>
+    </div>
+</div>
+<!-- Modal für Schliesse halbe Lotgröße -->
+<div id="modal-close-half-latest" class="modal">
+    <div class="modal-content">
+        <span class="close" id="close-modal-close-half-latest">&times;</span>
+        <h3>Aktion</h3>
+        <p>
+            Wenn ein Paar in der Nachricht enthalten ist, wird die Aktion bei dem letzten für dieses Paar gesendeten Signal ausgeführt.
+        </p>
+    </div>
+</div>
+<!-- Modal für Ändere SL zum Eintrittspunkt -->
+<div id="modal-change-sl-entry" class="modal">
+    <div class="modal-content">
+        <span class="close" id="close-modal-change-sl-entry">&times;</span>
+        <h3>Aktion</h3>
+        <p>
+            Pips werden in der Gewinnrichtung hinzugefügt. Um in die SL-Richtung zu addieren, verwenden Sie einen negativen Wert, zum Beispiel -10.<br>
+            Wenn ein Paar in der Nachricht enthalten ist, wird die Aktion bei dem letzten für dieses Paar gesendeten Signal ausgeführt.
+        </p>
+    </div>
+</div>
+<!-- Modal für Ändere SL -->
+<div id="modal-change-sl" class="modal">
+    <div class="modal-content">
+        <span class="close" id="close-modal-change-sl">&times;</span>
+        <h3>Aktion</h3>
+        <p>
+            Ändert SL auf einen bestimmten Wert.<br>
+            Beispiel: Verschiebe deinen SL auf 1877,54.<br>
+            Wenn ein Paar in der Nachricht enthalten ist, wird die Aktion bei dem letzten für dieses Paar gesendeten Signal ausgeführt.
+        </p>
+    </div>
+</div>
+<!-- Modal für Schliesse alle offenen Signale -->
+<div id="modal-close-all-signals" class="modal">
+    <div class="modal-content">
+        <span class="close" id="close-modal-close-all-signals">&times;</span>
+        <h3>Information</h3>
+        <p>
+            Schließt alle offenen Signale für diesen Provider, wenn ein bestimmter Text in einer Nachricht erkannt wird.
+        </p>
+    </div>
+</div>
+<!-- Modal für Schliesse alle ausstehenden Trades -->
+<div id="modal-close-all-pending-trades" class="modal">
+    <div class="modal-content">
+        <span class="close" id="close-modal-close-all-pending-trades">&times;</span>
+        <h3>Information</h3>
+        <p>
+            Schließt alle ausstehenden Aufträge für diesen Anbieter, wenn ein bestimmter Text in einer Nachricht erkannt wird.
+        </p>
+    </div>
+</div>
+<!-- Modal für Ticket Nummer -->
+<div id="modal-ticket-number" class="modal">
+    <div class="modal-content">
+        <span class="close" id="close-modal-ticket-number">&times;</span>
+        <h3>Information</h3>
+        <p>
+            Wenn dein Provider beim Senden von Aktionen nicht auf die Signalnachricht antwortet und stattdessen eine Ticketnummer sendet, um das Signal zu identifizieren, konfiguriere sie hier.<br>
+            Einige Anbieter senden z.B. eine Ticket-ID in der Signalnachricht:<br>
+            <br>
+            <em>EURUSD verkaufen<br>
+            Ticket: 498345641<br>
+            SL: 1.62<br>
+            TP: 1.31</em>
+        </p>
+    </div>
+</div>
     </div>
 
 </div>
