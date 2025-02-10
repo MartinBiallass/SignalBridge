@@ -1,0 +1,32 @@
+{% extends "edit_signal_base.html" %}
+
+{% block content %}
+    <!-- Take Profit Levels -->
+    <div class="take-profit-levels">
+        <h2> Take Profit Levels</h2>
+        <div id="tp-levels-container">
+            <!-- Dynamische Take-Profit-Level werden hier eingefügt -->
+        </div>
+        <button id="add-tp-level" class="btn-green">+ Neue Take Profit Stufe hinzufügen</button>
+        <button id="distribute-equally" class="btn-green">Prozentsatz gleichmäßig verteilen</button>
+    </div>
+
+    <!-- Horizontal-Menü -->
+    <div class="horizontal-menu">
+        <a href="/aktion" class="horizontal-menu-item" data-section="aktion"><i class="fa fa-paper-plane"></i> Aktion</a>
+        <a href="/signalmanipulation" class="horizontal-menu-item" data-section="signalmanipulation"><i class="fa fa-bolt"></i> Signalmanipulation</a>
+        <a href="/pendingorder" class="horizontal-menu-item" data-section="pendingorder"><i class="fa fa-sync"></i> Pending Order</a>
+        <a href="/geldrisiko" class="horizontal-menu-item" data-section="geldrisiko"><i class="fa fa-wallet"></i> Geld / Risikomanagement</a>
+        <a href="/tradingzeiten" class="horizontal-menu-item" data-section="tradingzeiten"><i class="fa fa-clock"></i> Tradingzeiten</a>
+        <a href="/nachrichtenfilter" class="horizontal-menu-item" data-section="nachrichtenfilter"><i class="fa fa-filter"></i> Nachrichten Filter</a>
+        <a href="/experte" class="horizontal-menu-item" data-section="experte"><i class="fa fa-cogs"></i> Experte</a>
+        <a href="/optionen" class="horizontal-menu-item" data-section="optionen"><i class="fa fa-check"></i> Ausgewählte Optionen</a>
+        <a href="/gesamt" class="horizontal-menu-item" data-section="gesamt"><i class="fa fa-globe"></i> Gesamt</a>
+    </div>
+
+    <!-- Bereich für geladene Inhalte -->
+    <div id="dynamic-content">
+        <h2>Wähle eine Option aus dem Menü</h2>
+    </div>
+
+{% endblock %}

@@ -99,18 +99,32 @@ document.addEventListener("DOMContentLoaded", function () {
     renderTpLevels(); // Initial render
 });
 // Event-Listener für Klick auf "Aktion"
-document.querySelector('.horizontal-menu-item:first-child').addEventListener('click', function () {
+document.addEventListener("DOMContentLoaded", function () {
+    const aktionButton = document.querySelector('.horizontal-menu-item:first-child');
     const aktionSection = document.getElementById('aktion-section');
-    // Blendet den Bereich ein/aus
-    if (aktionSection.style.display === 'none' || !aktionSection.style.display) {
+
+    if (aktionButton && aktionSection) {
+        // Stelle sicher, dass der Bereich beim Laden sichtbar ist
         aktionSection.style.display = 'block';
-        window.scrollTo({
-            top: aktionSection.offsetTop - 50, // Scrollt zum Bereich mit einem kleinen Offset
-            behavior: 'smooth'
+
+        aktionButton.addEventListener('click', function () {
+            // Toggle Sichtbarkeit
+            if (aktionSection.style.display === 'none') {
+                aktionSection.style.display = 'block';
+                window.scrollTo({
+                    top: aktionSection.offsetTop - 50, // Scrollt zum Bereich mit einem kleinen Offset
+                    behavior: 'smooth'
+                });
+            } else {
+                aktionSection.style.display = 'none';
+            }
         });
     } else {
-        aktionSection.style.display = 'none';
+        console.warn("Aktion-Button oder Aktion-Section nicht gefunden!");
     }
+});
+
+
 });
 // Modal öffnen
 document.getElementById('info-update-sl').addEventListener('click', function () {
@@ -599,4 +613,20 @@ window.addEventListener('click', function (event) {
     if (event.target === modal) {
         modal.style.display = 'none';
     }
+});
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".horizontal-menu-item").forEach(item => {
+        item.addEventListener("click", function (event) {
+            event.preventDefault(); // Verhindert das Neuladen der Seite
+            
+            const url = this.getAttribute("href"); // URL der Seite abrufen
+            
+            fetch(url)  // AJAX-Request an die URL
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById("dynamic-content").innerHTML = html; // Fügt den HTML-Code in den Content-Bereich ein
+                })
+                .catch(error => console.error("Fehler beim Laden:", error));
+        });
+    });
 });

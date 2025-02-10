@@ -1,0 +1,156 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #121212;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.registration-container {
+    background: rgba(30, 30, 30, 0.95);
+    padding: 30px;
+    border-radius: 12px;
+    width: 600px; /* Breiter gemacht */
+    text-align: center;
+    box-shadow: 0px 0px 15px rgba(255, 215, 0, 0.5);
+}
+
+.logo {
+    width: 120px;
+    margin-bottom: 10px;
+}
+
+.main-title {
+    font-size: 26px;
+    font-weight: bold;
+    color: #FFD700;
+}
+
+.subtitle {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    border: none;
+    background: #2a2a2a;
+    color: white;
+    font-size: 16px;
+}
+
+.subscription-title {
+    font-size: 18px;
+    margin: 20px 0 10px;
+}
+
+.subscription-options {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.subscription-options.wider {
+    width: 100%;
+}
+
+.subscription-card {
+    flex: 1;
+    background: #232323;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.subscription-card:hover {
+    background: #333;
+    transform: scale(1.05);
+}
+
+.subscription-card.selected {
+    border: 2px solid gold;
+    background: rgba(255, 215, 0, 0.2);
+}
+
+
+.best-value-badge {
+    font-size: 14px;
+    color: #FFD700;
+}
+
+.vip-deal {
+    font-size: 14px;
+    color: #ADD8E6;
+}
+
+/* ✨ NEUER Bereich: Subscription-Vorteile */
+.subscription-benefits {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.benefit-card {
+    background: rgba(255, 215, 0, 0.2);
+    padding: 12px;
+    border-radius: 8px;
+    width: 260px;
+    font-weight: bold;
+    color: #FFD700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.benefit-card:hover {
+    background: rgba(255, 215, 0, 0.4);
+    transform: scale(1.05);
+}
+
+.register-btn {
+    width: 100%;
+    padding: 14px;
+    background: #FFD700;
+    border: none;
+    color: #000;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.register-btn:hover {
+    background: #FFC107;
+    box-shadow: 0px 0px 12px rgba(255, 215, 0, 0.8);
+    transform: scale(1.05);
+}
+
+.footer-links {
+    margin-top: 30px; /* Mehr Abstand */
+    font-size: 12px;
+}
+
+.footer-links a {
+    color: #FFD700;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}

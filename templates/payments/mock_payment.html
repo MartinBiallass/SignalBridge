@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock-Zahlung | SignalBridge</title>
+    <link rel="stylesheet" href="/static/css/payment.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="payment-container">
+        <h2 class="main-title">Mock-Zahlung</h2>
+        <div class="payment-box">
+            <p><strong>Bestellung für:</strong> <span id="subscription-type">{{ order.subscription }}</span></p>
+            <p><strong>Preis:</strong> <span id="price">{{ "%.2f"|format(order.price) }}€</span></p>
+            <p><strong>Status:</strong> <span id="status" style="color: {% if order.status == 'paid' %}green{% else %}red{% endif %};">
+                {{ "Bezahlt" if order.status == "paid" else "Unbezahlt" }}
+            </span></p>
+            
+            {% if order.status == "unpaid" %}
+                <form method="POST">
+                    <button type="submit" class="pay-btn">Jetzt bezahlen</button>
+                </form>
+            {% else %}
+                <button class="pay-btn" disabled>Bereits bezahlt</button>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

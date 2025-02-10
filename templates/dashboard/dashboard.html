@@ -8,7 +8,47 @@
     <!-- Inhalte werden dynamisch geladen -->
 </div>
 
+<h2>Live Optionstrades</h2>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Trade ID</th>
+            <th>Typ</th>
+            <th>Dauer</th>
+        </tr>
+    </thead>
+    <tbody id="trade-table">
+        <!-- Live-Daten werden hier eingefügt -->
+    </tbody>
+</table>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script>
 <script>
+    var socket = io.connect("http://" + document.domain + ":" + location.port);
+
+    // Empfangene Trades aktualisieren
+    socket.on("update_trades", function(data) {
+        var table = document.getElementById("trade-table");
+        table.innerHTML = "";  // Tabelle leeren
+        for (var trade in data.active_trades) {
+            var row = table.insertRow();
+            row.insertCell(0).innerHTML = trade;
+            row.insertCell(1).innerHTML = data.active_trades[trade].type;
+            row.insertCell(2).innerHTML = data.active_trades[trade].duration + " min";
+        }
+    });
+
+    // Geschlossene Trades aus der UI entfernen
+    socket.on("trade_closed", function(data) {
+        var table = document.getElementById("trade-table");
+        for (var i = 0, row; row = table.rows[i]; i++) {
+            if (row.cells[0].innerHTML === data.trade_id) {
+                table.deleteRow(i);
+                break;
+            }
+        }
+    });
+
     // Funktion zum Laden dynamischer Inhalte
     function loadPageContent(page) {
         const contentDiv = document.getElementById('dynamic-content');

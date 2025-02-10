@@ -1,5 +1,10 @@
 import re
 from datetime import datetime
+# Importiere den Optionstrading-Manager aus der Datei option_trading.py
+from backend.option_trading import OptionTradeManager
+
+# Instanz des Managers erstellen
+trade_manager = OptionTradeManager()
 
 # Signal-Parsing-Funktion
 def parse_signal(message):
@@ -19,6 +24,21 @@ def parse_signal(message):
             "timestamp": datetime.now().isoformat()
         }
     return None
+def process_signal(message):
+    signal = parse_signal(message)  # Standard-Signalverarbeitung
+    
+    if signal:
+        print(f"✅ Signal erkannt: {signal}")
+        
+        # Prüfen, ob das Signal für Optionstrading geeignet ist (ob eine Zeitangabe enthalten ist)
+        option_trade_data = trade_manager.parse_signal(message)
+        if option_trade_data:  # Falls die Optionstrading-Logik eine gültige Laufzeit erkennt
+            trade_id = f"{signal['symbol']}_{datetime.now().strftime('%H%M%S')}"
+            trade_manager.open_trade(trade_id, message)
+
+    else:
+        print("❌ Kein gültiges Signal erkannt.")
+
 
 # Testnachrichten
 test_messages = [

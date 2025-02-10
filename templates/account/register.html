@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrierung | SignalBridge</title>
+    <link rel="stylesheet" href="/static/css/register.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="registration-container">
+        <img src="/static/css/logo.png" alt="SignalBridge Logo" class="logo">
+        <h2 class="main-title">SignalBridge</h2>
+        <h3 class="subtitle">Erstelle dein Konto</h3>
+        <form method="POST" action="/register">
+            <input type="text" name="username" placeholder="Benutzername" required>
+            <input type="password" name="password" placeholder="Passwort" required>
+            
+            <h3 class="subscription-title">Wähle dein Abo</h3>
+            <div class="subscription-options wider">
+                <label class="subscription-card" data-value="monthly">
+                    <h4>Monatlich</h4>
+                    <p class="price">19,90€/Monat</p>
+                    <span class="discount">Flexibel & ohne Risiko</span>
+                </label>
+                <label class="subscription-card selected" data-value="quarterly">
+                    <h4>Quartal</h4>
+                    <p class="price">49,90€/3 Monate</p>
+                    <span class="discount">16% Ersparnis (statt 59,70€)</span>
+                </label>
+                <label class="subscription-card best-value" data-value="yearly">
+                    <h4>Jährlich <span class="best-value-badge">🏆 Best Value!</span></h4>
+                    <p class="price">169,90€/Jahr</p>
+                    <span class="discount">28% Ersparnis (statt 238,80€)</span>
+                </label>
+                <label class="subscription-card premium" data-value="lifetime">
+                    <h4>Lifetime <span class="vip-deal">💎 VIP-Deal</span></h4>
+                    <p class="price">399,90€ einmalig</p>
+                    <span class="discount">Einmal zahlen – für immer Zugang!</span>
+                </label>
+            </div>
+
+            <!-- Optimierter Benefits-Bereich -->
+            <div class="benefits-container">
+                <h3 class="benefits-title">✨ Warum SignalBridge?</h3>
+                <div class="benefits-box">
+                    <div class="benefit-item">
+                        ✅ <strong>Monatlich:</strong> Flexibel & ohne Risiko – jeder kann SignalBridge testen!
+                    </div>
+                    <div class="benefit-item">
+                        📉 <strong>Quartal:</strong> Beste Wahl für aktive Trader – 16% günstiger als Monatsabo!
+                    </div>
+                    <div class="benefit-item">
+                        🏆 <strong>Jährlich:</strong> 12 Monate handeln, nur für 8,5 Monate zahlen!
+                    </div>
+                    <div class="benefit-item">
+                        💎 <strong>Lifetime:</strong> Einmal zahlen – für immer Zugang! (Limitierte Aktion)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rabattcode-Feld -->
+            <h3 class="discount-title">🎟️ Rabattcode eingeben (optional)</h3>
+            <input type="text" name="discount_code" id="discount-code" placeholder="Rabattcode eingeben">
+
+            <input type="hidden" name="subscription" id="subscription-input" value="quarterly">
+            <button type="submit" class="register-btn">Jetzt registrieren</button>
+        </form>
+        
+        <div class="footer-links">
+            <a href="#">Zahlungsmethoden</a> | 
+            <a href="#">Abo-Informationen</a> | 
+            <a href="#">Nutzungsbedingungen</a> | 
+            <a href="#">Datenschutz</a>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('.subscription-card').click(function() {
+                $('.subscription-card').removeClass('selected');
+                $(this).addClass('selected');
+                $('#subscription-input').val($(this).data('value'));
+            });
+
+            $("form").submit(function(event) {
+                if (!$(".subscription-card.selected").length) {
+                    alert("Bitte wähle ein Abo-Modell aus.");
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
