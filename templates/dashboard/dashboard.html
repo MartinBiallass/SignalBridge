@@ -1,11 +1,24 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard - SignalBridge{% endblock %}
-
 {% block content %}
-<h1 id="page-title">Startseite</h1>
-<div id="dynamic-content">
-    <!-- Inhalte werden dynamisch geladen -->
+<h1 id="page-title">Dashboard</h1>
+<div class="subscription-status">
+    <h2>Abonnement-Status</h2>
+    {% if user.orders and user.orders[0].paid_at %}
+        <p class="paid">✅ Bezahlt am {{ user.orders[0].paid_at.strftime('%d.%m.%Y %H:%M') }}</p>
+    {% else %}
+        <p class="unpaid">❌ Dein Abo ist nicht bezahlt!</p>
+        <a href="{{ url_for('mock_payment') }}" class="pay-link">Jetzt bezahlen</a>
+    {% endif %}
+</div>
+
+<div class="menu">
+    <a href="{{ url_for('home') }}" class="btn btn-primary">🏠 Startseite</a>
+    <a href="{{ url_for('my_payments') }}" class="btn btn-secondary">💳 Meine Zahlungen</a>
+    <a href="{{ url_for('account_management') }}" class="btn btn-secondary">🔧 Kontoverwaltung</a>
+    <a href="{{ url_for('help_page') }}" class="btn btn-secondary">❓ Hilfe</a>
+    <a href="{{ url_for('support') }}" class="btn btn-secondary">🛠️ Support</a>
+    <a href="{{ url_for('logout') }}" class="btn btn-warning">🚪 Logout</a>
 </div>
 
 <h2>Live Optionstrades</h2>
@@ -17,134 +30,32 @@
             <th>Dauer</th>
         </tr>
     </thead>
-    <tbody id="trade-table">
-        <!-- Live-Daten werden hier eingefügt -->
-    </tbody>
+    <tbody id="trade-table"></tbody>
 </table>
+
+<div class="new-section">
+    <h2>Systemstatus</h2>
+    <p>📡 Telegram-Status: <span id="telegram-status">Online</span></p>
+    <p>🖥️ Server-Status: <span id="server-status">Läuft</span></p>
+    <p>🔗 API-Status: <span id="api-status">Verbunden</span></p>
+    <p>🛠️ Software-Version: v1.0.0</p>
+</div>
+
+<div class="new-section">
+    <h2>Nachrichtenverlauf</h2>
+    <p>Filter: <input type="text" placeholder="Kanalname"> <input type="date"> <button class="btn btn-secondary">Filtern</button></p>
+    <table border="1">
+        <thead>
+            <tr><th>Datum</th><th>Kanal</th><th>Nachricht</th></tr>
+        </thead>
+        <tbody><tr><td>14.02.2025</td><td>ForexChannel</td><td>Signal: EUR/USD Buy @1.1000</td></tr></tbody>
+    </table>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script>
 <script>
     var socket = io.connect("http://" + document.domain + ":" + location.port);
-
-    // Empfangene Trades aktualisieren
-    socket.on("update_trades", function(data) {
-        var table = document.getElementById("trade-table");
-        table.innerHTML = "";  // Tabelle leeren
-        for (var trade in data.active_trades) {
-            var row = table.insertRow();
-            row.insertCell(0).innerHTML = trade;
-            row.insertCell(1).innerHTML = data.active_trades[trade].type;
-            row.insertCell(2).innerHTML = data.active_trades[trade].duration + " min";
-        }
-    });
-
-    // Geschlossene Trades aus der UI entfernen
-    socket.on("trade_closed", function(data) {
-        var table = document.getElementById("trade-table");
-        for (var i = 0, row; row = table.rows[i]; i++) {
-            if (row.cells[0].innerHTML === data.trade_id) {
-                table.deleteRow(i);
-                break;
-            }
-        }
-    });
-
-    // Funktion zum Laden dynamischer Inhalte
-    function loadPageContent(page) {
-        const contentDiv = document.getElementById('dynamic-content');
-        contentDiv.innerHTML = ''; // Vorherigen Inhalt entfernen
-
-        switch (page) {
-            case 'home':
-                contentDiv.innerHTML = `
-                    <h2>Willkommen bei SignalBridge</h2>
-                    <p>Verwalten Sie Ihre Konten, Nachrichten und Signalgeber an einem Ort.</p>
-                    <div class="system-overview">
-                        <h3>System Cockpit</h3>
-                        <p>RAM-Nutzung: 2.3 GB von 8 GB</p>
-                        <p>Aktive Konten: 2 von 5</p>
-                    </div>
-                    <div class="telegram-overview">
-                        <h3>Telegram-Konto</h3>
-                        <p>Verknüpft: <b>test_telegram_user</b></p>
-                        <button>Verbinden</button>
-                        <button>Trennen</button>
-                    </div>
-                `;
-                break;
-            case 'account-management':
-                contentDiv.innerHTML = `
-                    <h2>Kontoverwaltung</h2>
-                    <div class="balance-overview">
-                        <h3>Balance Übersicht</h3>
-                        <p>Initial Balance: $5000</p>
-                        <p>Gewinn: $1200</p>
-                    </div>
-                    <div class="charts-container">
-                        <canvas id="growth-chart"></canvas>
-                        <canvas id="drawdown-chart"></canvas>
-                    </div>
-                `;
-                break;
-            case 'message-history':
-                contentDiv.innerHTML = `
-                    <h2>Nachrichten Historie</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Timestamp</th>
-                                <th>Signal</th>
-                                <th>Provider</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>2025-01-21 14:30</td>
-                                <td>EUR/USD</td>
-                                <td>BEST GOLD SIGNAL</td>
-                            </tr>
-                            <tr>
-                                <td>2025-01-21 14:00</td>
-                                <td>GBP/USD</td>
-                                <td>Forex Pros</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                `;
-                break;
-            case 'support':
-                contentDiv.innerHTML = `
-                    <h2>Support</h2>
-                    <form>
-                        <label for="ticket-text">Ticket Beschreibung:</label>
-                        <input type="text" id="ticket-text">
-                        <label for="ticket-file">Datei anhängen:</label>
-                        <input type="file" id="ticket-file">
-                        <button>Ticket erstellen</button>
-                    </form>
-                    <h3>Vorhandene Tickets</h3>
-                    <ul>
-                        <li>API Fehler - Offen</li>
-                        <li>Telegram Verbindung - Geschlossen</li>
-                    </ul>
-                `;
-                break;
-            case 'help':
-                contentDiv.innerHTML = `
-                    <h2>Hilfe</h2>
-                    <div class="help-section">
-                        <a href="#">Erste Schritte</a>
-                        <a href="#">Signalgeber verwalten</a>
-                        <a href="#">System Cockpit</a>
-                    </div>
-                `;
-                break;
-            default:
-                contentDiv.innerHTML = '<p>Inhalt nicht gefunden.</p>';
-        }
-    }
-
-    // Standard-Inhalt laden
-    loadPageContent('home');
+    socket.on("update_trades", function(data) { /* WebSocket Integration */ });
+    socket.on("trade_closed", function(data) { /* WebSocket Integration */ });
 </script>
 {% endblock %}

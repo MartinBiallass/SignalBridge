@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Meine Zahlungen{% endblock %}
+
+{% block content %}
+<h1>Meine Zahlungen</h1>
+
+<p>Angemeldet als: <strong>{{ user.username }}</strong></p>
+
+{% if orders %}
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Bestell-ID</th>
+                <th>Abo</th>
+                <th>Preis</th>
+                <th>Status</th>
+                <th>Zahlungsdatum</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.subscription }}</td>
+                <td>{{ order.price }}€</td>
+                <td>{{ order.status }}</td>
+                <td>{{ order.paid_at.strftime('%Y-%m-%d %H:%M:%S') if order.paid_at else 'Nicht bezahlt' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Du hast noch keine Zahlungen.</p>
+{% endif %}
+
+<a href="{{ url_for('home') }}">Zurück zur Startseite</a>
+{% endblock %}

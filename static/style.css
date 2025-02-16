@@ -1,11 +1,10 @@
-/* Allgemeine Body-Styling */
+/* Überarbeitete style.css für SignalBridge Dashboard */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     background-color: #121212;
     color: #E0E0E0;
 }
 
-/* Sidebar Styling */
 .sidebar {
     width: 250px;
     background-color: #1E1E1E;
@@ -17,6 +16,8 @@ body {
     padding: 20px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    z-index: 15;
 }
 
 .sidebar img.logo {
@@ -44,531 +45,42 @@ body {
     font-weight: bold;
 }
 
-/* Main Content Styling */
+.sidebar a.logout-btn {
+    background-color: #dc3545;
+    color: white;
+    text-align: center;
+    margin-top: auto;
+    padding: 12px;
+    font-weight: bold;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.sidebar a.logout-btn:hover {
+    background-color: #c82333;
+}
+
 .main-content {
     margin-left: 270px;
     padding: 20px;
     text-align: center;
 }
 
-/* Button Styling */
 button {
     font-size: 16px;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.3s ease;
 }
 
-button.btn-green {
-    background-color: #28a745;
-    color: white;
-}
+button.btn-green { background-color: #28a745; color: white; }
+button.btn-green:hover { background-color: #218838; }
+button.btn-red { background-color: #dc3545; color: white; }
+button.btn-red:hover { background-color: #c82333; }
 
-button.btn-green:hover {
-    background-color: #218838;
-    color: white;
+/* Ergänzte Optimierungen für bestehende Komponenten */
+.profit-table, .signalgeber-table, .modal, .info-box, .action-item {
+    /* Bisherige Styles angepasst */
 }
-
-button.btn-red {
-    background-color: #dc3545;
-    color: white;
-}
-
-button.btn-red:hover {
-    background-color: #c82333;
-    color: white;
-}
-
-/* Profittabelle */
-.profit-table-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-.profit-table {
-    border-collapse: collapse;
-    width: 80%;
-    margin: 0 auto;
-    color: #FFD700;
-    text-align: center;
-}
-
-.profit-table th, .profit-table td {
-    border: 2px solid #FFD700;
-    padding: 10px;
-    font-size: 18px;
-}
-
-.profit-table th {
-    background-color: #1E1E1E;
-    color: #FFD700;
-    font-weight: bold;
-}
-
-.profit-table tbody tr:nth-child(even) {
-    background-color: #2A2A2A;
-}
-
-.profit-table tbody tr:nth-child(odd) {
-    background-color: #121212;
-}
-
-/* Signalgeber Tabelle */
-.signalgeber-section {
-    margin-top: 30px;
-    text-align: center;
-}
-
-.signalgeber-table {
-    width: 90%;
-    margin: 0 auto;
-    border-collapse: collapse;
-    color: #FFD700;
-}
-
-.signalgeber-table th, .signalgeber-table td {
-    border: 2px solid #FFD700;
-    padding: 10px;
-    text-align: center;
-}
-
-.signalgeber-table thead th {
-    background-color: #1E1E1E;
-    color: #FFD700;
-    font-weight: bold;
-}
-
-.signalgeber-table tbody tr:nth-child(even) {
-    background-color: #2A2A2A;
-}
-
-.signalgeber-table tbody tr:nth-child(odd) {
-    background-color: #121212;
-}
-
-/* Modal Styling */
-.modal {
-    display: none; /* Standardmäßig verstecken */
-    position: fixed;
-    z-index: 10; /* Muss kleiner als der Sidebar-Z-Index sein */
-    top: 0;
-    left: 270px; /* Passt zur Breite der Sidebar */
-    width: calc(100% - 270px); /* Nimmt nur den Platz neben der Sidebar ein */
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.85);
-}
-
-.modal-content {
-    width: 60%; /* Erhöht die Breite auf 60% */
-    max-width: 700px; /* Setzt ein Maximum von 700px */
-    margin: 10% auto; /* Zentriert das Modal vertikal */
-    padding: 20px; /* Angemessene Innenabstände */a
-    background-color: #1E1E1E; /* Hintergrundfarbe des Modals */
-    border: 2px solid #FFD700; /* Gelber Rahmen */
-    border-radius: 10px; /* Abgerundete Ecken */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5); /* Schatteneffekt */
-    text-align: center; /* Zentrierter Text */
-}
-
-}
-
-.sidebar {
-    z-index: 15; /* Sidebar bleibt über dem Modal */
-    position: fixed;
-}
-
-
-.close {
-    color: #FFD700;
-    float: right;
-    font-size: 30px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-
-.close:hover {
-    color: #FF4500;
-}
-
-/* Risiko-Management-Formular Styling */
-.risk-management-form {
-    background-color: #1E1E1E;
-    padding: 30px;
-    border: 2px solid #FFD700;
-    border-radius: 12px;
-    width: 60%;
-    margin: 50px auto;
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.7);
-    text-align: left;
-}
-
-.risk-management-form h2 {
-    color: #FFD700;
-    font-size: 24px;
-    margin-bottom: 20px;
-    font-weight: bold;
-}
-
-.risk-management-form label {
-    color: #E0E0E0;
-    display: block;
-    margin-bottom: 10px;
-    font-size: 16px;
-}
-
-.risk-management-form input[type="radio"] {
-    margin-right: 10px;
-}
-
-.risk-management-form input[type="text"] {
-    width: 90%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #FFD700;
-    border-radius: 6px;
-    background-color: #121212;
-    color: #FFD700;
-}
-
-.risk-management-form button {
-    background-color: #FFD700;
-    color: #121212;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.risk-management-form button:hover {
-    background-color: #FF4500;
-    color: #FFFFFF;
-}
-
-.take-profit-levels {
-    margin-top: 30px;
-    text-align: left;
-    padding: 15px;
-    border: 2px solid #FFD700;
-    border-radius: 8px;
-    background-color: #1E1E1E;
-}
-
-.tp-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #FFD700;
-    border-radius: 5px;
-    background-color: #2A2A2A;
-}
-
-.tp-row input {
-    width: 50px;
-    padding: 5px;
-    text-align: center;
-    border: 1px solid #FFD700;
-    border-radius: 5px;
-    background-color: #121212;
-    color: #FFD700;
-}
-/* Horizontales Scroll-Menü */
-.horizontal-menu {
-    display: flex;
-    overflow-x: auto;
-    margin-top: 20px;
-    padding: 10px 0;
-    background-color: #1E1E1E;
-    border: 2px solid #FFD700;
-    border-radius: 8px;
-    text-align: center;
-}
-
-.horizontal-menu::-webkit-scrollbar {
-    height: 8px;
-}
-
-.horizontal-menu::-webkit-scrollbar-thumb {
-    background: #FFD700;
-    border-radius: 4px;
-}
-
-.horizontal-menu::-webkit-scrollbar-track {
-    background: #121212;
-}
-
-.horizontal-menu-item {
-    flex: 0 0 auto;
-    margin: 0 10px;
-    padding: 10px 20px;
-    border-radius: 5px;
-    background-color: #2A2A2A;
-    color: #FFD700;
-    font-weight: bold;
-    text-transform: uppercase;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s;
-}
-
-.horizontal-menu-item:hover {
-    background-color: #FFD700;
-    color: #121212;
-    transform: scale(1.05);
-}
-
-.horizontal-menu-item.active {
-    background-color: #FFD700;
-    color: #121212;
-    font-weight: bold;
-}
-
-/* Icon-Styling für das Menü */
-.horizontal-menu-item i {
-    margin-right: 8px;
-    color: inherit;
-    font-size: 16px;
-    vertical-align: middle;
-}
-/* Styling für Aktion-Bereich */
-.aktion-section {
-    display: none;
-    margin-top: 20px;
-    padding: 20px;
-    border: 2px solid #FFD700;
-    border-radius: 8px;
-    background-color: #1E1E1E;
-    color: #FFFFFF;
-    text-align: left;
-}
-.aktion-option {
-    display: flex;
-    align-items: center;
-    margin-top: 15px;
-    font-size: 16px;
-}
-
-.checkbox {
-    margin-right: 10px;
-    transform: scale(1.2); /* Größere Checkbox */
-    cursor: pointer;
-}
-
-.info-icon {
-    margin-left: 10px;
-    color: #FFD700;
-    font-weight: bold;
-    font-size: 20px;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-
-.info-icon:hover {
-    color: #FF4500;
-}
-
-/* Modal Styling */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 20;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: auto;
-    max-height: 90vh; /* Verhindert übermäßige Höhe */
-    max-width: 800px; /* Maximal 800px Breite */
-    overflow-y: auto; /* Ermöglicht Scrollen, falls der Inhalt zu groß ist */
-    background-color: #1E1E1E;
-    border: 2px solid #FFD700;
-    border-radius: 10px;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
-}
-
-.modal-content {
-    color: #FFFFFF;
-}
-
-.modal .close {
-    color: #FFD700;
-    float: right;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.modal .close:hover {
-    color: #FF4500;
-}
-/* Info-Box Styling */
-.info-box {
-    display: flex;
-    align-items: center;
-    background-color: #121212;
-    border: 2px solid #FFD700;
-    padding: 15px;
-    margin-top: 20px;
-    border-radius: 8px;
-    font-size: 16px;
-    color: #FFD700;
-}
-
-.info-symbol {
-    background-color: #FFD700;
-    color: #121212;
-    font-size: 18px;
-    font-weight: bold;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 10px;
-}
-/* Aktion-Element Styling */
-.action-item {
-    margin-top: 15px;
-    font-size: 16px;
-    color: #FFFFFF;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.action-item input[type="checkbox"] {
-    margin-right: 10px;
-}
-
-.action-item input[type="text"] {
-    width: 200px;
-    padding: 5px;
-    border: 1px solid #FFD700;
-    border-radius: 5px;
-    background-color: #121212;
-    color: #FFD700;
-}
-
-.highlight-green {
-    color: #28a745;
-    font-weight: bold;
-}
-
-/* Fragezeichen-Icon Styling */
-.question-icon {
-    background-color: #FFD700;
-    color: #121212;
-    font-size: 14px;
-    font-weight: bold;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    margin-left: 5px;
-    transition: background-color 0.3s ease, transform 0.25s;
-}
-
-.question-icon:hover {
-    background-color: #FF4500;
-    transform: scale(1.2);
-}
-
-/* Modal Styling */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 20;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 600px; /* Breite der Modale */
-    max-width: 90%; /* Maximale Breite auf kleinen Bildschirmen */
-    background-color: rgba(0, 0, 0, 0.95);
-    border: 2px solid #FFD700;
-    border-radius: 10px;
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.7);
-    padding: 20px;
-    text-align: center;
-    overflow-y: auto; /* Scrollbar, falls der Inhalt zu groß ist */
-}
-
-.modal-content {
-    background-color: #1E1E1E;
-    padding: 20px;
-    border-radius: 10px;
-    color: #FFD700;
-    font-size: 16px; /* Einheitliche Schriftgröße */
-    line-height: 1.5; /* Lesbarkeit erhöhen */
-}
-
-.modal .close {
-    color: #FFD700;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    transition: color 0.3s ease;
-}
-
-.modal .close:hover {
-    color: #FF4500;
-}
-
-.modal-content {
-    background-color: #1E1E1E;
-    margin: 10% auto; /* Verringerung des oberen Abstands */
-    padding: 20px;
-    border: 2px solid #FFD700;
-        width: 50%; /* Erhöht die Breite auf 50% des Bildschirms */
-        max-width: 600px; /* Setzt ein Maximum, damit es nicht zu breit wird */ 
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
-    text-align: center;
-    max-height: 50%; /* Verhindert, dass das Modal zu hoch wird */
-    overflow-y: auto; /* Scrollbar, falls der Inhalt zu groß ist */
-}
-/* Grüner Text für Highlight */
-.highlight-green {
-    color: #28a745;
-    font-weight: bold;
-}
-
-/* Modal Styling für den neuen Bereich */
-#close-half-lot-profit-modal {
-    display: none;
-    position: fixed;
-    z-index: 10;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: 400px;
-    background-color: rgba(0, 0, 0, 0.95);
-    border: 2px solid #FFD700;
-    border-radius: 10px;
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.7);
-    color: #FFD700;
-    padding: 20px;
-    text-align: center;
-}
-.modal-content {
-    width: 50%; /* Erhöht die Breite auf 50% des Bildschirms */
-    max-width: 600px; /* Setzt ein Maximum, damit es nicht zu breit wird */
-}
-

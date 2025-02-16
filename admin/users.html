@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Benutzerverwaltung{% endblock %}
+
+{% block content %}
+<h1>Benutzerverwaltung</h1>
+
+<p>Angemeldet als Admin: <strong>{{ current_user.username }}</strong></p>
+
+{% if users %}
+    <table border="1">
+        <thead>
+            <tr>
+                <th>User-ID</th>
+                <th>Benutzername</th>
+                <th>Abo</th>
+                <th>Ist Admin?</th>
+                <th>Bestellungen</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.subscription }}</td>
+                <td>{{ "Ja" if user.is_admin else "Nein" }}</td>
+                <td>
+                    {% for order in user.orders %}
+                        <p>ID: {{ order.id }} | {{ order.subscription }} | Status: {{ order.status }}</p>
+                    {% else %}
+                        <p>Keine Bestellungen</p>
+                    {% endfor %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Es gibt keine Benutzer.</p>
+{% endif %}
+
+<a href="{{ url_for('home') }}">Zurück zur Startseite</a>
+{% endblock %}
