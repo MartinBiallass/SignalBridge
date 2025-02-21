@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Verknüpfte Signalgeber-Accounts</h2>
+
+<table class="table table-dark table-striped">
+    <thead>
+        <tr>
+            <th>Account-Name</th>
+            <th>Order-Typ</th>
+            <th>Aktionen</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for account in user.linked_accounts %}
+        <tr>
+            <td>{{ account.account_name }}</td>
+            <td>{{ account.trade_type }}</td>
+            <td>
+                <form action="{{ url_for('edit_account', old_account=account.account_name) }}" method="post" style="display:inline;">
+                    <input type="text" name="new_account" placeholder="Neuer Name" required>
+                    <button type="submit" class="btn btn-warning">Bearbeiten</button>
+                </form>
+                <form action="{{ url_for('delete_account', account=account.account_name) }}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger">Löschen</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Formular für neuen Account -->
+<form method="POST" action="{{ url_for('linked_accounts') }}">
+    <div class="form-group">
+        <label for="new_account">Neuen Signalgeber hinzufügen:</label>
+        <input type="text" id="new_account" name="new_account" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="trade_type">Trade-Typ:</label>
+        <select id="trade_type" name="trade_type" class="form-control" required>
+            <option value="Buy">Buy</option>
+            <option value="Sell">Sell</option>
+            <option value="Buy Limit">Buy Limit</option>
+            <option value="Buy Stop">Buy Stop</option>
+            <option value="Sell Limit">Sell Limit</option>
+            <option value="Sell Stop">Sell Stop</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Hinzufügen</button>
+</form>
+
+{% endblock %}

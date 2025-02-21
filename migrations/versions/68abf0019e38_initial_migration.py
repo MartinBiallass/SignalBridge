@@ -1,8 +1,8 @@
-"""Fix user-order relationship
+"""Initial migration
 
-Revision ID: e7f4c7582ed5
+Revision ID: 68abf0019e38
 Revises: 
-Create Date: 2025-02-12 20:35:01.066038
+Create Date: 2025-02-21 14:28:40.855184
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'e7f4c7582ed5'
+revision = '68abf0019e38'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,9 +21,10 @@ def upgrade():
     op.create_table('user',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('username', sa.String(length=100), nullable=False),
-    sa.Column('password', sa.String(length=200), nullable=False),
+    sa.Column('password_hash', sa.String(length=200), nullable=False),
     sa.Column('is_admin', sa.Boolean(), nullable=True),
     sa.Column('subscription', sa.String(length=50), nullable=True),
+    sa.Column('linked_accounts', sa.Text(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('username')
     )
@@ -32,7 +33,7 @@ def upgrade():
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('subscription', sa.String(length=50), nullable=False),
     sa.Column('price', sa.Float(), nullable=False),
-    sa.Column('status', sa.String(length=20), nullable=True),
+    sa.Column('status', sa.Enum('unpaid', 'pending', 'paid', name='order_status'), nullable=True),
     sa.Column('paid_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')

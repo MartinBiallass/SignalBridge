@@ -3,12 +3,13 @@
 {% block title %}Meine Zahlungen{% endblock %}
 
 {% block content %}
-<h1>Meine Zahlungen</h1>
+<h1>💳 Zahlungsübersicht</h1>
 
-<p>Angemeldet als: <strong>{{ user.username }}</strong></p>
+<p>👤 Angemeldet als: <strong>{{ user.username if user else 'Gast' }}</strong></p>
 
+<!-- Anzeige der Bestellungen -->
 {% if orders %}
-    <table border="1">
+    <table class="table table-dark table-striped">
         <thead>
             <tr>
                 <th>Bestell-ID</th>
@@ -31,8 +32,28 @@
         </tbody>
     </table>
 {% else %}
-    <p>Du hast noch keine Zahlungen.</p>
+    <p>🔔 Du hast noch keine Zahlungen.</p>
 {% endif %}
 
-<a href="{{ url_for('home') }}">Zurück zur Startseite</a>
+<!-- Zahlungs-Mockup -->
+<div class="payment-section mt-4">
+    <h3>💶 Zahlung vornehmen</h3>
+    <p>Bitte wähle eine Zahlungsmethode:</p>
+
+    <form action="{{ url_for('mock_payment') }}" method="post">
+        <select name="payment_method" class="form-control mb-3" required>
+            <option value="">-- Zahlungsmethode auswählen --</option>
+            <option value="credit_card">💳 Kreditkarte</option>
+            <option value="paypal">🅿️ PayPal</option>
+            <option value="crypto">₿ Krypto</option>
+        </select>
+
+        <button type="submit" class="btn btn-success">🛒 Zahlung abschließen</button>
+    </form>
+</div>
+
+<hr>
+
+<a href="{{ url_for('landing_page') }}" class="btn btn-primary">🏠 Zurück zur Startseite</a>
+
 {% endblock %}

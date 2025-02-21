@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | SignalBridge</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="SignalBridge Logo" class="logo">
+            <h2>🔐 Login zu SignalBridge</h2>
+            <form method="POST" action="{{ url_for('login') }}">
+                <div class="input-group">
+                    <label>👤 Benutzername</label>
+                    <input type="text" name="username" required>
+                </div>
+                <div class="input-group">
+                    <label>🔑 Passwort</label>
+                    <input type="password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-gold">Anmelden</button>
+            </form>
+            <p>🔹 Noch kein Konto? <a href="{{ url_for('register') }}">Hier registrieren</a></p>
+        </div>
+    </div>
+</body>
+</html>

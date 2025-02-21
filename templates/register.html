@@ -14,12 +14,13 @@
 
         <!-- Tab-Buttons für Wechsel zwischen Registrierung & Login -->
         <div class="tab-buttons">
-            <button id="register-tab" class="active">Registrierung</button>
-            <button id="login-tab">Login</button>
+            <button id="register-tab" class="active" type="button">Registrierung</button>
+            <button id="login-tab" type="button">Login</button>
         </div>
 
         <!-- Registrierungsformular -->
         <form id="register-form" method="POST" action="/register">
+
             <h3 class="subtitle">Erstelle dein Konto</h3>
             <input type="text" name="username" placeholder="Benutzername" required>
             <input type="password" name="password" placeholder="Passwort" required>
@@ -44,26 +45,6 @@
                 </label>
             </div>
 
-            <!-- Benefits bleiben erhalten -->
-            <div class="benefits-container">
-                <h3 class="benefits-title">✨ Warum SignalBridge?</h3>
-                <div class="benefits-box">
-                    <div class="benefit-item">
-                        ✅ <strong>Monatlich:</strong> Flexibel & ohne Risiko – jeder kann SignalBridge testen!
-                    </div>
-                    <div class="benefit-item">
-                        📉 <strong>Quartal:</strong> Beste Wahl für aktive Trader – 16% günstiger als Monatsabo!
-                    </div>
-                    <div class="benefit-item">
-                        🏆 <strong>Jährlich:</strong> 12 Monate handeln, nur für 8,5 Monate zahlen!
-                    </div>
-                    <div class="benefit-item">
-                        💎 <strong>Lifetime:</strong> Einmal zahlen – für immer Zugang! (Limitierte Aktion)
-                    </div>
-                </div>
-            </div>
-
-            <!-- Rabattcode-Feld bleibt erhalten -->
             <h3 class="discount-title">🎟️ Rabattcode eingeben (optional)</h3>
             <input type="text" name="discount_code" id="discount-code" placeholder="Rabattcode eingeben">
 

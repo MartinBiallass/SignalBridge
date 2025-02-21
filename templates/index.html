@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignalBridge - Automatisiertes Trading</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="hero">
+        <div class="hero-content">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="SignalBridge Logo" class="logo">
+            <h1>🚀 Automatisiertes Trading mit SignalBridge</h1>
+            <p>Empfange & kopiere Trading-Signale **vollautomatisch** in MetaTrader 4 & 5.</p>
+            <div class="buttons">
+                <a href="{{ url_for('register') }}" class="btn btn-gold">🔹 Jetzt registrieren</a>
+                <a href="{{ url_for('login') }}" class="btn btn-dark">🔑 Login</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section class="features">
+        <h2>🔍 Unsere Features</h2>
+        <div class="features-grid">
+            <div class="feature-box">
+                <h3>⚡ Automatische Signalkopie</h3>
+                <p>Erhalte Signale aus Telegram & führe sie **vollautomatisch** in MT4/5 aus.</p>
+            </div>
+            <div class="feature-box">
+                <h3>📊 Backtesting & Performance</h3>
+                <p>Analysiere vergangene Signale & optimiere dein Trading.</p>
+            </div>
+            <div class="feature-box">
+                <h3>🔐 Sicherheit & Kontrolle</h3>
+                <p>Setze Stop-Loss, Trailing Stops & eigene Risiko-Parameter.</p>
+            </div>
+            <div class="feature-box">
+                <h3>📈 Live-Dashboard</h3>
+                <p>Überwache deine Trades in Echtzeit mit einem modernen Interface.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <h2>💬 Was sagen unsere Nutzer?</h2>
+        <div class="testimonial-box">
+            <p>"Dank SignalBridge spare ich täglich Stunden an manueller Arbeit!"</p>
+            <span>– Max, Profi-Trader</span>
+        </div>
+        <div class="testimonial-box">
+            <p>"Die beste Lösung, um profitable Telegram-Signale direkt zu traden!"</p>
+            <span>– Lisa, Daytraderin</span>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq">
+        <h2>❓ Häufige Fragen</h2>
+        <details>
+            <summary>💰 Wie viel kostet SignalBridge?</summary>
+            <p>Wir bieten flexible Abo-Modelle – monatlich, quartalsweise oder Lifetime!</p>
+        </details>
+        <details>
+            <summary>📥 Welche Plattformen werden unterstützt?</summary>
+            <p>MetaTrader 4 & 5 sowie verschiedene Telegram-Kanäle.</p>
+        </details>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 SignalBridge. Alle Rechte vorbehalten.</p>
+        <a href="#">📜 AGB</a> | <a href="#">🔒 Datenschutz</a> | <a href="#">📧 Support</a>
+    </footer>
+</body>
+</html>
