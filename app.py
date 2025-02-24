@@ -1,6 +1,6 @@
 import os
 import psutil
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for, flash
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
@@ -10,11 +10,52 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_migrate import Migrate
 from models import db, User, Order
 from flask_login import login_required
+from flask_apscheduler import APScheduler
+
+
+def calculate_price(subscription):
+    price_map = {
+        "monthly": 19.90,
+        "quarterly": 49.90,
+        "yearly": 169.90
+    }
+    return price_map.get(subscription, 19.90)  # Standard: 19.90€
 
 # Flask App initialisieren
 basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*")
+
+# Scheduler initialisieren
+scheduler = APScheduler()
+scheduler.init_app(app)
+scheduler.start()
+
+def check_expiring_subscriptions():
+    """ Überprüft alle Abos, die in den nächsten 3 Tagen auslaufen. """
+    today = datetime.utcnow()
+    warning_days = [1, 2, 3]  # 3, 2, 1 Tage vor Ablauf
+
+    expiring_orders = Order.query.filter(
+        Order.expires_at.isnot(None),
+        Order.expires_at - today <= timedelta(days=3),  # Alle Abos, die in den nächsten 3 Tagen auslaufen
+        Order.status == "paid"
+    ).all()
+
+    for order in expiring_orders:
+        days_left = (order.expires_at - today).days
+        if days_left in warning_days:
+            flash(f"⚠️ Dein Abo ({order.subscription}) läuft in {days_left} Tagen aus! Bitte verlängern.", "warning")
+            print(f"🔔 Erinnerung: Nutzer {order.user.username} soll gewarnt werden (Abo läuft in {days_left} Tagen ab).")
+
+# Scheduler-Job einrichten: Die Funktion soll **einmal pro Tag** laufen.
+scheduler.add_job(
+    id="check_subscriptions",
+    func=check_expiring_subscriptions,
+    trigger="interval",
+    hours=24
+)
+
 
 # Flask-Konfiguration
 app.config["SECRET_KEY"] = "your_secret_key"
@@ -71,18 +112,21 @@ def register():
         flash("❌ Benutzername existiert bereits.", "danger")
         return redirect(url_for("register"))
 
-    # User mit Passwort-Hash erstellen
+    # Neuen User erstellen
     new_user = User(username=username, subscription=subscription)
-    new_user.set_password(password)  # ✅ Hier wird das Passwort richtig gespeichert
+    new_user.set_password(password)
 
     db.session.add(new_user)
     db.session.commit()
 
-    # Debug-Print prüfen, ob User gespeichert wurde
+    # 🔥 Direkt nach der Registrierung einloggen!
+    login_user(new_user, remember=True)
+    session["user_id"] = new_user.id  # Explizit die User-ID setzen
+
     print(f"✅ Neuer Nutzer registriert: {new_user.username}, ID: {new_user.id}")
 
     flash("✅ Registrierung erfolgreich! Bitte zahle dein Abo.", "success")
-    return redirect(url_for("my_payments"))
+    return redirect(url_for("my_payments"))  # Weiterleitung zur Zahlungsseite
 
 
 @app.route("/account-management")
@@ -141,40 +185,47 @@ def mock_payment():
     payment_method = request.form.get("payment_method")
 
     if payment_method:
-        # Überprüfe, ob der Nutzer bereits ein Abo gewählt hat
+        # Überprüfe, welches Abo der Nutzer gewählt hat
         subscription = current_user.subscription if current_user.subscription else "Standard"
+
+        # Bestimme die Laufzeit basierend auf dem Abo
+        duration_map = {
+            "monthly": 30,   # 1 Monat
+            "quarterly": 90, # 3 Monate
+            "yearly": 365    # 1 Jahr
+        }
+        duration_days = duration_map.get(subscription, 30)  # Standard: 30 Tage
 
         # Überprüfe, ob bereits eine offene Bestellung existiert
         order = Order.query.filter_by(user_id=current_user.id, status="pending").first()
 
         if not order:
-            # Falls keine Bestellung existiert, erstelle eine neue mit der `subscription`
+            # Falls keine Bestellung existiert, erstelle eine neue mit Ablaufdatum
             order = Order(
                 user_id=current_user.id,
-                subscription=subscription,  # 🔥 Füge das fehlende Feld hinzu!
-                price=9.99,  # Hier evtl. den richtigen Preis aus einer Preistabelle abrufen
-                status="active",
-                paid_at=datetime.utcnow()
+                subscription=subscription,
+                price=calculate_price(subscription),  # Berechne Preis dynamisch
+                status="paid",
+                paid_at=datetime.utcnow(),
+                expires_at=datetime.utcnow() + timedelta(days=duration_days)  # Ablaufdatum setzen
             )
             db.session.add(order)
         else:
-            # Falls bereits eine Bestellung existiert, setzen wir den Status auf aktiv
-            order.status = "active"
+            # Falls bereits eine Bestellung existiert, aktualisieren wir nur die Daten
+            order.status = "paid"
             order.paid_at = datetime.utcnow()
+            order.expires_at = datetime.utcnow() + timedelta(days=duration_days)  # Ablaufdatum setzen
 
         # Datenbank-Änderungen speichern
         db.session.commit()
 
-        # Debug-Ausgabe zum Überprüfen
-        print(f"✅ Zahlung erfolgreich: {current_user.username}, Abo: {subscription}, Preis: {order.price}€")
+        print(f"✅ Zahlung erfolgreich: {current_user.username}, Abo: {subscription}, Preis: {order.price}€, Läuft ab am: {order.expires_at}")
 
-        flash(f"✅ Zahlung mit {payment_method} erfolgreich! Dein Zugang ist jetzt aktiv.", "success")
+        flash(f"✅ Zahlung mit {payment_method} erfolgreich! Dein Abo läuft bis {order.expires_at}.", "success")
     else:
         flash("⚠️ Bitte eine Zahlungsmethode wählen!", "danger")
 
     return redirect(url_for("dashboard"))
-
-
 
 @app.route("/linked_accounts", methods=["GET", "POST"])
 @login_required
@@ -236,6 +287,9 @@ def login():
             session.clear()  # Stelle sicher, dass keine alten Sessions existieren
             login_user(user, remember=True)  # `remember=True` hält die Session länger aktiv
             session["user_id"] = user.id  # Speichere die User-ID explizit in der Session
+
+            print(f"🔍 DEBUG: Eingeloggter User -> ID: {user.id}, Name: {user.username}")
+            print(f"🔍 DEBUG: current_user -> ID: {current_user.id if current_user else 'None'}")
 
             flash("✅ Login erfolgreich!", "success")
             return redirect(url_for("dashboard"))
@@ -397,6 +451,29 @@ if __name__ == "__main__":
             db.session.add(new_admin)
             db.session.commit()
             print("👑 Admin-Benutzer wurde erfolgreich erstellt!")
-    
-    # Flask-App starten
-    socketio.run(app, host="0.0.0.0", port=5001, debug=True)
+
+from flask_apscheduler import APScheduler
+
+scheduler = APScheduler()
+
+def check_subscription_expiry():
+    with app.app_context():
+        expiring_orders = Order.query.filter(
+            Order.expires_at <= datetime.utcnow() + timedelta(days=3),
+            Order.status == "paid"
+        ).all()
+
+        for order in expiring_orders:
+            days_left = (order.expires_at - datetime.utcnow()).days
+            if days_left == 3:
+                flash(f"⏳ Dein Abo läuft in 3 Tagen aus. Verlängere es jetzt!", "warning")
+            elif days_left == 2:
+                flash(f"⚠️ Dein Abo läuft in 2 Tagen aus. Verlängere es jetzt!", "warning")
+            elif days_left == 1:
+                flash(f"🚨 Dein Abo läuft MORGEN aus! Bitte verlängere es sofort.", "danger")
+
+scheduler.add_job(id="subscription_checker", func=check_subscription_expiry, trigger="interval", hours=24)
+scheduler.start()
+
+# Flask-App starten
+socketio.run(app, host="0.0.0.0", port=5001, debug=True)
