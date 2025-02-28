@@ -22,6 +22,10 @@
     <a href="{{ url_for('help_page') }}" class="btn btn-secondary">❓ Hilfe</a>
     <a href="{{ url_for('support') }}" class="btn btn-secondary">🛠️ Support</a>
     <a href="{{ url_for('logout') }}" class="btn btn-warning">🚪 Logout</a>
+    {% if current_user.is_admin %}
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-warning">👑 Admin-Dashboard</a>
+{% endif %}
+
 </div>
 
 <h2>Live Optionstrades</h2>

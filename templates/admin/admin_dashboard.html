@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %} Admin Dashboard {% endblock %}
+
+{% block content %}
+<h2>👑 Admin-Dashboard</h2>
+
+<!-- Buttons zur Steuerung der Ansicht -->
+<div>
+    <button class="btn btn-primary" onclick="showSection('users')">👤 Nutzerübersicht</button>
+    <button class="btn btn-primary" onclick="showSection('orders')">📦 Bestellungen</button>
+    <a href="{{ url_for('dashboard', admin_view='false') }}" class="btn btn-secondary">
+        🔄 Zum User-Dashboard
+    </a>
+    
+</div>
+
+<hr>
+
+<!-- Nutzerübersicht -->
+<div id="users_section">
+    <h3>📌 Nutzerübersicht</h3>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Abo</th>
+            <th>Admin</th>
+        </tr>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.subscription }}</td>
+            <td>{% if user.is_admin %}✅ Ja {% else %}❌ Nein {% endif %}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<!-- Bestellungen -->
+<div id="orders_section" style="display: none;">
+    <h3>📦 Bestellungen</h3>
+    <table border="1">
+        <tr>
+            <th>Bestell-ID</th>
+            <th>User</th>
+            <th>Abo</th>
+            <th>Status</th>
+            <th>Bezahlt am</th>
+            <th>Aktion</th>
+        </tr>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.user.username }}</td>
+            <td>{{ order.subscription }}</td>
+            <td>{{ order.status }}</td>
+            <td>{{ order.paid_at if order.paid_at else "Nicht bezahlt" }}</td>
+            <td>
+                {% if order.status == "pending" %}
+                    <form action="{{ url_for('approve_order', order_id=order.id) }}" method="post">
+                        <button type="submit" class="btn btn-success">✅ Freigeben</button>
+                    </form>
+                {% else %}
+                    <span class="text-muted">✔️ Bereits bezahlt</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<!-- JavaScript zur Steuerung der Tabs -->
+<script>
+    function showSection(section) {
+        document.getElementById('users_section').style.display = (section === 'users') ? 'block' : 'none';
+        document.getElementById('orders_section').style.display = (section === 'orders') ? 'block' : 'none';
+    }
+</script>
+
+{% endblock %}

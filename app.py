@@ -56,7 +56,6 @@ scheduler.add_job(
     hours=24
 )
 
-
 # Flask-Konfiguration
 app.config["SECRET_KEY"] = "your_secret_key"
 app.config["SESSION_TYPE"] = "filesystem"
@@ -85,8 +84,12 @@ def load_user(user_id):
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    return render_template("dashboard/dashboard.html", user=current_user)
+    # Überprüfen, ob ein Admin auf sein normales Dashboard will
+    if current_user.is_admin and request.args.get("admin_view") != "false":
+        return redirect(url_for("admin_dashboard"))  # Standardmäßige Umleitung
 
+    # Normales User-Dashboard laden
+    return render_template("dashboard/dashboard.html", user=current_user)
 
 # ------------- Löschen von Accounts
 @app.route("/")
@@ -135,18 +138,36 @@ def account_management():
     return render_template("account/account_management.html", user=current_user)
 
 # -------Admin dashboard---
-@app.route("/admin", methods=["GET"])
+@app.route("/admin")
 @login_required
 def admin_dashboard():
     if not current_user.is_admin:
-        flash("🚫 Zugriff verweigert! Nur für Admins.", "danger")
-        return redirect(url_for("landing_page"))
-    
-    # Hole alle Benutzer und Bestellungen
+        flash("⚠️ Zugriff verweigert. Du bist kein Admin!", "danger")
+        return redirect(url_for("dashboard"))
+
     users = User.query.all()
     orders = Order.query.all()
+    
+    return render_template("admin/admin_dashboard.html", users=users, orders=orders)
 
-    return render_template("admin/dashboard.html", users=users, orders=orders)
+@app.route("/approve_order/<int:order_id>", methods=["POST"])
+@login_required
+def approve_order(order_id):
+    if not current_user.is_admin:
+        flash("❌ Zugriff verweigert!", "danger")
+        return redirect(url_for("dashboard"))
+
+    order = Order.query.get(order_id)
+    if not order:
+        flash("❌ Bestellung nicht gefunden!", "danger")
+        return redirect(url_for("admin_dashboard"))
+
+    order.status = "paid"
+    order.paid_at = datetime.utcnow()
+    db.session.commit()
+
+    flash(f"✅ Bestellung {order.id} wurde erfolgreich genehmigt!", "success")
+    return redirect(url_for("admin_dashboard"))
 
 # ----admin Aktion--Nutzer löschen-----
 @app.route("/delete_user/<int:user_id>", methods=["POST"])
@@ -169,6 +190,37 @@ def delete_user(user_id):
         flash("❌ Benutzer nicht gefunden!", "danger")
 
     return redirect(url_for("admin_dashboard"))
+
+#-----admin checklist----
+@app.route("/check_subscriptions", methods=["GET"])
+@login_required
+def check_subscriptions():
+    """Manuelle Überprüfung der auslaufenden Abos"""
+    if not current_user.is_admin:
+        flash("🚫 Zugriff verweigert! Nur für Admins.", "danger")
+        return redirect(url_for("dashboard"))
+
+    today = datetime.utcnow()
+    warning_days = [1, 2, 3]  # Warnungen 3, 2, 1 Tage vor Ablauf
+
+    expiring_orders = Order.query.filter(
+        Order.expires_at.isnot(None),
+        Order.expires_at - today <= timedelta(days=3),
+        Order.status == "paid"
+    ).all()
+
+    expiring_list = []
+    for order in expiring_orders:
+        days_left = (order.expires_at - today).days
+        if days_left in warning_days:
+            expiring_list.append({
+                "username": order.user.username,
+                "subscription": order.subscription,
+                "expires_in": days_left
+            })
+
+    return render_template("admin/check_subscriptions.html", expiring_list=expiring_list)
+
 
 @app.route("/my_payments", methods=["GET"])
 @login_required
@@ -270,7 +322,7 @@ def manage_trade(trade_id):
 def help_page():
     return render_template("help/help.html", user=current_user)
 
-# ---------Log in / Log Out----------
+# --------- Log in / Log Out ----------
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -292,11 +344,18 @@ def login():
             print(f"🔍 DEBUG: current_user -> ID: {current_user.id if current_user else 'None'}")
 
             flash("✅ Login erfolgreich!", "success")
+            
+            # Hier war dein Fehler – jetzt korrekt eingerückt:
+            if user.is_admin:  
+                return redirect(url_for("admin_dashboard"))
+
             return redirect(url_for("dashboard"))
+
         else:
             flash("❌ Ungültige Anmeldedaten.", "danger")
 
     return render_template("login.html", login_mode=True)
+
 
 @app.route("/logout")
 @login_required
