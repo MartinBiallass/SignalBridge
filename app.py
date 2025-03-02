@@ -91,6 +91,79 @@ def dashboard():
     # Normales User-Dashboard laden
     return render_template("dashboard/dashboard.html", user=current_user)
 
+#----- Abotimer-------
+@app.route("/subscription_status")
+@login_required
+def subscription_status():
+    """Gibt das verbleibende Abo-Datum und die Tage bis zum Ablauf zurück."""
+    latest_order = Order.query.filter_by(user_id=current_user.id, status="paid").order_by(Order.paid_at.desc()).first()
+
+    if not latest_order:
+        return jsonify({"status": "no_subscription"})
+
+    # 🔥 Berechnung basierend auf dem gewählten Abo-Modell
+    duration_map = {
+        "monthly": 30,
+        "quarterly": 90,
+        "yearly": 365,
+        "lifetime": None  # 🚀 Lifetime bedeutet "kein Ablaufdatum"
+    }
+    
+    abo_dauer = duration_map.get(latest_order.subscription, 30)  # Standard: 30 Tage, falls nichts gefunden
+
+    if abo_dauer is None:
+        # 🔥 Falls es ein Lifetime-Abo ist, geben wir kein Ablaufdatum zurück
+        return jsonify({
+            "status": "lifetime",
+            "expires_at": "unlimited",  # Oder "Lifetime"
+            "remaining_days": "∞"
+        })
+
+    expires_at = latest_order.paid_at + timedelta(days=abo_dauer)  
+    remaining_days = (expires_at - datetime.utcnow()).days
+
+    return jsonify({
+        "status": "active",
+        "expires_at": expires_at.strftime("%Y-%m-%d"),
+        "remaining_days": remaining_days
+    })
+
+#----Aboverlängerung im dashboard------
+@app.route("/extend_subscription")
+@login_required
+def extend_subscription():
+    duration = request.args.get("duration")
+
+    prices = {
+        "monthly": 19.90,
+        "quarterly": 49.90,
+        "yearly": 169.90,
+        "lifetime": 399.90  # 🚀 Preis für Lifetime
+    }
+
+    if duration not in prices:
+        flash("❌ Ungültige Auswahl!", "danger")
+        return redirect(url_for("dashboard"))
+
+    # Verlängerungszeit setzen
+    extension_days = {"monthly": 30, "quarterly": 90, "yearly": 365}.get(duration, None)
+
+    # Aktuelles Abo verlängern oder Lifetime setzen
+    latest_order = Order(
+        user_id=current_user.id,
+        subscription=duration,
+        price=prices[duration],
+        status="paid",
+        paid_at=datetime.utcnow(),
+        expires_at=None if duration == "lifetime" else datetime.utcnow() + timedelta(days=extension_days)
+    )
+
+    db.session.add(latest_order)
+    db.session.commit()
+
+    flash(f"✅ Dein Abo wurde um {'unendlich' if duration == 'lifetime' else extension_days} Tage verlängert!", "success")
+    return redirect(url_for("dashboard"))
+
 # ------------- Löschen von Accounts
 @app.route("/")
 def landing_page():

@@ -11,7 +11,6 @@
         <form action="{{ url_for('mock_payment') }}" method="post">
             <button type="submit" class="btn btn-secondary">Jetzt bezahlen</button>
         </form>
-        
     {% endif %}
 </div>
 
@@ -23,6 +22,23 @@
     <a href="{{ url_for('help_page') }}" class="btn btn-secondary">❓ Hilfe</a>
     <a href="{{ url_for('support') }}" class="btn btn-secondary">🛠️ Support</a>
     <a href="{{ url_for('logout') }}" class="btn btn-warning">🚪 Logout</a>
+</div>
+
+<!-- ✅ Abo-Timer mit Verlängerung -->
+<div id="countdown-container" style="text-align: center; margin-top: 20px;">
+    <h2>📅 Abo läuft ab in:</h2>
+    <div id="countdown" style="font-size: 2em; color: #FFD700;">Lädt...</div>
+
+    <div id="extend-container" style="display: none; margin-top: 20px;">
+        <h3>Abo verlängern:</h3>
+        <select id="plan-select">
+            <option value="monthly">Monatlich</option>
+            <option value="quarterly">Quartal</option>
+            <option value="yearly">Jährlich</option>
+            <option value="lifetime">Lifetime</option>
+        </select>
+        <button id="extend-button" class="btn btn-primary">🔄 Jetzt verlängern</button>
+    </div>
 </div>
 
 <h2>Live Optionstrades</h2>
@@ -62,4 +78,8 @@
     socket.on("update_trades", function(data) { /* WebSocket Integration */ });
     socket.on("trade_closed", function(data) { /* WebSocket Integration */ });
 </script>
+
+<!-- Countdown-Skript einbinden -->
+<script src="{{ url_for('static', filename='countdown.js') }}"></script>
+
 {% endblock %}

@@ -124,8 +124,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-
-});
 // Modal öffnen
 document.getElementById('info-update-sl').addEventListener('click', function () {
     document.getElementById('modal-update-sl').style.display = 'block';
