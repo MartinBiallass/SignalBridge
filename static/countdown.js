@@ -38,8 +38,21 @@ document.addEventListener("DOMContentLoaded", function () {
         // Hier könnte später die API-Anbindung erfolgen
     }
 
-    // Countdown starten (Standard: 5 Tage = 432000 Sekunden)
-    startCountdown(432000);
+    // API-Abruf für die verbleibende Abo-Zeit
+    fetch("/subscription_status")
+        .then(response => response.json())
+        .then(data => {
+            if (data.remaining_days !== undefined) {
+                let durationInSeconds = data.remaining_days * 86400; // Tage in Sekunden
+                startCountdown(durationInSeconds);
+            } else {
+                document.getElementById("countdown").innerText = "❌ Kein aktives Abo!";
+            }
+        })
+        .catch(error => {
+            console.error("❌ Fehler beim Abrufen des Abo-Status:", error);
+            document.getElementById("countdown").innerText = "⚠️ Fehler beim Laden";
+        });
 
     // Event Listener für den Verlängerungs-Button
     document.getElementById("extend-button").addEventListener("click", extendSubscription);

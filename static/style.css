@@ -353,8 +353,6 @@ footer {
     padding: 10px 20px;
 }
 
-
-
 .flash.success { background: #28a745; color: white; }
 .flash.danger { background: #dc3545; color: white; }
 .flash.warning { background: #FFC107; color: #121212; }

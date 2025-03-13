@@ -8,7 +8,7 @@ from flask_socketio import SocketIO, emit
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_migrate import Migrate
-from models import db, User, Order
+from models import db, User, Order, SignalProvider
 from flask_login import login_required
 from flask_apscheduler import APScheduler
 
@@ -466,29 +466,34 @@ def live_trades():
             trade["type"] = "Sell"
     return jsonify(trades)
     
+# Multi-Trade Erstellung
 @app.route("/create_trade", methods=["POST"])
 @login_required
 def create_trade():
-    symbol = request.form.get("symbol")
-    trade_type = request.form.get("trade_type")
-    volume = request.form.get("volume")
-    stop_loss = request.form.get("stop_loss")
-    take_profit = request.form.get("take_profit")
-
-    if symbol and trade_type and volume and stop_loss and take_profit:
+    trades_data = request.json.get("trades")  # Mehrere Trades als Liste
+    if not trades_data:
+        flash("❌ Keine Trades übermittelt!", "danger")
+        return redirect(url_for("dashboard_live_trades"))
+    
+    all_trades = []
+    for trade in trades_data:
+        if not all(k in trade for k in ("symbol", "trade_type", "volume", "stop_loss", "take_profit")):
+            flash("❌ Fehlende Trade-Daten!", "danger")
+            return redirect(url_for("dashboard_live_trades"))
+        
         new_trade = {
-            "symbol": symbol,
-            "type": trade_type,
-            "volume": float(volume),
-            "stop_loss": float(stop_loss),
-            "take_profit": float(take_profit)
+            "symbol": trade["symbol"],
+            "type": trade["trade_type"],
+            "volume": float(trade["volume"]),
+            "stop_loss": float(trade["stop_loss"]),
+            "take_profit": float(trade["take_profit"]),
+            "timestamp": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
         }
-        # Hier würden wir den Trade in die DB schreiben (später implementieren)
-        print(f"Neuer Trade hinzugefügt: {new_trade}")
-        flash(f"Trade für {symbol} als {trade_type} hinzugefügt!", "success")
-    else:
-        flash("Alle Felder müssen ausgefüllt werden!", "danger")
-
+        all_trades.append(new_trade)
+    
+    # Trades speichern (später in DB implementieren)
+    print(f"✅ Multi-Trades gespeichert: {all_trades}")
+    flash("✅ Multi-Trades erfolgreich hinzugefügt!", "success")
     return redirect(url_for("dashboard_live_trades"))
 
 # ---------------- Tradeverwaltung ----------------
@@ -503,6 +508,135 @@ def trade_management():
         {"id": 3, "symbol": "XAUUSD", "type": "Buy", "volume": 0.5, "sl": 1850.00, "tp": 1950.00}
     ]
     return render_template("settings/trade_management.html", trades=trades, user=current_user)
+
+class SignalProvider(db.Model):
+  
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    name = db.Column(db.String(100), unique=True, nullable=False)
+    risk_management = db.Column(db.Text, default="{}")  # JSON für individuelle Regeln
+    tp_strategy = db.Column(db.Text, default="{}")  # Take-Profit Einstellungen
+    signal_update_rules = db.Column(db.Text, default="{}")  # Regeln für Updates
+
+    def set_risk_management(self, settings):
+        self.risk_management = json.dumps(settings)
+
+    def get_risk_management(self):
+        return json.loads(self.risk_management or "{}")
+
+    def set_tp_strategy(self, settings):
+        self.tp_strategy = json.dumps(settings)
+
+    def get_tp_strategy(self):
+        return json.loads(self.tp_strategy or "{}")
+
+    def set_signal_update_rules(self, settings):
+        self.signal_update_rules = json.dumps(settings)
+
+    def get_signal_update_rules(self):
+        return json.loads(self.signal_update_rules or "{}")
+
+@app.route("/add_signal_provider", methods=["POST"])
+@login_required
+def add_signal_provider():
+    """ Signalgeber hinzufügen """
+    name = request.json.get("name")
+    if not name:
+        return jsonify({"error": "Name des Signalgebers erforderlich"}), 400
+
+    existing_provider = SignalProvider.query.filter_by(name=name).first()
+    if existing_provider:
+        return jsonify({"error": "Signalgeber existiert bereits"}), 409
+
+    new_provider = SignalProvider(user_id=current_user.id, name=name)
+    db.session.add(new_provider)
+    db.session.commit()
+
+    return jsonify({"success": f"Signalgeber {name} hinzugefügt!"}), 201
+
+
+@app.route("/list_signal_providers", methods=["GET"])
+@login_required
+def list_signal_providers():
+    """ Alle Signalgeber eines Nutzers abrufen """
+    providers = SignalProvider.query.filter_by(user_id=current_user.id).all()
+    provider_list = [{"id": p.id, "name": p.name} for p in providers]
+
+    return jsonify(provider_list)
+
+
+@app.route("/update_signal_provider/<int:id>", methods=["POST"])
+@login_required
+def update_signal_provider(id):
+    """ Signalgeber-Einstellungen aktualisieren """
+    provider = SignalProvider.query.get(id)
+    if not provider or provider.user_id != current_user.id:
+        return jsonify({"error": "Signalgeber nicht gefunden"}), 404
+
+    new_name = request.json.get("name")
+    if new_name:
+        provider.name = new_name
+
+    db.session.commit()
+    return jsonify({"success": f"Signalgeber {provider.name} aktualisiert!"})
+
+
+@app.route("/delete_signal_provider/<int:id>", methods=["DELETE"])
+@login_required
+def delete_signal_provider(id):
+    """ Signalgeber löschen """
+    provider = SignalProvider.query.get(id)
+    if not provider or provider.user_id != current_user.id:
+        return jsonify({"error": "Signalgeber nicht gefunden"}), 404
+
+    db.session.delete(provider)
+    db.session.commit()
+    return jsonify({"success": f"Signalgeber {provider.name} gelöscht!"})
+
+@app.route("/set_risk_management/<int:provider_id>", methods=["POST"])
+@login_required
+def set_risk_management(provider_id):
+    """ Risikomanagement für einen Signalgeber speichern """
+    provider = SignalProvider.query.get(provider_id)
+    if not provider or provider.user_id != current_user.id:
+        return jsonify({"error": "Signalgeber nicht gefunden"}), 404
+
+    settings = request.json.get("settings")
+    provider.set_risk_management(settings)
+    db.session.commit()
+
+    return jsonify({"success": "Risikomanagement gespeichert!"})
+
+
+@app.route("/set_take_profit_strategy/<int:provider_id>", methods=["POST"])
+@login_required
+def set_take_profit_strategy(provider_id):
+    """ TP-Strategie für einen Signalgeber speichern """
+    provider = SignalProvider.query.get(provider_id)
+    if not provider or provider.user_id != current_user.id:
+        return jsonify({"error": "Signalgeber nicht gefunden"}), 404
+
+    settings = request.json.get("settings")
+    provider.set_tp_strategy(settings)
+    db.session.commit()
+
+    return jsonify({"success": "Take-Profit Strategie gespeichert!"})
+
+
+@app.route("/set_signal_update_rules/<int:provider_id>", methods=["POST"])
+@login_required
+def set_signal_update_rules(provider_id):
+    """ Signal-Update-Regeln speichern """
+    provider = SignalProvider.query.get(provider_id)
+    if not provider or provider.user_id != current_user.id:
+        return jsonify({"error": "Signalgeber nicht gefunden"}), 404
+
+    settings = request.json.get("settings")
+    provider.set_signal_update_rules(settings)
+    db.session.commit()
+
+    return jsonify({"success": "Signal-Update-Regeln gespeichert!"})
+
 
 @app.route("/add_new_trade", methods=["POST"])
 @login_required
@@ -609,3 +743,4 @@ scheduler.start()
 
 # Flask-App starten
 socketio.run(app, host="0.0.0.0", port=5001, debug=True)
+
